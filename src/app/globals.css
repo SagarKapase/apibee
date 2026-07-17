@@ -73,6 +73,15 @@ code, pre, .font-mono {
   border-radius: 4px;
 }
 
+/* ─── Suppress focus ring inside terminal widgets ─── */
+.terminal-glow input:focus-visible,
+.terminal-glow textarea:focus-visible,
+.terminal-glow select:focus-visible {
+  outline: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+
 /* ─── Terminal glow ─── */
 .terminal-glow {
   box-shadow:
@@ -151,13 +160,79 @@ pre::-webkit-scrollbar-thumb:hover {
 .grid-expand {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 0.3s cubic-bezier(0.16,1,0.3,1);
+  transition: grid-template-rows 0.35s cubic-bezier(0.16,1,0.3,1);
 }
 .grid-expand[data-open="true"] {
   grid-template-rows: 1fr;
 }
 .grid-expand > div {
   overflow: hidden;
+}
+.grid-expand[data-open="true"] > div > * {
+  animation: accordionReveal 0.4s cubic-bezier(0.16,1,0.3,1) 0.05s both;
+}
+
+/* ─── Smooth details/summary ─── */
+details {
+  overflow: hidden;
+}
+details > summary {
+  list-style: none;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+details > :not(summary) {
+  animation: detailsOpen 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+details[data-closing] > :not(summary) {
+  animation: detailsClose 0.2s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+
+@keyframes detailsOpen {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes detailsClose {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+@keyframes accordionReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Staggered endpoint sections ─── */
+.grid-expand[data-open="true"] .ep-section {
+  animation: epReveal 0.4s cubic-bezier(0.16,1,0.3,1) var(--ep-delay, 0s) both;
+}
+@keyframes epReveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ─── Table row hover bar ─── */

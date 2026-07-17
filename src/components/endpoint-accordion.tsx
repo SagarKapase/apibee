@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import type { Endpoint, Method } from "@/lib/api-data";
 import { MethodTag } from "./method-tag";
 import { CopyButton } from "./copy-button";
@@ -24,20 +24,24 @@ export function EndpointAccordion({ endpoint }: { endpoint: Endpoint }) {
 
   return (
     <div
-      className={`border border-[var(--border)] rounded-lg overflow-hidden transition-shadow duration-300 ${
-        open ? "shadow-md shadow-[var(--ring)]" : "hover:shadow-sm"
-      }`}
+      className={`border border-[var(--border)] rounded-lg overflow-hidden
+        transition-all duration-300
+        ${open ? "shadow-md shadow-[var(--ring)] border-[var(--accent)]/20" : "hover:shadow-sm hover:border-[var(--border)]"}
+      `}
     >
       {/* Header */}
       <button
         onClick={() => setOpen(!open)}
-        className={`w-full flex items-center gap-3 px-4 py-3 text-left cursor-pointer transition-all duration-200 border-l-[3px] ${
-          borderColors[endpoint.method]
-        } ${
-          open
-            ? "bg-[var(--accent-soft)]"
-            : "bg-[var(--surface)] hover:bg-[var(--accent-soft)]"
-        }`}
+        className={`w-full flex items-center gap-3 px-4 py-3 text-left cursor-pointer
+          transition-all duration-200
+          active:scale-[0.995]
+          border-l-[3px] ${borderColors[endpoint.method]}
+          ${
+            open
+              ? "bg-[var(--accent-soft)]"
+              : "bg-[var(--surface)] hover:bg-[var(--accent-soft)]"
+          }
+        `}
       >
         <MethodTag method={endpoint.method} />
         <code className="text-xs sm:text-sm font-mono text-[var(--text)] flex-1 truncate">
@@ -53,7 +57,7 @@ export function EndpointAccordion({ endpoint }: { endpoint: Endpoint }) {
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
-          className={`shrink-0 text-[var(--text-muted)] transition-transform duration-300 ${
+          className={`shrink-0 text-[var(--text-muted)] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
             open ? "rotate-180" : ""
           }`}
         >
@@ -61,15 +65,12 @@ export function EndpointAccordion({ endpoint }: { endpoint: Endpoint }) {
         </svg>
       </button>
 
-      {/* Expandable content — smooth CSS grid transition */}
-      <div
-        className="grid-expand"
-        data-open={open}
-      >
+      {/* Expandable content */}
+      <div className="grid-expand" data-open={open}>
         <div>
           <div className="border-t border-[var(--border)]">
             {/* Description + URL */}
-            <div className="px-4 py-3 border-b border-[var(--border)]">
+            <div className="px-4 py-3 border-b border-[var(--border)] ep-section" style={{ "--ep-delay": "0s" } as React.CSSProperties}>
               <p className="text-sm text-[var(--text-muted)]">
                 {endpoint.description}
               </p>
@@ -87,7 +88,7 @@ export function EndpointAccordion({ endpoint }: { endpoint: Endpoint }) {
 
             {/* Parameters */}
             {endpoint.params && endpoint.params.length > 0 && (
-              <div className="px-4 py-3 border-b border-[var(--border)]">
+              <div className="px-4 py-3 border-b border-[var(--border)] ep-section" style={{ "--ep-delay": "0.04s" } as React.CSSProperties}>
                 <h4 className="text-[9px] font-bold uppercase tracking-[0.12em] text-[var(--text-muted)] mb-2">
                   Parameters
                 </h4>
@@ -95,29 +96,17 @@ export function EndpointAccordion({ endpoint }: { endpoint: Endpoint }) {
                   <table className="w-full text-xs">
                     <thead>
                       <tr className="text-[var(--text-muted)]">
-                        <th className="text-left py-1 pr-4 font-semibold">
-                          Name
-                        </th>
-                        <th className="text-left py-1 pr-4 font-semibold">
-                          Type
-                        </th>
-                        <th className="text-left py-1 font-semibold">
-                          Description
-                        </th>
+                        <th className="text-left py-1 pr-4 font-semibold">Name</th>
+                        <th className="text-left py-1 pr-4 font-semibold">Type</th>
+                        <th className="text-left py-1 font-semibold">Description</th>
                       </tr>
                     </thead>
                     <tbody>
                       {endpoint.params.map((p) => (
                         <tr key={p.name}>
-                          <td className="py-1 pr-4 font-mono text-[var(--accent)]">
-                            {p.name}
-                          </td>
-                          <td className="py-1 pr-4 text-[var(--text-muted)]">
-                            {p.type}
-                          </td>
-                          <td className="py-1 text-[var(--text-muted)]">
-                            {p.description}
-                          </td>
+                          <td className="py-1 pr-4 font-mono text-[var(--accent)]">{p.name}</td>
+                          <td className="py-1 pr-4 text-[var(--text-muted)]">{p.type}</td>
+                          <td className="py-1 text-[var(--text-muted)]">{p.description}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -128,7 +117,7 @@ export function EndpointAccordion({ endpoint }: { endpoint: Endpoint }) {
 
             {/* Request body */}
             {endpoint.requestBody && (
-              <div className="border-b border-[var(--border)]">
+              <div className="border-b border-[var(--border)] ep-section" style={{ "--ep-delay": "0.08s" } as React.CSSProperties}>
                 <div className="flex items-center justify-between px-4 py-2">
                   <h4 className="text-[9px] font-bold uppercase tracking-[0.12em] text-[var(--text-muted)]">
                     Request Body
@@ -149,15 +138,13 @@ export function EndpointAccordion({ endpoint }: { endpoint: Endpoint }) {
             )}
 
             {/* Response */}
-            <div>
+            <div className="ep-section" style={{ "--ep-delay": "0.12s" } as React.CSSProperties}>
               <div className="flex items-center justify-between px-4 py-2">
                 <div className="flex items-center gap-2">
                   <h4 className="text-[9px] font-bold uppercase tracking-[0.12em] text-[var(--text-muted)]">
                     Response
                   </h4>
-                  <span className="text-[10px] font-mono font-bold text-emerald-500">
-                    200
-                  </span>
+                  <span className="text-[10px] font-mono font-bold text-emerald-500">200</span>
                 </div>
                 <CopyButton
                   text={endpoint.response}
@@ -174,7 +161,7 @@ export function EndpointAccordion({ endpoint }: { endpoint: Endpoint }) {
             </div>
 
             {/* cURL */}
-            <div className="px-4 py-3 border-t border-[var(--border)] bg-[var(--surface)]">
+            <div className="px-4 py-3 border-t border-[var(--border)] bg-[var(--surface)] ep-section" style={{ "--ep-delay": "0.16s" } as React.CSSProperties}>
               <CopyButton
                 text={curlCmd}
                 label="Copy as cURL"

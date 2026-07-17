@@ -6,6 +6,7 @@ import { CopyButton } from "@/components/copy-button";
 import { MethodTag } from "@/components/method-tag";
 import { Testimonials } from "@/components/testimonials";
 import { FadeIn } from "@/components/fade-in";
+import { LiveConsole } from "@/components/live-console";
 import {
   resources,
   codeExamples,
@@ -66,6 +67,27 @@ export default function Home() {
           </FadeIn>
           <FadeIn delay={0.08}>
             <CodeTabs examples={codeExamples} sampleResponse={sampleResponse} />
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* ── Live Console ── */}
+      <section className="border-b border-[var(--border)]">
+        <div className="max-w-5xl mx-auto px-5 py-14">
+          <FadeIn>
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-lg font-semibold text-[var(--text)] mb-1">
+                  Try it live
+                </h2>
+                <p className="text-sm text-[var(--text-muted)]">
+                  Pick a preset or type your own. Real requests, real responses.
+                </p>
+              </div>
+            </div>
+          </FadeIn>
+          <FadeIn delay={0.08}>
+            <LiveConsole />
           </FadeIn>
         </div>
       </section>

@@ -4,7 +4,10 @@ import { useState } from "react";
 import { CopyButton } from "./copy-button";
 import { Highlighted } from "@/lib/syntax";
 
-const langMap: Record<string, "javascript" | "python" | "curl" | "java" | "php"> = {
+const langMap: Record<
+  string,
+  "javascript" | "python" | "curl" | "java" | "php"
+> = {
   JavaScript: "javascript",
   Python: "python",
   cURL: "curl",
@@ -21,6 +24,13 @@ export function CodeTabs({
 }) {
   const languages = Object.keys(examples);
   const [active, setActive] = useState(languages[0]);
+  const [contentKey, setContentKey] = useState(0);
+  const [previewOpen, setPreviewOpen] = useState(false);
+
+  function switchLang(lang: string) {
+    setActive(lang);
+    setContentKey((k) => k + 1);
+  }
 
   return (
     <div>
@@ -31,16 +41,26 @@ export function CodeTabs({
             {languages.map((lang) => (
               <button
                 key={lang}
-                onClick={() => setActive(lang)}
-                className={`relative px-3 sm:px-4 py-2.5 text-xs font-medium transition-colors whitespace-nowrap cursor-pointer ${
-                  active === lang
-                    ? "text-[#a78bfa]"
-                    : "text-[#525252] hover:text-[#a8a29e]"
-                }`}
+                onClick={() => switchLang(lang)}
+                className={`relative px-3 sm:px-4 py-2.5 text-xs font-medium whitespace-nowrap cursor-pointer
+                  transition-all duration-200
+                  active:scale-95
+                  ${
+                    active === lang
+                      ? "text-[#a78bfa]"
+                      : "text-[#525252] hover:text-[#a8a29e]"
+                  }
+                `}
               >
                 {lang}
                 {active === lang && (
-                  <span className="absolute bottom-0 left-2 right-2 h-[2px] bg-[#a78bfa] rounded-t" />
+                  <span
+                    className="absolute bottom-0 left-2 right-2 h-[2px] bg-[#a78bfa] rounded-t"
+                    style={{
+                      animation:
+                        "codeTabGrow 0.25s cubic-bezier(0.16,1,0.3,1)",
+                    }}
+                  />
                 )}
               </button>
             ))}
@@ -54,7 +74,14 @@ export function CodeTabs({
         {/* Code area */}
         <div className="bg-[var(--code-bg)] p-4 sm:p-5 overflow-x-auto">
           <pre className="text-[13px] leading-[1.7] bg-transparent">
-            <code className="font-mono">
+            <code
+              key={contentKey}
+              className="font-mono block"
+              style={{
+                animation:
+                  "codeSwap 0.3s cubic-bezier(0.16,1,0.3,1)",
+              }}
+            >
               <Highlighted
                 code={examples[active]}
                 lang={langMap[active] ?? "javascript"}
@@ -64,9 +91,12 @@ export function CodeTabs({
         </div>
       </div>
 
-      {/* Response */}
-      <details className="mt-3 group">
-        <summary className="inline-flex items-center gap-1.5 text-sm text-[var(--text-muted)] cursor-pointer hover:text-[var(--accent)] select-none font-medium transition-colors">
+      {/* Response preview — smooth open/close */}
+      <div className="mt-3">
+        <button
+          onClick={() => setPreviewOpen(!previewOpen)}
+          className="inline-flex items-center gap-1.5 text-sm text-[var(--text-muted)] cursor-pointer hover:text-[var(--accent)] select-none font-medium transition-colors duration-200"
+        >
           <svg
             width="12"
             height="12"
@@ -74,20 +104,41 @@ export function CodeTabs({
             fill="none"
             stroke="currentColor"
             strokeWidth="2.5"
-            className="transition-transform group-open:rotate-90"
+            className={`transition-transform duration-300 ${
+              previewOpen ? "rotate-90" : ""
+            }`}
           >
             <path d="m9 18 6-6-6-6" />
           </svg>
           Response preview
-        </summary>
-        <div className="mt-2 rounded-xl bg-[var(--code-bg)] p-4 overflow-x-auto border border-[var(--border)]">
-          <pre className="text-[13px] leading-[1.7] bg-transparent">
-            <code className="font-mono">
-              <Highlighted code={sampleResponse} lang="json" />
-            </code>
-          </pre>
+        </button>
+
+        <div
+          className="grid-expand mt-2"
+          data-open={previewOpen}
+        >
+          <div>
+            <div className="rounded-xl bg-[var(--code-bg)] p-4 overflow-x-auto border border-[var(--border)]">
+              <pre className="text-[13px] leading-[1.7] bg-transparent">
+                <code className="font-mono">
+                  <Highlighted code={sampleResponse} lang="json" />
+                </code>
+              </pre>
+            </div>
+          </div>
         </div>
-      </details>
+      </div>
+
+      <style>{`
+        @keyframes codeTabGrow {
+          from { transform: scaleX(0); }
+          to { transform: scaleX(1); }
+        }
+        @keyframes codeSwap {
+          from { opacity: 0; transform: translateX(8px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+      `}</style>
     </div>
   );
 }
