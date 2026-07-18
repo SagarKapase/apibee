@@ -7,6 +7,7 @@ import { useTheme } from "@/components/theme-provider";
 
 const navLinks = [
   { href: "/docs", label: "Docs" },
+  { href: "/tools", label: "Tools" },
   { href: "https://github.com", label: "GitHub", external: true },
 ];
 
