@@ -90,6 +90,14 @@ const tools = [
     color: "from-fuchsia-500 to-purple-600",
   },
   {
+    slug: "api-visualizer",
+    icon: "◎",
+    name: "API Visualizer",
+    description:
+      "Paste a Postman Collection, OpenAPI spec, or custom JSON. See your API as an interactive tree.",
+    color: "from-violet-500 to-purple-600",
+  },
+  {
     slug: "curl-parser",
     icon: ">>",
     name: "cURL Parser",
