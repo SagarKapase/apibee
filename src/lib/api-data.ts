@@ -209,8 +209,8 @@ export const resources: Resource[] = [
 
   // ─── Auth ───
   {
-    id: "auth",
-    title: "Authentication",
+    id: "auth-endpoints",
+    title: "Auth Endpoints",
     description: "Log in, get a JWT back, use it on a protected route.",
     count: "JWT",
     icon: "🔐",
