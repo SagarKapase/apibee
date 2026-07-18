@@ -49,6 +49,46 @@ const tools = [
       "Encode special characters for URLs or decode them back to readable text.",
     color: "from-rose-500 to-pink-600",
   },
+  {
+    slug: "uuid-generator",
+    icon: "#",
+    name: "UUID Generator",
+    description:
+      "Generate v4 UUIDs. One at a time or bulk. Copy with a click.",
+    color: "from-cyan-500 to-sky-600",
+  },
+  {
+    slug: "hash-generator",
+    icon: "H",
+    name: "Hash Generator",
+    description:
+      "MD5, SHA-1, SHA-256, SHA-512. Paste text, get every hash at once.",
+    color: "from-slate-500 to-zinc-600",
+  },
+  {
+    slug: "timestamp",
+    icon: "⏱",
+    name: "Unix Timestamp",
+    description:
+      "Convert timestamps to dates and dates to timestamps. Live clock included.",
+    color: "from-teal-500 to-emerald-600",
+  },
+  {
+    slug: "http-status",
+    icon: "4xx",
+    name: "HTTP Status Codes",
+    description:
+      "Every HTTP status code with its meaning. Searchable. Grouped by category.",
+    color: "from-red-500 to-rose-600",
+  },
+  {
+    slug: "regex-tester",
+    icon: ".*",
+    name: "Regex Tester",
+    description:
+      "Write a regex, paste test text, see matches highlighted live. Shows capture groups.",
+    color: "from-fuchsia-500 to-purple-600",
+  },
 ];
 
 export default function ToolsPage() {
