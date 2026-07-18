@@ -89,6 +89,54 @@ const tools = [
       "Write a regex, paste test text, see matches highlighted live. Shows capture groups.",
     color: "from-fuchsia-500 to-purple-600",
   },
+  {
+    slug: "curl-parser",
+    icon: ">>",
+    name: "cURL Parser",
+    description:
+      "Paste a cURL command. See method, URL, headers, and body broken out.",
+    color: "from-orange-500 to-red-600",
+  },
+  {
+    slug: "mock-data",
+    icon: "fn",
+    name: "Mock Data Generator",
+    description:
+      "Generate fake names, emails, addresses, phone numbers. Export as JSON.",
+    color: "from-lime-500 to-green-600",
+  },
+  {
+    slug: "password-generator",
+    icon: "***",
+    name: "Password Generator",
+    description:
+      "Secure passwords, API keys, random secrets. Set length and character rules.",
+    color: "from-yellow-500 to-amber-600",
+  },
+  {
+    slug: "qr-code",
+    icon: "QR",
+    name: "QR Code Generator",
+    description:
+      "Paste a URL or text, get a QR code. Download as PNG.",
+    color: "from-sky-500 to-blue-600",
+  },
+  {
+    slug: "text-diff",
+    icon: "±",
+    name: "Text Diff Checker",
+    description:
+      "Paste two texts, see exactly what changed. Additions, deletions, line by line.",
+    color: "from-pink-500 to-rose-600",
+  },
+  {
+    slug: "json-yaml-csv",
+    icon: "⇄",
+    name: "JSON ↔ YAML / CSV",
+    description:
+      "Convert between JSON, YAML, and CSV. Handles nested data and arrays.",
+    color: "from-indigo-500 to-blue-600",
+  },
 ];
 
 export default function ToolsPage() {
