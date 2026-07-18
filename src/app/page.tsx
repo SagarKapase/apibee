@@ -126,7 +126,7 @@ export default function Home() {
                     </p>
                     <div className="flex flex-wrap gap-1">
                       {r.endpoints.map((ep) => (
-                        <MethodTag key={ep.path} method={ep.method} />
+                        <MethodTag key={`${ep.method}-${ep.path}`} method={ep.method} />
                       ))}
                     </div>
                   </div>
