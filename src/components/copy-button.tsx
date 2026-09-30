@@ -15,15 +15,22 @@ export function CopyButton({
 }) {
   const [copied, setCopied] = useState(false);
 
-  const copy = useCallback(() => {
-    navigator.clipboard.writeText(text).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
-  }, [text]);
+  const copy = useCallback(
+    (e: React.MouseEvent) => {
+      // Stay inert inside clickable parents such as <summary> or links.
+      e.preventDefault();
+      e.stopPropagation();
+      navigator.clipboard.writeText(text).then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      });
+    },
+    [text]
+  );
 
   return (
     <button
+      type="button"
       onClick={copy}
       className={`
         group/copy inline-flex items-center gap-1.5 text-sm cursor-pointer

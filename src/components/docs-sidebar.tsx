@@ -1,74 +1,45 @@
 "use client";
 
 import { useState, useEffect, useMemo, useRef } from "react";
-import { resources } from "@/lib/api-data";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { MethodTag } from "./method-tag";
+import { openDetails } from "./hash-opener";
+import type { Method } from "@/lib/api-config";
 
-interface SidebarItem {
-  id: string;
-  label: string;
-}
-
-interface SidebarGroup {
+export interface NavSection {
   title: string;
-  items: SidebarItem[];
+  items: { href: string; label: string; count?: number }[];
 }
 
-const groups: SidebarGroup[] = [
-  {
-    title: "Overview",
-    items: [
-      { id: "introduction", label: "Introduction" },
-      { id: "quick-start", label: "Quick start" },
-    ],
-  },
-  {
-    title: "Guides",
-    items: [
-      { id: "authentication", label: "Authentication" },
-      { id: "error-handling", label: "Error handling" },
-    ],
-  },
-  {
-    title: "API Reference",
-    items: resources.map((r) => ({ id: r.id, label: r.title })),
-  },
-];
+export interface SearchEntry {
+  href: string;
+  method: Method;
+  path: string;
+  summary: string;
+  group: string;
+}
 
-export function DocsSidebar() {
-  const [active, setActive] = useState("introduction");
+const MAX_RESULTS = 60;
+
+export function DocsSidebar({
+  nav,
+  search,
+}: {
+  nav: NavSection[];
+  search: SearchEntry[];
+}) {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const navRef = useRef<HTMLElement>(null);
 
+  // Keep the current page's link visible in a long sidebar.
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setActive(entry.target.id);
-          }
-        }
-      },
-      { rootMargin: "-80px 0px -60% 0px" }
-    );
-    const sections = document.querySelectorAll("section[id]");
-    sections.forEach((s) => observer.observe(s));
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const nav = navRef.current;
-    if (!nav) return;
-    const link = nav.querySelector(`a[href="#${active}"]`) as HTMLElement | null;
-    if (link) {
-      const navRect = nav.getBoundingClientRect();
-      const linkRect = link.getBoundingClientRect();
-      if (linkRect.top < navRect.top || linkRect.bottom > navRect.bottom) {
-        link.scrollIntoView({ block: "center", behavior: "smooth" });
-      }
-    }
-  }, [active]);
+    const link = navRef.current?.querySelector<HTMLElement>('[aria-current="page"]');
+    link?.scrollIntoView({ block: "nearest" });
+  }, [pathname]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -76,7 +47,7 @@ export function DocsSidebar() {
         e.preventDefault();
         inputRef.current?.focus();
       }
-      if (e.key === "Escape") {
+      if (e.key === "Escape" && document.activeElement === inputRef.current) {
         inputRef.current?.blur();
         setQuery("");
       }
@@ -85,23 +56,36 @@ export function DocsSidebar() {
     return () => document.removeEventListener("keydown", handler);
   }, []);
 
-  const filtered = useMemo(() => {
-    if (!query.trim()) return groups;
-    const q = query.toLowerCase();
-    return groups
-      .map((g) => ({
-        ...g,
-        items: g.items.filter((i) => i.label.toLowerCase().includes(q)),
-      }))
-      .filter((g) => g.items.length > 0);
-  }, [query]);
+  const results = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return null;
+    return search.filter(
+      (e) =>
+        e.path.toLowerCase().includes(q) ||
+        e.summary.toLowerCase().includes(q) ||
+        e.group.toLowerCase().includes(q)
+    );
+  }, [query, search]);
+
+  function close() {
+    setOpen(false);
+    setQuery("");
+  }
+
+  function openResult(href: string) {
+    close();
+    // Same-page hash links do not remount anything, so open the entry here.
+    const [path, id] = href.split("#");
+    if (path === pathname && id) setTimeout(() => openDetails(id), 0);
+  }
 
   return (
     <>
       <button
         onClick={() => setOpen(!open)}
-        className="lg:hidden fixed bottom-4 right-4 z-50 bg-[var(--btn-bg)] text-[var(--btn-fg)] rounded-full w-11 h-11 flex items-center justify-center shadow-md transition-colors cursor-pointer"
-        aria-label="Toggle navigation"
+        className="lg:hidden fixed bottom-4 right-4 z-50 bg-[var(--btn-bg)] text-[var(--btn-fg)] rounded-full w-11 h-11 flex items-center justify-center shadow-md cursor-pointer"
+        aria-label={open ? "Close navigation" : "Open navigation"}
+        aria-expanded={open}
       >
         <svg
           width="18"
@@ -111,7 +95,7 @@ export function DocsSidebar() {
           stroke="currentColor"
           strokeWidth="2"
           strokeLinecap="round"
-          strokeLinejoin="round"
+          aria-hidden="true"
         >
           {open ? (
             <path d="M18 6 6 18M6 6l12 12" />
@@ -122,12 +106,9 @@ export function DocsSidebar() {
       </button>
 
       <aside
-        className={`
-          fixed top-14 left-0 w-60 h-[calc(100vh-3.5rem)] border-r border-[var(--border)]
-          bg-[var(--surface)] z-40 flex flex-col
-          transition-transform duration-200 ease-out
-          lg:translate-x-0 ${open ? "translate-x-0" : "-translate-x-full"}
-        `}
+        className={`fixed top-14 left-0 w-64 h-[calc(100vh-3.5rem)] border-r border-[var(--border)] bg-[var(--surface)] z-40 flex flex-col transition-transform duration-200 lg:translate-x-0 ${
+          open ? "translate-x-0" : "-translate-x-full"
+        }`}
       >
         <div className="p-3 border-b border-[var(--border)]">
           <div className="relative">
@@ -138,6 +119,7 @@ export function DocsSidebar() {
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
+              aria-hidden="true"
               className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[var(--text-muted)]"
             >
               <circle cx="11" cy="11" r="8" />
@@ -145,56 +127,88 @@ export function DocsSidebar() {
             </svg>
             <input
               ref={inputRef}
-              type="text"
-              placeholder="Search"
+              type="search"
+              aria-label="Search endpoints"
+              placeholder="Search endpoints"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full pl-8 pr-14 py-1.5 text-xs rounded-lg
-                bg-[var(--bg)] border border-[var(--border)]
-                text-[var(--text)] placeholder:text-[var(--text-muted)]
-                focus:outline-none focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]
-                transition-colors duration-150"
+              className="w-full pl-8 pr-14 py-1.5 text-xs rounded-md bg-[var(--bg)] border border-[var(--border)] text-[var(--text)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--text-muted)]"
             />
-            <kbd className="absolute right-2 top-1/2 -translate-y-1/2 hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[11px] font-mono text-[var(--text-muted)] bg-[var(--surface)] border border-[var(--border)] rounded">
+            <kbd className="absolute right-2 top-1/2 -translate-y-1/2 hidden sm:inline-flex px-1.5 py-0.5 text-[11px] font-mono text-[var(--text-muted)] bg-[var(--surface)] border border-[var(--border)] rounded">
               Ctrl K
             </kbd>
           </div>
         </div>
 
         <nav ref={navRef} className="flex-1 overflow-y-auto py-4 px-3">
-          {filtered.map((group, gi) => (
-            <div key={group.title} className={gi > 0 ? "mt-5" : ""}>
-              <h3 className="text-xs font-medium text-[var(--text-muted)] mb-2 px-2.5">
-                {group.title}
-              </h3>
+          {results ? (
+            <>
+              <p className="px-2 mb-2 text-xs text-[var(--text-muted)]">
+                {results.length === 0
+                  ? `No endpoints match “${query}”.`
+                  : `${results.length} ${results.length === 1 ? "endpoint" : "endpoints"}`}
+              </p>
               <ul className="space-y-0.5">
-                {group.items.map((item) => (
-                  <li key={item.id}>
-                    <a
-                      href={`#${item.id}`}
-                      onClick={() => setOpen(false)}
-                      className={`
-                        block px-2.5 py-1.5 text-[13px] rounded-md transition-all duration-150
-                        border-l-2 ml-px
-                        ${
-                          active === item.id
-                            ? "border-[var(--accent)] text-[var(--text)] font-medium bg-[var(--accent-soft)]"
-                            : "border-transparent text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--accent-soft)]"
-                        }
-                      `}
+                {results.slice(0, MAX_RESULTS).map((r) => (
+                  <li key={r.href}>
+                    <Link
+                      href={r.href}
+                      onClick={() => openResult(r.href)}
+                      className="block px-2 py-1.5 rounded-md hover:bg-[var(--accent-soft)]"
                     >
-                      {item.label}
-                    </a>
+                      <span className="flex items-center gap-2">
+                        <MethodTag method={r.method} />
+                        <code className="font-mono text-xs text-[var(--text)] truncate">
+                          {r.path}
+                        </code>
+                      </span>
+                      <span className="block mt-0.5 text-[11px] text-[var(--text-muted)] truncate">
+                        {r.group} · {r.summary}
+                      </span>
+                    </Link>
                   </li>
                 ))}
               </ul>
-            </div>
-          ))}
-
-          {filtered.length === 0 && (
-            <p className="px-2.5 py-4 text-xs text-[var(--text-muted)] text-center">
-              No results for &ldquo;{query}&rdquo;
-            </p>
+              {results.length > MAX_RESULTS && (
+                <p className="px-2 mt-2 text-xs text-[var(--text-muted)]">
+                  Showing the first {MAX_RESULTS}. Refine the search to see more.
+                </p>
+              )}
+            </>
+          ) : (
+            nav.map((section, i) => (
+              <div key={section.title} className={i > 0 ? "mt-5" : ""}>
+                <h3 className="text-xs font-medium text-[var(--text)] mb-1.5 px-2">
+                  {section.title}
+                </h3>
+                <ul className="space-y-px">
+                  {section.items.map((item) => {
+                    const active = item.href === pathname;
+                    return (
+                      <li key={item.href}>
+                        <Link
+                          href={item.href}
+                          onClick={close}
+                          aria-current={active ? "page" : undefined}
+                          className={`flex items-center justify-between gap-2 px-2 py-1 text-[13px] rounded-md border-l-2 transition-colors ${
+                            active
+                              ? "border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--text)] font-medium"
+                              : "border-transparent text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--accent-soft)]"
+                          }`}
+                        >
+                          <span className="truncate">{item.label}</span>
+                          {item.count !== undefined && (
+                            <span className="text-[11px] font-mono text-[var(--text-muted)]">
+                              {item.count}
+                            </span>
+                          )}
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ))
           )}
         </nav>
       </aside>

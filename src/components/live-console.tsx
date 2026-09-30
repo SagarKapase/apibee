@@ -3,9 +3,15 @@
 import { useState, useCallback, useRef } from "react";
 import { CopyButton } from "./copy-button";
 import { Highlighted } from "@/lib/syntax";
-import { BASE_URL } from "@/lib/api-data";
+import { BASE_URL } from "@/lib/api-config";
 
-type Method = "GET" | "POST" | "PUT" | "DELETE";
+type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+
+const METHODS: Method[] = ["GET", "POST", "PUT", "PATCH", "DELETE"];
+
+function sendsBody(method: Method) {
+  return method === "POST" || method === "PUT" || method === "PATCH";
+}
 
 interface Preset {
   label: string;
@@ -17,73 +23,75 @@ interface Preset {
 
 const presets: Preset[] = [
   {
-    label: "Get Users",
-    method: "GET",
-    path: "/api/user/getAllUsers",
-    body: "",
-    headers: "",
-  },
-  {
-    label: "Single User",
-    method: "GET",
-    path: "/api/user/user/101",
-    body: "",
-    headers: "",
-  },
-  {
-    label: "Create User",
-    method: "POST",
-    path: "/api/user/addUser",
-    body: `{
-  "name": "Test User",
-  "email": "test@dev.io",
-  "job": "Developer",
-  "city": "Tokyo"
-}`,
-    headers: "",
-  },
-  {
-    label: "Login (JWT)",
-    method: "POST",
-    path: "/api/user/Login",
-    body: `{
-  "username": "Michael",
-  "password": "Thompson"
-}`,
-    headers: "",
-  },
-  {
-    label: "Protected Route",
-    method: "GET",
-    path: "/api/admin/authorize",
-    body: "",
-    headers: "Authorization: Bearer <paste_token_here>",
-  },
-  {
     label: "Products",
     method: "GET",
-    path: "/api/products?limit=3",
+    path: "/api/Products?limit=3",
     body: "",
     headers: "",
   },
   {
-    label: "Posts",
+    label: "One book",
     method: "GET",
-    path: "/api/posts",
+    path: "/api/Books/1",
     body: "",
     headers: "",
   },
   {
-    label: "Todos",
+    label: "Create a todo",
+    method: "POST",
+    path: "/api/Todos",
+    body: `{
+  "userId": 101,
+  "title": "Write integration tests",
+  "completed": false,
+  "priority": "high"
+}`,
+    headers: "",
+  },
+  {
+    label: "Echo",
+    method: "POST",
+    path: "/api/echo?tag=demo",
+    body: `{
+  "hello": "world"
+}`,
+    headers: "X-Request-Id: 42",
+  },
+  {
+    label: "Status 418",
     method: "GET",
-    path: "/api/todos?completed=false",
+    path: "/api/status/418",
     body: "",
     headers: "",
   },
   {
-    label: "Random Quote",
+    label: "Simulated 503",
     method: "GET",
-    path: "/api/quotes/random",
+    path: "/api/Products?error=503",
+    body: "",
+    headers: "",
+  },
+  {
+    label: "Bearer token",
+    method: "GET",
+    path: "/api/auth/bearer",
+    body: "",
+    headers: "Authorization: Bearer apibee-token-123",
+  },
+  {
+    label: "JWT login",
+    method: "POST",
+    path: "/api/auth/jwt/login",
+    body: `{
+  "username": "user",
+  "password": "user123"
+}`,
+    headers: "",
+  },
+  {
+    label: "UUIDs",
+    method: "GET",
+    path: "/api/utils/uuid?count=3",
     body: "",
     headers: "",
   },
@@ -93,6 +101,7 @@ const methodColors: Record<Method, string> = {
   GET: "text-emerald-400",
   POST: "text-blue-400",
   PUT: "text-amber-400",
+  PATCH: "text-teal-400",
   DELETE: "text-red-400",
 };
 
@@ -106,7 +115,7 @@ interface ResponseData {
 
 export function LiveConsole() {
   const [method, setMethod] = useState<Method>("GET");
-  const [path, setPath] = useState("/api/user/getAllUsers");
+  const [path, setPath] = useState("/api/Products?limit=3");
   const [body, setBody] = useState("");
   const [headers, setHeaders] = useState("");
   const [tab, setTab] = useState<"body" | "headers">("body");
@@ -151,7 +160,7 @@ export function LiveConsole() {
       }
     }
 
-    if (body.trim() && (method === "POST" || method === "PUT")) {
+    if (body.trim() && sendsBody(method)) {
       opts.body = body;
       if (body.trimStart().startsWith("<")) {
         parsedHeaders["Content-Type"] =
@@ -212,7 +221,7 @@ export function LiveConsole() {
         ? "text-amber-400"
         : "text-red-400";
 
-  const showTabs = method === "POST" || method === "PUT" || headers;
+  const showTabs = sendsBody(method) || headers;
 
   return (
     <div className="rounded-lg border border-[var(--border)] overflow-hidden terminal-glow">
@@ -260,17 +269,18 @@ export function LiveConsole() {
           onChange={(e) => setMethod(e.target.value as Method)}
           className={`bg-transparent text-sm font-mono font-bold cursor-pointer outline-none transition-colors duration-200 ${methodColors[method]}`}
         >
-          <option value="GET">GET</option>
-          <option value="POST">POST</option>
-          <option value="PUT">PUT</option>
-          <option value="DELETE">DELETE</option>
+          {METHODS.map((m) => (
+            <option key={m} value={m}>
+              {m}
+            </option>
+          ))}
         </select>
         <input
           type="text"
           value={path}
           onChange={(e) => setPath(e.target.value)}
           className="flex-1 bg-transparent text-sm font-mono text-[var(--code-fg)] outline-none placeholder-[#525252] min-w-0 focus:outline-none focus:ring-0 focus-visible:outline-none border-none"
-          placeholder="/api/user/getAllUsers"
+          placeholder="/api/Products?limit=3"
         />
         <button
           onClick={send}
@@ -312,7 +322,7 @@ export function LiveConsole() {
       >
         <div>
           <div className="flex bg-[#111111] relative">
-            {(method === "POST" || method === "PUT") && (
+            {sendsBody(method) && (
               <button
                 onClick={() => setTab("body")}
                 className={`relative px-4 py-2 text-[11px] font-medium cursor-pointer transition-colors duration-200 ${
@@ -347,7 +357,7 @@ export function LiveConsole() {
           </div>
 
           <div>
-            {tab === "body" && (method === "POST" || method === "PUT") && (
+            {tab === "body" && sendsBody(method) && (
               <textarea
                 value={body}
                 onChange={(e) => setBody(e.target.value)}

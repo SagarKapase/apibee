@@ -1,52 +1,68 @@
 "use client";
 
 import { useState } from "react";
-import { resources, BASE_URL } from "@/lib/api-data";
-import type { Endpoint } from "@/lib/api-data";
+import { BASE_URL, bodyLang, type Method } from "@/lib/api-config";
 import { MethodTag } from "./method-tag";
 import { CopyButton } from "./copy-button";
 import { Highlighted } from "@/lib/syntax";
 
-export function APIPlayground() {
-  const [resourceIdx, setResourceIdx] = useState(0);
+export interface PlaygroundEndpoint {
+  key: string;
+  method: Method;
+  path: string;
+  summary: string;
+  curl: string;
+  requestBody?: string;
+  status: string;
+  response: string;
+}
+
+export interface PlaygroundGroup {
+  id: string;
+  title: string;
+  endpoints: PlaygroundEndpoint[];
+}
+
+function statusTone(status: string) {
+  const code = Number(status.slice(0, 3));
+  if (code >= 400) return "text-red-600 dark:text-red-400";
+  if (code >= 300) return "text-sky-600 dark:text-sky-400";
+  return "text-emerald-600 dark:text-emerald-500";
+}
+
+export function APIPlayground({ groups }: { groups: PlaygroundGroup[] }) {
+  const [groupIdx, setGroupIdx] = useState(0);
   const [endpointIdx, setEndpointIdx] = useState(0);
 
-  const resource = resources[resourceIdx];
-  const endpoint = resource.endpoints[endpointIdx];
+  const group = groups[groupIdx];
+  const endpoint = group.endpoints[endpointIdx];
   const fullUrl = `${BASE_URL}${endpoint.path}`;
-  const isXml = endpoint.response.trimStart().startsWith("<");
-
-  function selectResource(idx: number) {
-    setResourceIdx(idx);
-    setEndpointIdx(0);
-  }
-
-  function selectEndpoint(idx: number) {
-    setEndpointIdx(idx);
-  }
 
   return (
     <div className="rounded-lg border border-[var(--border)] overflow-hidden terminal-glow">
-      {/* Resource tabs */}
+      {/* Group tabs */}
       <div
         role="tablist"
-        aria-label="Resource"
+        aria-label="API group"
         className="flex overflow-x-auto border-b border-[var(--border)] bg-[var(--surface)]"
       >
-        {resources.map((r, i) => (
+        {groups.map((g, i) => (
           <button
-            key={r.id}
+            key={g.id}
             role="tab"
-            aria-selected={resourceIdx === i}
-            onClick={() => selectResource(i)}
+            aria-selected={groupIdx === i}
+            onClick={() => {
+              setGroupIdx(i);
+              setEndpointIdx(0);
+            }}
             className={`relative shrink-0 px-4 py-3 text-[13px] whitespace-nowrap cursor-pointer transition-colors ${
-              resourceIdx === i
+              groupIdx === i
                 ? "text-[var(--text)] font-medium"
                 : "text-[var(--text-muted)] hover:text-[var(--text)]"
             }`}
           >
-            {r.title}
-            {resourceIdx === i && (
+            {g.title}
+            {groupIdx === i && (
               <span className="absolute bottom-0 left-4 right-4 h-[2px] bg-[var(--accent)]" />
             )}
           </button>
@@ -61,49 +77,46 @@ export function APIPlayground() {
         </code>
         <CopyButton
           text={fullUrl}
+          label="URL"
+          hideLabel
           className="text-[#78716c] hover:text-[#e7e5e4] shrink-0"
         />
         <CopyButton
-          text={buildCurl(endpoint)}
+          text={endpoint.curl}
           label="cURL"
-          className="text-[10px] text-[#78716c] hover:text-[#e7e5e4] border border-white/10 rounded px-2 py-0.5 shrink-0 transition-all duration-150 hover:border-white/20"
+          className="text-[11px] text-[#a8a29e] hover:text-[#e7e5e4] border border-white/10 rounded px-2 py-0.5 shrink-0 hover:border-white/20"
         />
       </div>
 
       <div className="flex flex-col lg:flex-row">
-        {/* Endpoint list (left) */}
-        <div className="lg:w-64 shrink-0 border-b lg:border-b-0 lg:border-r border-[var(--border)] bg-[var(--surface)]">
-          <div className="px-3 py-2">
-            <span className="text-xs font-medium text-[var(--text-muted)]">
-              Endpoints
-            </span>
-          </div>
-          <div className="flex lg:flex-col overflow-x-auto lg:overflow-x-visible">
-            {resource.endpoints.map((ep, i) => (
+        {/* Endpoint list */}
+        <div className="lg:w-72 shrink-0 border-b lg:border-b-0 lg:border-r border-[var(--border)] bg-[var(--surface)]">
+          <div className="flex lg:flex-col overflow-x-auto lg:overflow-x-visible lg:max-h-[22rem] lg:overflow-y-auto py-1">
+            {group.endpoints.map((ep, i) => (
               <button
-                key={`${ep.method}-${ep.path}`}
-                onClick={() => selectEndpoint(i)}
-                className={`flex items-center gap-2 px-3 py-2 text-left whitespace-nowrap cursor-pointer w-full
-                  transition-all duration-200
-                  ${
-                    endpointIdx === i
-                      ? "bg-[var(--accent-soft)] text-[var(--text)] border-l-2 border-l-[var(--accent)]"
-                      : "text-[var(--text-muted)] hover:bg-[var(--accent-soft)] hover:text-[var(--text)] border-l-2 border-l-transparent"
-                  }
-                `}
+                key={ep.key}
+                onClick={() => setEndpointIdx(i)}
+                title={ep.summary}
+                className={`flex items-center gap-2 px-3 py-2 text-left whitespace-nowrap cursor-pointer w-full border-l-2 transition-colors ${
+                  endpointIdx === i
+                    ? "bg-[var(--accent-soft)] text-[var(--text)] border-l-[var(--accent)]"
+                    : "text-[var(--text-muted)] hover:bg-[var(--accent-soft)] hover:text-[var(--text)] border-l-transparent"
+                }`}
               >
                 <MethodTag method={ep.method} />
                 <span className="text-xs font-mono truncate">
-                  {ep.path.split("/").slice(-1)[0] || ep.path}
+                  {ep.path.replace(/^\/api/, "")}
                 </span>
               </button>
             ))}
           </div>
         </div>
 
-        {/* Response area (right) */}
+        {/* Request and response */}
         <div className="flex-1 min-w-0">
-          {/* Request body (POST/PUT only) */}
+          <p className="px-4 py-2.5 text-[13px] text-[var(--text-muted)] border-b border-[var(--border)] bg-[var(--surface)]">
+            {endpoint.summary}
+          </p>
           {endpoint.requestBody && (
             <div className="border-b border-[var(--border)]">
               <div className="flex items-center justify-between px-4 py-2 bg-[var(--surface)]">
@@ -112,7 +125,9 @@ export function APIPlayground() {
                 </span>
                 <CopyButton
                   text={endpoint.requestBody}
-                  className="text-[var(--text-muted)] hover:text-[var(--accent)] text-xs"
+                  label="request body"
+                  hideLabel
+                  className="text-[var(--text-muted)]"
                 />
               </div>
               <div className="bg-[var(--code-bg)] px-4 py-3 overflow-x-auto max-h-40">
@@ -120,11 +135,7 @@ export function APIPlayground() {
                   <code className="font-mono">
                     <Highlighted
                       code={endpoint.requestBody}
-                      lang={
-                        endpoint.requestBody.trimStart().startsWith("<")
-                          ? "xml"
-                          : "json"
-                      }
+                      lang={bodyLang(endpoint.requestBody)}
                     />
                   </code>
                 </pre>
@@ -132,49 +143,32 @@ export function APIPlayground() {
             </div>
           )}
 
-          {/* Response */}
-          <div>
-            <div className="flex items-center justify-between px-4 py-2 bg-[var(--surface)]">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-medium text-[var(--text-muted)]">
-                  Response
-                </span>
-                <span className="text-[10px] font-mono font-bold text-emerald-500">
-                  200 OK
-                </span>
-              </div>
-              <CopyButton
-                text={endpoint.response}
-                className="text-[var(--text-muted)] hover:text-[var(--accent)] text-xs"
-              />
-            </div>
-            <div className="bg-[var(--code-bg)] px-4 py-3 overflow-x-auto max-h-72 overflow-y-auto">
-              <pre className="text-[12px] leading-[1.6] bg-transparent">
-                <code className="font-mono">
-                  <Highlighted
-                    code={endpoint.response}
-                    lang={isXml ? "xml" : "json"}
-                  />
-                </code>
-              </pre>
-            </div>
+          <div className="flex items-center justify-between px-4 py-2 bg-[var(--surface)]">
+            <span className="flex items-center gap-2 text-xs font-medium text-[var(--text-muted)]">
+              Response
+              <span className={`font-mono ${statusTone(endpoint.status)}`}>
+                {endpoint.status}
+              </span>
+            </span>
+            <CopyButton
+              text={endpoint.response}
+              label="response"
+              hideLabel
+              className="text-[var(--text-muted)]"
+            />
+          </div>
+          <div className="bg-[var(--code-bg)] px-4 py-3 overflow-auto max-h-72">
+            <pre className="text-[12px] leading-[1.6] bg-transparent">
+              <code className="font-mono">
+                <Highlighted
+                  code={endpoint.response}
+                  lang={bodyLang(endpoint.response)}
+                />
+              </code>
+            </pre>
           </div>
         </div>
       </div>
-
     </div>
   );
-}
-
-function buildCurl(ep: Endpoint): string {
-  const url = `${BASE_URL}${ep.path}`;
-  if (ep.method === "GET") return `curl ${url}`;
-  if (ep.method === "DELETE") return `curl -X DELETE ${url}`;
-  const ct = ep.requestBody?.trimStart().startsWith("<")
-    ? "application/xml"
-    : "application/json";
-  const body = ep.requestBody
-    ? ` \\\n  -H "Content-Type: ${ct}" \\\n  -d '${ep.requestBody.replace(/\n/g, "").replace(/\s+/g, " ")}'`
-    : "";
-  return `curl -X ${ep.method} ${url}${body}`;
 }
