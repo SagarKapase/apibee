@@ -9,7 +9,7 @@ import { resources, BASE_URL } from "@/lib/api-data";
 export const metadata: Metadata = {
   title: "API reference",
   description:
-    "Full API reference for APIBee. JSON and XML endpoints with request and response examples.",
+    "Full API reference for snap-test.in. JSON and XML endpoints with request and response examples.",
 };
 
 const quickStart = `fetch('${BASE_URL}/api/user/getAllUsers')
@@ -26,7 +26,7 @@ export default function DocsPage() {
           {/* ── Introduction ── */}
           <section id="introduction" className="mb-16">
             <div className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] mb-6">
-              <span>APIBee</span>
+              <span>snap-test.in</span>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="m9 18 6-6-6-6" />
               </svg>
@@ -135,24 +135,6 @@ export default function DocsPage() {
               </div>
             </section>
           ))}
-
-          {/* Bottom */}
-          <div className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-6 text-center">
-            <p className="text-sm text-[var(--text-muted)] mb-2">
-              Found a problem or need an endpoint that is not listed?
-            </p>
-            <a
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--text)] link-underline"
-            >
-              Open an issue on GitHub
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M7 17 17 7M7 7h10v10" />
-              </svg>
-            </a>
-          </div>
         </div>
       </div>
     </div>

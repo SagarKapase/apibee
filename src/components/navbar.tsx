@@ -9,34 +9,6 @@ const navLinks = [
   { href: "/tools", label: "Tools" },
 ];
 
-function Logo() {
-  return (
-    <svg
-      width="22"
-      height="22"
-      viewBox="0 0 32 32"
-      fill="none"
-      aria-hidden="true"
-    >
-      <polygon points="16,6 24,11 24,21 16,26 8,21 8,11" fill="#F59E0B" />
-      <polyline
-        points="6,11 1,16 6,21"
-        stroke="currentColor"
-        strokeWidth="2.25"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <polyline
-        points="26,11 31,16 26,21"
-        stroke="currentColor"
-        strokeWidth="2.25"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 export function Navbar() {
   const { theme, toggle } = useTheme();
   const pathname = usePathname();
@@ -46,12 +18,9 @@ export function Navbar() {
       <nav className="max-w-5xl h-full mx-auto flex items-center justify-between px-5">
         <Link
           href="/"
-          className="flex items-center gap-2 text-[var(--text)]"
+          className="text-[15px] font-semibold tracking-tight text-[var(--text)]"
         >
-          <Logo />
-          <span className="text-[15px] font-semibold tracking-tight">
-            APIBee
-          </span>
+          snap-test.in
         </Link>
 
         <div className="flex items-center gap-1">
@@ -72,15 +41,6 @@ export function Navbar() {
               </Link>
             );
           })}
-
-          <a
-            href="https://github.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-3 py-1.5 text-sm rounded-md text-[var(--text-muted)] hover:text-[var(--text)] transition-colors"
-          >
-            GitHub
-          </a>
 
           <div className="w-px h-4 bg-[var(--border)] mx-2" />
 

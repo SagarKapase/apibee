@@ -150,7 +150,7 @@ export function JwtDecoder() {
           onClick={() => setToken(SAMPLE_TOKEN)}
           className="text-xs font-medium text-[var(--accent)] hover:underline cursor-pointer transition-colors"
         >
-          Load APIBee sample token
+          Load sample token
         </button>
       </div>
 

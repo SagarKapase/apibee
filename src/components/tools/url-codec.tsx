@@ -8,9 +8,9 @@ type Mode = "encode" | "decode";
 type EncodeScope = "component" | "full";
 
 const examples = {
-  encode: "https://api.apibee.io/search?q=hello world&category=API Tools&page=1",
+  encode: "https://api.snap-test.in/search?q=hello world&category=API Tools&page=1",
   decode:
-    "https%3A%2F%2Fapi.apibee.io%2Fsearch%3Fq%3Dhello%20world%26category%3DAPI%20Tools%26page%3D1",
+    "https%3A%2F%2Fapi.snap-test.in%2Fsearch%3Fq%3Dhello%20world%26category%3DAPI%20Tools%26page%3D1",
 };
 
 function countEncoded(original: string, encoded: string): number {

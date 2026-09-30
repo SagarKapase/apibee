@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const BASE = "https://apibee.io";
+const BASE = "https://snap-test.in";
 
 const tools = [
   "json-formatter",

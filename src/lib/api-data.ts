@@ -1,6 +1,6 @@
 import type { IconName } from "@/components/icon";
 
-export const BASE_URL = "https://api.apibee.io";
+export const BASE_URL = "https://api.snap-test.in";
 
 export type Method = "GET" | "POST" | "PUT" | "DELETE";
 
