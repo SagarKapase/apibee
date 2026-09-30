@@ -7,7 +7,7 @@ import { CopyButton } from "@/components/copy-button";
 type Mode = "encode" | "decode";
 
 const examples: Record<Mode, string> = {
-  encode: "Hello, World! 🌍 Special chars: é, ñ, ü",
+  encode: "Hello, world. UTF-8: é, ñ, ü, 日本語",
   decode: "SGVsbG8sIFdvcmxkISDwn4yNIFNwZWNpYWwgY2hhcnM6IMOpLCDDsSwgw7w=",
 };
 
@@ -41,7 +41,7 @@ export function Base64Codec() {
         output: "",
         error:
           mode === "decode"
-            ? "Invalid Base64 input — check for typos or missing padding (=)."
+            ? "Invalid Base64. Check for typos or missing padding (=)."
             : "Could not encode this input.",
       };
     }
@@ -65,8 +65,8 @@ export function Base64Codec() {
 
   return (
     <ToolShell
-      title="Base64 Encoder / Decoder"
-      description="Encode text to Base64 or decode Base64 back to plain text. Handles UTF-8 characters."
+      title="Base64"
+      description="Encode text to Base64 or decode Base64 to plain text. UTF-8 safe."
     >
       {/* Mode toggle */}
       <div className="flex items-center gap-2 mb-6">
@@ -75,9 +75,9 @@ export function Base64Codec() {
             <button
               key={m}
               onClick={() => switchMode(m)}
-              className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 cursor-pointer active:scale-95 ${
+              className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 cursor-pointer ${
                 mode === m
-                  ? "bg-[var(--accent)] text-white shadow-sm"
+                  ? "bg-[var(--btn-bg)] text-[var(--btn-fg)] shadow-sm"
                   : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--accent-soft)]"
               }`}
             >
@@ -87,7 +87,7 @@ export function Base64Codec() {
         </div>
         <button
           onClick={loadExample}
-          className="px-3 py-1.5 text-xs font-medium text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)] rounded-lg hover:bg-[var(--accent-soft)] transition-all duration-200 cursor-pointer active:scale-95"
+          className="px-3 py-1.5 text-xs font-medium text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)] rounded-lg hover:bg-[var(--accent-soft)] transition-all duration-200 cursor-pointer"
         >
           Load Example
         </button>
@@ -130,7 +130,7 @@ export function Base64Codec() {
             output ? (
               <CopyButton
                 text={output}
-                className="text-[#525252] hover:text-[var(--accent)] text-xs"
+                className="text-[#78716c] hover:text-[#e7e5e4] text-xs"
               />
             ) : null
           }

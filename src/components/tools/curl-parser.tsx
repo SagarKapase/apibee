@@ -12,7 +12,7 @@ const methodColors: Record<string, string> = {
   POST: "bg-blue-500/20 text-blue-400",
   PUT: "bg-amber-500/20 text-amber-400",
   DELETE: "bg-red-500/20 text-red-400",
-  PATCH: "bg-violet-500/20 text-violet-400",
+  PATCH: "bg-sky-500/20 text-sky-400",
   HEAD: "bg-slate-500/20 text-slate-400",
   OPTIONS: "bg-cyan-500/20 text-cyan-400",
 };
@@ -116,8 +116,8 @@ export function CurlParser() {
 
   return (
     <ToolShell
-      title="cURL Parser"
-      description="Paste a cURL command. See it broken down into method, URL, headers, and body."
+      title="cURL parser"
+      description="Paste a cURL command to split it into method, URL, headers and body."
     >
       <ToolPanel
         label="cURL Command"
@@ -167,7 +167,7 @@ export function CurlParser() {
             <ToolPanel
               label="URL"
               dark
-              actions={<CopyButton text={parsed.url} className="text-[#525252] hover:text-[var(--accent)] text-xs" />}
+              actions={<CopyButton text={parsed.url} className="text-[#78716c] hover:text-[#e7e5e4] text-xs" />}
             >
               <div className="px-4 py-3">
                 <code className="text-[13px] font-mono text-[var(--code-fg)] break-all">
@@ -255,7 +255,7 @@ export function CurlParser() {
               actions={
                 <CopyButton
                   text={parsed.body}
-                  className="text-[#525252] hover:text-[var(--accent)] text-xs"
+                  className="text-[#78716c] hover:text-[#e7e5e4] text-xs"
                 />
               }
             >
@@ -291,7 +291,7 @@ export function CurlParser() {
       )}
 
       {input && !parsed?.url && (
-        <div className="mt-4 rounded-xl border border-red-500/20 bg-red-500/5 px-4 py-3 text-sm text-red-400 font-mono">
+        <div className="mt-4 rounded-lg border border-red-500/20 bg-red-500/5 px-4 py-3 text-sm text-red-400 font-mono">
           Could not find a URL in this command. Make sure it starts with
           &quot;curl&quot;.
         </div>

@@ -46,7 +46,7 @@ const PRESETS = [
 ];
 
 const GROUP_COLORS = [
-  { bg: "bg-violet-500/20", text: "text-violet-400" },
+  { bg: "bg-sky-500/20", text: "text-sky-400" },
   { bg: "bg-emerald-500/20", text: "text-emerald-400" },
   { bg: "bg-amber-500/20", text: "text-amber-400" },
   { bg: "bg-blue-500/20", text: "text-blue-400" },
@@ -192,8 +192,8 @@ export function RegexTester() {
 
   return (
     <ToolShell
-      title="Regex Tester"
-      description="Write a pattern, paste test text, see matches highlighted live. Shows capture groups."
+      title="Regex tester"
+      description="Test a pattern against sample text. Matches and capture groups are highlighted as you type."
     >
       {/* Presets */}
       <div className="flex flex-wrap gap-2 mb-6">
@@ -201,7 +201,7 @@ export function RegexTester() {
           <button
             key={p.label}
             onClick={() => applyPreset(p)}
-            className="px-3 py-1.5 text-xs font-medium rounded-lg border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--accent-soft)] hover:border-[var(--accent)]/30 transition-all duration-150 cursor-pointer active:scale-95"
+            className="px-3 py-1.5 text-xs font-medium rounded-lg border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--accent-soft)] hover:border-[var(--accent)]/30 transition-all duration-150 cursor-pointer"
           >
             {p.label}
           </button>
@@ -215,9 +215,9 @@ export function RegexTester() {
       </div>
 
       {/* Pattern input */}
-      <div className="rounded-xl border border-[var(--border)] overflow-hidden terminal-glow mb-4">
-        <div className="flex items-center justify-between px-4 py-2 bg-[#1a1a22] border-b border-white/[0.06]">
-          <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#a8a29e]">
+      <div className="rounded-lg border border-[var(--border)] overflow-hidden terminal-glow mb-4">
+        <div className="flex items-center justify-between px-4 py-2 bg-[#161616] border-b border-white/[0.06]">
+          <span className="text-xs font-medium text-[#a8a29e]">
             Pattern
           </span>
         </div>
@@ -245,15 +245,15 @@ export function RegexTester() {
           />
         </div>
         {/* Flag toggles */}
-        <div className="flex items-center gap-1.5 px-4 py-2 bg-[#13131a] border-t border-white/[0.06]">
+        <div className="flex items-center gap-1.5 px-4 py-2 bg-[#111111] border-t border-white/[0.06]">
           {FLAG_OPTIONS.map((f) => (
             <button
               key={f.flag}
               onClick={() => toggleFlag(f.flag)}
-              className={`h-6 px-2 text-[10px] font-mono font-bold rounded transition-all duration-150 cursor-pointer active:scale-95 ${
+              className={`h-6 px-2 text-[10px] font-mono font-bold rounded transition-all duration-150 cursor-pointer ${
                 flags.includes(f.flag)
-                  ? "bg-[var(--accent)] text-white"
-                  : "border border-white/10 text-[#525252] hover:text-[#a8a29e] hover:border-white/20"
+                  ? "bg-[var(--btn-bg)] text-[var(--btn-fg)]"
+                  : "border border-white/10 text-[#78716c] hover:text-[#e7e5e4] hover:border-white/20"
               }`}
               title={f.label}
             >
@@ -324,7 +324,7 @@ export function RegexTester() {
       {/* Match Results */}
       {matches.length > 0 && (
         <div>
-          <h3 className="text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--text-muted)] mb-3">
+          <h3 className="text-xs font-medium text-[var(--text-muted)] mb-3">
             Match Details
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
@@ -334,10 +334,10 @@ export function RegexTester() {
                 className="border border-[var(--border)] rounded-lg p-3 bg-[var(--surface)]"
               >
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-[9px] font-bold uppercase tracking-[0.1em] text-[var(--text-muted)]">
+                  <span className="text-xs font-medium text-[var(--text-muted)]">
                     Match {i + 1}
                   </span>
-                  <span className="text-[9px] font-mono text-[var(--text-muted)]">
+                  <span className="text-[11px] font-mono text-[var(--text-muted)]">
                     {m.index}–{m.end}
                   </span>
                 </div>

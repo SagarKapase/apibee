@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { PasswordGenerator } from "@/components/tools/password-generator";
 
 export const metadata: Metadata = {
-  title: "Password & Secret Generator — APIBee Tools",
+  title: "Password & Secret Generator",
   description: "Generate secure passwords, API keys, and random secrets. Configurable length and character sets. Client-side only.",
 };
 

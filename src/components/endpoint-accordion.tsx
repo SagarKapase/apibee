@@ -26,7 +26,7 @@ export function EndpointAccordion({ endpoint }: { endpoint: Endpoint }) {
     <div
       className={`border border-[var(--border)] rounded-lg overflow-hidden
         transition-all duration-300
-        ${open ? "shadow-md shadow-[var(--ring)] border-[var(--accent)]/20" : "hover:shadow-sm hover:border-[var(--border)]"}
+        ${open ? "border-[var(--text-muted)]/40" : "hover:border-[var(--text-muted)]/40"}
       `}
     >
       {/* Header */}
@@ -34,7 +34,6 @@ export function EndpointAccordion({ endpoint }: { endpoint: Endpoint }) {
         onClick={() => setOpen(!open)}
         className={`w-full flex items-center gap-3 px-4 py-3 text-left cursor-pointer
           transition-all duration-200
-          active:scale-[0.995]
           border-l-[3px] ${borderColors[endpoint.method]}
           ${
             open
@@ -89,7 +88,7 @@ export function EndpointAccordion({ endpoint }: { endpoint: Endpoint }) {
             {/* Parameters */}
             {endpoint.params && endpoint.params.length > 0 && (
               <div className="px-4 py-3 border-b border-[var(--border)] ep-section" style={{ "--ep-delay": "0.04s" } as React.CSSProperties}>
-                <h4 className="text-[9px] font-bold uppercase tracking-[0.12em] text-[var(--text-muted)] mb-2">
+                <h4 className="text-xs font-medium text-[var(--text-muted)] mb-2">
                   Parameters
                 </h4>
                 <div className="overflow-x-auto">
@@ -119,7 +118,7 @@ export function EndpointAccordion({ endpoint }: { endpoint: Endpoint }) {
             {endpoint.requestBody && (
               <div className="border-b border-[var(--border)] ep-section" style={{ "--ep-delay": "0.08s" } as React.CSSProperties}>
                 <div className="flex items-center justify-between px-4 py-2">
-                  <h4 className="text-[9px] font-bold uppercase tracking-[0.12em] text-[var(--text-muted)]">
+                  <h4 className="text-xs font-medium text-[var(--text-muted)]">
                     Request Body
                   </h4>
                   <CopyButton
@@ -141,7 +140,7 @@ export function EndpointAccordion({ endpoint }: { endpoint: Endpoint }) {
             <div className="ep-section" style={{ "--ep-delay": "0.12s" } as React.CSSProperties}>
               <div className="flex items-center justify-between px-4 py-2">
                 <div className="flex items-center gap-2">
-                  <h4 className="text-[9px] font-bold uppercase tracking-[0.12em] text-[var(--text-muted)]">
+                  <h4 className="text-xs font-medium text-[var(--text-muted)]">
                     Response
                   </h4>
                   <span className="text-[10px] font-mono font-bold text-emerald-500">200</span>

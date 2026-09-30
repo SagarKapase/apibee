@@ -47,7 +47,7 @@ export function UrlCodec() {
         output: "",
         error:
           mode === "decode"
-            ? "Invalid percent-encoded input — check for malformed % sequences."
+            ? "Invalid percent-encoding. Check for malformed % sequences."
             : "Could not encode this input.",
       };
     }
@@ -69,8 +69,8 @@ export function UrlCodec() {
 
   return (
     <ToolShell
-      title="URL Encoder / Decoder"
-      description="Encode special characters for URLs or decode percent-encoded strings back to readable text."
+      title="URL encoding"
+      description="Percent-encode text for use in URLs, or decode it back."
     >
       {/* Mode toggle + scope */}
       <div className="flex flex-wrap items-center gap-3 mb-6">
@@ -79,9 +79,9 @@ export function UrlCodec() {
             <button
               key={m}
               onClick={() => switchMode(m)}
-              className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 cursor-pointer active:scale-95 ${
+              className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 cursor-pointer ${
                 mode === m
-                  ? "bg-[var(--accent)] text-white shadow-sm"
+                  ? "bg-[var(--btn-bg)] text-[var(--btn-fg)] shadow-sm"
                   : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--accent-soft)]"
               }`}
             >
@@ -102,7 +102,7 @@ export function UrlCodec() {
               <button
                 key={key}
                 onClick={() => setScope(key)}
-                className={`px-3 py-1 text-xs font-medium rounded-md transition-all duration-200 cursor-pointer active:scale-95 ${
+                className={`px-3 py-1 text-xs font-medium rounded-md transition-all duration-200 cursor-pointer ${
                   scope === key
                     ? "bg-[var(--accent-soft)] text-[var(--accent)]"
                     : "text-[var(--text-muted)] hover:text-[var(--text)]"
@@ -116,7 +116,7 @@ export function UrlCodec() {
 
         <button
           onClick={loadExample}
-          className="px-3 py-1.5 text-xs font-medium text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)] rounded-lg hover:bg-[var(--accent-soft)] transition-all duration-200 cursor-pointer active:scale-95"
+          className="px-3 py-1.5 text-xs font-medium text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)] rounded-lg hover:bg-[var(--accent-soft)] transition-all duration-200 cursor-pointer"
         >
           Load Example
         </button>
@@ -126,8 +126,8 @@ export function UrlCodec() {
       {mode === "encode" && (
         <p className="text-[11px] text-[var(--text-muted)] mb-4 font-mono">
           {scope === "component"
-            ? "encodeURIComponent — encodes everything including : / ? # & ="
-            : "encodeURI — preserves URL structure characters (: / ? # & =)"}
+            ? "encodeURIComponent: encodes everything, including : / ? # & ="
+            : "encodeURI: keeps URL structure characters (: / ? # & =)"}
         </p>
       )}
 
@@ -168,7 +168,7 @@ export function UrlCodec() {
             output ? (
               <CopyButton
                 text={output}
-                className="text-[#525252] hover:text-[var(--accent)] text-xs"
+                className="text-[#78716c] hover:text-[#e7e5e4] text-xs"
               />
             ) : null
           }

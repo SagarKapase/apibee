@@ -1,3 +1,5 @@
+import type { IconName } from "@/components/icon";
+
 export const BASE_URL = "https://api.apibee.io";
 
 export type Method = "GET" | "POST" | "PUT" | "DELETE";
@@ -23,7 +25,7 @@ export interface Resource {
   title: string;
   description: string;
   count: string;
-  icon: string;
+  icon: IconName;
   endpoints: Endpoint[];
 }
 
@@ -32,14 +34,14 @@ export const resources: Resource[] = [
   {
     id: "users-json",
     title: "Users (JSON)",
-    description: "Name, email, job, city. Looks like real people.",
+    description: "User records with name, email, job and city.",
     count: "5 users",
-    icon: "👤",
+    icon: "user",
     endpoints: [
       {
         method: "GET",
         path: "/api/user/getAllUsers",
-        description: "Returns every user in the database.",
+        description: "Returns all users.",
         response: `[
   {
     "userId": 101,
@@ -60,7 +62,7 @@ export const resources: Resource[] = [
       {
         method: "GET",
         path: "/api/user/user/{id}",
-        description: "Pass an ID, get one user back.",
+        description: "Returns one user by ID.",
         params: [{ name: "id", type: "integer", required: true, description: "User ID (e.g. 101)" }],
         response: `{
   "userId": 101,
@@ -73,7 +75,7 @@ export const resources: Resource[] = [
       {
         method: "POST",
         path: "/api/user/addUser",
-        description: "Send a JSON body, get the new user back with an ID.",
+        description: "Creates a user from a JSON body. Returns the new record with its ID.",
         requestBody: `{
   "name": "Tony Thompson",
   "email": "tony.thompson@company.com",
@@ -94,7 +96,7 @@ export const resources: Resource[] = [
       {
         method: "PUT",
         path: "/api/user/update/{id}",
-        description: "Overwrite a user's fields. Returns the updated object.",
+        description: "Replaces a user's fields. Returns the updated record.",
         params: [{ name: "id", type: "integer", required: true, description: "User ID to update" }],
         requestBody: `{
   "name": "John Doe",
@@ -116,7 +118,7 @@ export const resources: Resource[] = [
       {
         method: "DELETE",
         path: "/api/user/delete/{id}",
-        description: "Deletes the user. Gone. (Not really — resets later.)",
+        description: "Deletes a user. The change is not persisted.",
         params: [{ name: "id", type: "integer", required: true, description: "User ID to delete" }],
         response: `{
   "message": "User deleted successfully"
@@ -129,14 +131,14 @@ export const resources: Resource[] = [
   {
     id: "users-xml",
     title: "Users (XML)",
-    description: "Same users, but the response comes back as XML.",
+    description: "The same user records, returned as XML.",
     count: "4 users",
-    icon: "📄",
+    icon: "code",
     endpoints: [
       {
         method: "GET",
         path: "/api/xml/UserXML/all",
-        description: "All users, wrapped in angle brackets.",
+        description: "Returns all users as XML.",
         response: `<ArrayOfUserXmlResponse>
   <UserXmlResponse>
     <Id>101</Id>
@@ -155,7 +157,7 @@ export const resources: Resource[] = [
       {
         method: "GET",
         path: "/api/xml/UserXML/{id}",
-        description: "One user by ID. XML this time.",
+        description: "Returns one user by ID as XML.",
         params: [{ name: "id", type: "integer", required: true, description: "User ID (e.g. 101)" }],
         response: `<User>
   <Id>101</Id>
@@ -167,7 +169,7 @@ export const resources: Resource[] = [
       {
         method: "POST",
         path: "/api/xml/UserXML/create",
-        description: "POST an XML body, get the created user back.",
+        description: "Creates a user from an XML body.",
         requestBody: `<UserRequest>
   <Name>Tanaka San</Name>
   <Job>Engineer</Job>
@@ -183,7 +185,7 @@ export const resources: Resource[] = [
       {
         method: "PUT",
         path: "/api/xml/UserXML/update/{id}",
-        description: "Update fields via XML body.",
+        description: "Updates a user from an XML body.",
         params: [{ name: "id", type: "integer", required: true, description: "User ID to update" }],
         requestBody: `<UserRequest>
   <Name>Tanaka San</Name>
@@ -200,7 +202,7 @@ export const resources: Resource[] = [
       {
         method: "DELETE",
         path: "/api/xml/UserXML/delete/{id}",
-        description: "Same delete, XML response.",
+        description: "Deletes a user. Returns an XML response.",
         params: [{ name: "id", type: "integer", required: true, description: "User ID to delete" }],
         response: `<string>User with ID 101 deleted</string>`,
       },
@@ -211,14 +213,14 @@ export const resources: Resource[] = [
   {
     id: "auth-endpoints",
     title: "Auth Endpoints",
-    description: "Log in, get a JWT back, use it on a protected route.",
+    description: "Exchange credentials for a JWT, then call a protected route with it.",
     count: "JWT",
-    icon: "🔐",
+    icon: "lock",
     endpoints: [
       {
         method: "POST",
         path: "/api/user/Login",
-        description: "Send username + password, get a signed JWT back.",
+        description: "Returns a signed JWT for a valid username and password.",
         requestBody: `{
   "username": "Michael",
   "password": "Thompson"
@@ -233,7 +235,7 @@ export const resources: Resource[] = [
       {
         method: "GET",
         path: "/api/admin/authorize",
-        description: "Needs a Bearer token in the header. Returns a greeting if valid.",
+        description: "Requires a Bearer token. Returns a message when the token is valid.",
         response: `"Hi, I'm the Admin — how can I help you today?"`,
       },
     ],
@@ -243,9 +245,9 @@ export const resources: Resource[] = [
   {
     id: "products",
     title: "Products",
-    description: "E-commerce items with title, price, category, image, and rating.",
+    description: "Catalog items with title, price, category, image and rating.",
     count: "20 products",
-    icon: "🛍️",
+    icon: "box",
     endpoints: [
       {
         method: "GET",
@@ -296,7 +298,7 @@ export const resources: Resource[] = [
       {
         method: "GET",
         path: "/api/products/categories",
-        description: "Just the category names. Returns a string array.",
+        description: "Returns category names as a string array.",
         response: `["electronics", "clothing", "books", "home", "sports"]`,
       },
       {
@@ -312,7 +314,7 @@ export const resources: Resource[] = [
       {
         method: "POST",
         path: "/api/products",
-        description: "Create a product. Returns it with a generated ID.",
+        description: "Creates a product. Returns it with a generated ID.",
         requestBody: `{
   "title": "USB-C Hub 7-in-1",
   "price": 45.99,
@@ -348,7 +350,7 @@ export const resources: Resource[] = [
       {
         method: "DELETE",
         path: "/api/products/{id}",
-        description: "Remove a product. Doesn't really persist.",
+        description: "Deletes a product. The change is not persisted.",
         params: [{ name: "id", type: "integer", required: true, description: "Product ID" }],
         response: `{ "message": "Product deleted successfully" }`,
       },
@@ -359,9 +361,9 @@ export const resources: Resource[] = [
   {
     id: "posts",
     title: "Posts",
-    description: "Blog-style content. Title, body, tags, likes. Linked to users.",
+    description: "Posts with title, body, tags and likes. Each belongs to a user.",
     count: "15 posts",
-    icon: "📝",
+    icon: "file",
     endpoints: [
       {
         method: "GET",
@@ -449,9 +451,9 @@ export const resources: Resource[] = [
   {
     id: "comments",
     title: "Comments",
-    description: "Linked to posts and users. Filter by postId.",
+    description: "Comments on posts. Filter by post or user.",
     count: "50 comments",
-    icon: "💬",
+    icon: "message",
     endpoints: [
       {
         method: "GET",
@@ -515,9 +517,9 @@ export const resources: Resource[] = [
   {
     id: "todos",
     title: "Todos",
-    description: "Task items with priority and due dates. The classic starter project.",
+    description: "Tasks with completion state, priority and due date.",
     count: "30 todos",
-    icon: "✅",
+    icon: "check",
     endpoints: [
       {
         method: "GET",
@@ -574,7 +576,7 @@ export const resources: Resource[] = [
       {
         method: "PUT",
         path: "/api/todos/{id}",
-        description: "Update a todo. Mark it done, change priority, whatever.",
+        description: "Updates a todo, for example its status or priority.",
         params: [{ name: "id", type: "integer", required: true, description: "Todo ID" }],
         requestBody: `{ "completed": true }`,
         response: `{
@@ -598,7 +600,7 @@ export const resources: Resource[] = [
     title: "Carts",
     description: "Shopping carts with product items, quantities, and totals.",
     count: "8 carts",
-    icon: "🛒",
+    icon: "cart",
     endpoints: [
       {
         method: "GET",
@@ -680,7 +682,7 @@ export const resources: Resource[] = [
     title: "Orders",
     description: "Placed orders with items, status, and shipping address.",
     count: "12 orders",
-    icon: "📦",
+    icon: "receipt",
     endpoints: [
       {
         method: "GET",
@@ -746,9 +748,9 @@ export const resources: Resource[] = [
   {
     id: "quotes",
     title: "Quotes",
-    description: "Programming and motivational quotes. Has a /random endpoint.",
+    description: "Quotes with author and category, plus a random endpoint.",
     count: "50 quotes",
-    icon: "💡",
+    icon: "quote",
     endpoints: [
       {
         method: "GET",
@@ -784,7 +786,7 @@ export const resources: Resource[] = [
       {
         method: "GET",
         path: "/api/quotes/random",
-        description: "One random quote. Hit it again, get a different one.",
+        description: "Returns one quote chosen at random.",
         response: `{
   "id": 17,
   "text": "Simplicity is the soul of efficiency.",
@@ -801,7 +803,7 @@ export const resources: Resource[] = [
     title: "Recipes",
     description: "Dishes with ingredients, instructions, cook time, and difficulty.",
     count: "15 recipes",
-    icon: "🍳",
+    icon: "utensils",
     endpoints: [
       {
         method: "GET",
@@ -863,9 +865,9 @@ export const resources: Resource[] = [
   {
     id: "notifications",
     title: "Notifications",
-    description: "For building notification UIs. Types, read/unread state, timestamps.",
+    description: "Notifications with type, read state and timestamp.",
     count: "20 notifications",
-    icon: "🔔",
+    icon: "bell",
     endpoints: [
       {
         method: "GET",
@@ -921,9 +923,9 @@ export const resources: Resource[] = [
   {
     id: "transactions",
     title: "Transactions",
-    description: "For fintech dashboards. Debits, credits, categories, running balance.",
+    description: "Debits and credits with category, merchant and running balance.",
     count: "40 transactions",
-    icon: "💳",
+    icon: "card",
     endpoints: [
       {
         method: "GET",

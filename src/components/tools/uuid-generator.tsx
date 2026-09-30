@@ -32,15 +32,15 @@ export function UuidGenerator() {
 
   return (
     <ToolShell
-      title="UUID Generator"
-      description="Generate random v4 UUIDs. Click to copy any one. Generate in bulk."
+      title="UUID generator"
+      description="Generate random v4 UUIDs, one at a time or in bulk. Click one to copy it."
     >
       {/* Format toggles */}
       <div className="flex items-center gap-2 mb-4">
         <span className="text-xs text-[var(--text-muted)] mr-1">Format:</span>
         <button
           onClick={() => setUpper((u) => !u)}
-          className={`px-2.5 py-1 text-[11px] font-medium rounded-md border cursor-pointer transition-all duration-150 active:scale-95 ${
+          className={`px-2.5 py-1 text-[11px] font-medium rounded-md border cursor-pointer transition-all duration-150 ${
             upper
               ? "border-[var(--accent)]/50 bg-[var(--accent)]/15 text-[var(--accent)]"
               : "border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--accent-soft)]"
@@ -50,7 +50,7 @@ export function UuidGenerator() {
         </button>
         <button
           onClick={() => setNoDashes((d) => !d)}
-          className={`px-2.5 py-1 text-[11px] font-medium rounded-md border cursor-pointer transition-all duration-150 active:scale-95 ${
+          className={`px-2.5 py-1 text-[11px] font-medium rounded-md border cursor-pointer transition-all duration-150 ${
             noDashes
               ? "border-[var(--accent)]/50 bg-[var(--accent)]/15 text-[var(--accent)]"
               : "border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--accent-soft)]"
@@ -68,11 +68,11 @@ export function UuidGenerator() {
           <div className="flex items-center gap-2">
             <CopyButton
               text={displayed}
-              className="text-[#525252] hover:text-[var(--accent)] text-xs"
+              className="text-[#78716c] hover:text-[#e7e5e4] text-xs"
             />
             <button
               onClick={generate}
-              className="px-3 py-1 text-[11px] font-bold rounded-md bg-[var(--accent)] text-white cursor-pointer transition-all duration-150 active:scale-95 hover:shadow-lg hover:shadow-[var(--ring)] btn-press"
+              className="px-3 py-1 text-[11px] font-semibold rounded-md bg-[#f59e0b] text-[#1c1917] hover:bg-[#fbbf24] cursor-pointer transition-colors"
             >
               Generate
             </button>
@@ -102,7 +102,7 @@ export function UuidGenerator() {
           />
           <button
             onClick={bulkGenerate}
-            className="px-3 py-1.5 text-xs font-bold rounded-md bg-[var(--accent)] text-white cursor-pointer transition-all duration-150 active:scale-95 hover:shadow-lg hover:shadow-[var(--ring)] btn-press"
+            className="px-3 py-1.5 text-xs font-bold rounded-md bg-[var(--btn-bg)] text-[var(--btn-fg)] cursor-pointer transition-all duration-150 btn-press"
           >
             Generate {count}
           </button>
@@ -117,7 +117,7 @@ export function UuidGenerator() {
                 <CopyButton
                   text={bulk.map((u) => formatUuid(u, upper, noDashes)).join("\n")}
                   label="Copy All"
-                  className="text-[#525252] hover:text-[var(--accent)] text-xs"
+                  className="text-[#78716c] hover:text-[#e7e5e4] text-xs"
                 />
                 <button
                   onClick={() => setBulk([])}
@@ -143,7 +143,7 @@ export function UuidGenerator() {
                     </code>
                     <CopyButton
                       text={formatted}
-                      className="text-[#525252] hover:text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity text-xs"
+                      className="text-[#78716c] hover:text-[#e7e5e4] opacity-0 group-hover:opacity-100 transition-opacity text-xs"
                     />
                   </div>
                 );

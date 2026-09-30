@@ -2,30 +2,28 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <div className="flex-1 flex items-center justify-center px-5 py-20">
-      <div className="text-center max-w-md">
-        <p className="text-8xl font-bold font-mono text-[var(--accent)] mb-4">
-          404
-        </p>
-        <h1 className="text-2xl font-bold text-[var(--text)] mb-2">
-          Nothing here
+    <div className="flex-1 flex items-center px-5 py-24">
+      <div className="max-w-5xl w-full mx-auto">
+        <p className="text-sm font-mono text-[var(--text-muted)] mb-3">404</p>
+        <h1 className="text-3xl font-semibold tracking-tight text-[var(--text)] mb-3">
+          Page not found
         </h1>
-        <p className="text-[var(--text-muted)] mb-8">
-          The page you&apos;re looking for doesn&apos;t exist. Maybe the URL is
-          wrong, or it was moved.
+        <p className="max-w-md text-[var(--text-muted)] mb-8">
+          The page you requested does not exist. Check the URL, or go to one
+          of the pages below.
         </p>
-        <div className="flex gap-3 justify-center">
+        <div className="flex gap-3">
           <Link
             href="/"
-            className="btn-press inline-flex items-center justify-center h-10 px-5 bg-[var(--accent)] text-white text-sm font-medium rounded-lg hover:shadow-lg hover:shadow-[var(--ring)]"
+            className="btn-press inline-flex items-center justify-center h-10 px-4 rounded-md bg-[var(--btn-bg)] text-[var(--btn-fg)] text-sm font-medium hover:bg-[var(--btn-hover)]"
           >
-            Go home
+            Home
           </Link>
           <Link
-            href="/tools"
-            className="btn-press inline-flex items-center justify-center h-10 px-5 border border-[var(--border)] text-sm font-medium rounded-lg text-[var(--text)] hover:bg-[var(--accent-soft)]"
+            href="/docs"
+            className="btn-press inline-flex items-center justify-center h-10 px-4 rounded-md border border-[var(--border)] text-sm font-medium text-[var(--text)] hover:bg-[var(--accent-soft)]"
           >
-            Browse tools
+            API reference
           </Link>
         </div>
       </div>

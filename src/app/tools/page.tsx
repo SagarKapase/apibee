@@ -1,180 +1,160 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FadeIn } from "@/components/fade-in";
+import { Icon } from "@/components/icon";
 
 export const metadata: Metadata = {
-  title: "Free Developer Tools — APIBee",
+  title: "Developer tools",
   description:
-    "JSON formatter, JWT decoder, Base64 encoder, URL encoder, and JSON/XML converter. Client-side only — no data leaves your browser.",
+    "JSON formatter, JWT decoder, Base64 and URL encoders, format converters and generators. Everything runs in your browser.",
 };
 
-const tools = [
+const groups = [
   {
-    slug: "json-formatter",
-    icon: "{ }",
-    name: "JSON Formatter",
-    description:
-      "Paste messy JSON, get it formatted and validated. Shows errors with line numbers.",
-    color: "from-emerald-500 to-teal-600",
+    title: "Format and convert",
+    tools: [
+      {
+        slug: "json-formatter",
+        name: "JSON formatter",
+        description: "Format and validate JSON. Errors show a line number.",
+      },
+      {
+        slug: "json-xml",
+        name: "JSON and XML converter",
+        description: "Convert in either direction, including nested objects and arrays.",
+      },
+      {
+        slug: "json-yaml-csv",
+        name: "JSON, YAML and CSV converter",
+        description: "Convert between the three formats, including nested data.",
+      },
+      {
+        slug: "text-diff",
+        name: "Text diff",
+        description: "Compare two texts line by line and see what was added or removed.",
+      },
+    ],
   },
   {
-    slug: "json-xml",
-    icon: "↔",
-    name: "JSON ↔ XML",
-    description:
-      "Convert between JSON and XML. Handles nested objects and arrays.",
-    color: "from-blue-500 to-indigo-600",
+    title: "Encode and decode",
+    tools: [
+      {
+        slug: "base64",
+        name: "Base64",
+        description: "Encode text to Base64 or decode it. UTF-8 safe.",
+      },
+      {
+        slug: "url-encoder",
+        name: "URL encoding",
+        description: "Percent-encode text for URLs or decode it back.",
+      },
+      {
+        slug: "jwt-decoder",
+        name: "JWT decoder",
+        description: "Read a token's header, payload and expiry. Does not verify signatures.",
+      },
+      {
+        slug: "curl-parser",
+        name: "cURL parser",
+        description: "Split a cURL command into method, URL, headers and body.",
+      },
+    ],
   },
   {
-    slug: "jwt-decoder",
-    icon: "🔑",
-    name: "JWT Decoder",
-    description:
-      "Decode a JWT token. See header, payload, expiry. Tells you if it's expired.",
-    color: "from-violet-500 to-purple-600",
+    title: "Generate",
+    tools: [
+      {
+        slug: "uuid-generator",
+        name: "UUID generator",
+        description: "Generate v4 UUIDs, one at a time or in bulk.",
+      },
+      {
+        slug: "hash-generator",
+        name: "Hash generator",
+        description: "MD5, SHA-1, SHA-256 and SHA-512 of any text.",
+      },
+      {
+        slug: "password-generator",
+        name: "Password generator",
+        description: "Passwords, API keys and secrets with configurable length and characters.",
+      },
+      {
+        slug: "mock-data",
+        name: "Mock data",
+        description: "Fake names, emails, addresses and phone numbers as JSON.",
+      },
+      {
+        slug: "qr-code",
+        name: "QR code",
+        description: "Turn a URL or text into a QR code and download it as PNG.",
+      },
+    ],
   },
   {
-    slug: "base64",
-    icon: "B64",
-    name: "Base64 Encode / Decode",
-    description:
-      "Encode text to Base64 or decode it back. Handles UTF-8.",
-    color: "from-amber-500 to-orange-600",
-  },
-  {
-    slug: "url-encoder",
-    icon: "%",
-    name: "URL Encode / Decode",
-    description:
-      "Encode special characters for URLs or decode them back to readable text.",
-    color: "from-rose-500 to-pink-600",
-  },
-  {
-    slug: "uuid-generator",
-    icon: "#",
-    name: "UUID Generator",
-    description:
-      "Generate v4 UUIDs. One at a time or bulk. Copy with a click.",
-    color: "from-cyan-500 to-sky-600",
-  },
-  {
-    slug: "hash-generator",
-    icon: "H",
-    name: "Hash Generator",
-    description:
-      "MD5, SHA-1, SHA-256, SHA-512. Paste text, get every hash at once.",
-    color: "from-slate-500 to-zinc-600",
-  },
-  {
-    slug: "timestamp",
-    icon: "⏱",
-    name: "Unix Timestamp",
-    description:
-      "Convert timestamps to dates and dates to timestamps. Live clock included.",
-    color: "from-teal-500 to-emerald-600",
-  },
-  {
-    slug: "http-status",
-    icon: "4xx",
-    name: "HTTP Status Codes",
-    description:
-      "Every HTTP status code with its meaning. Searchable. Grouped by category.",
-    color: "from-red-500 to-rose-600",
-  },
-  {
-    slug: "regex-tester",
-    icon: ".*",
-    name: "Regex Tester",
-    description:
-      "Write a regex, paste test text, see matches highlighted live. Shows capture groups.",
-    color: "from-fuchsia-500 to-purple-600",
-  },
-  {
-    slug: "curl-parser",
-    icon: ">>",
-    name: "cURL Parser",
-    description:
-      "Paste a cURL command. See method, URL, headers, and body broken out.",
-    color: "from-orange-500 to-red-600",
-  },
-  {
-    slug: "mock-data",
-    icon: "fn",
-    name: "Mock Data Generator",
-    description:
-      "Generate fake names, emails, addresses, phone numbers. Export as JSON.",
-    color: "from-lime-500 to-green-600",
-  },
-  {
-    slug: "password-generator",
-    icon: "***",
-    name: "Password Generator",
-    description:
-      "Secure passwords, API keys, random secrets. Set length and character rules.",
-    color: "from-yellow-500 to-amber-600",
-  },
-  {
-    slug: "qr-code",
-    icon: "QR",
-    name: "QR Code Generator",
-    description:
-      "Paste a URL or text, get a QR code. Download as PNG.",
-    color: "from-sky-500 to-blue-600",
-  },
-  {
-    slug: "text-diff",
-    icon: "±",
-    name: "Text Diff Checker",
-    description:
-      "Paste two texts, see exactly what changed. Additions, deletions, line by line.",
-    color: "from-pink-500 to-rose-600",
-  },
-  {
-    slug: "json-yaml-csv",
-    icon: "⇄",
-    name: "JSON ↔ YAML / CSV",
-    description:
-      "Convert between JSON, YAML, and CSV. Handles nested data and arrays.",
-    color: "from-indigo-500 to-blue-600",
+    title: "Reference and testing",
+    tools: [
+      {
+        slug: "http-status",
+        name: "HTTP status codes",
+        description: "Every status code with its meaning, grouped by class.",
+      },
+      {
+        slug: "regex-tester",
+        name: "Regex tester",
+        description: "Test a pattern against text and see matches and capture groups.",
+      },
+      {
+        slug: "timestamp",
+        name: "Unix timestamp",
+        description: "Convert between Unix timestamps and dates.",
+      },
+    ],
   },
 ];
 
+const toolCount = groups.reduce((n, g) => n + g.tools.length, 0);
+
 export default function ToolsPage() {
   return (
-    <div className="max-w-5xl mx-auto px-5 py-14 sm:py-20">
-      <FadeIn>
-        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[var(--text)] mb-2">
-          Developer Tools
-        </h1>
-        <p className="text-[var(--text-muted)] mb-2 max-w-lg">
-          {tools.length} free utilities. Everything runs in your browser — no
-          data leaves your machine.
-        </p>
-        <p className="text-xs text-[var(--text-muted)] mb-10 font-mono">
-          No signup. No tracking. No backend.
-        </p>
-      </FadeIn>
+    <div className="max-w-5xl mx-auto px-5 py-16 sm:py-20">
+      <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-[var(--text)]">
+        Developer tools
+      </h1>
+      <p className="mt-3 max-w-xl text-[var(--text-muted)] leading-relaxed">
+        {toolCount} small utilities for everyday API work. They run in your
+        browser, so nothing you paste is sent to a server.
+      </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {tools.map((tool, i) => (
-          <FadeIn key={tool.slug} delay={0.04 + i * 0.06}>
-            <Link
-              href={`/tools/${tool.slug}`}
-              className="group block rounded-xl border border-[var(--border)] p-5 hover-lift hover:border-[var(--accent)]/40 hover:shadow-lg hover:shadow-[var(--ring)] transition-all h-full"
-            >
-              <div
-                className={`w-10 h-10 rounded-lg bg-gradient-to-br ${tool.color} flex items-center justify-center text-white text-sm font-bold font-mono mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}
-              >
-                {tool.icon}
-              </div>
-              <h2 className="font-semibold text-[var(--text)] mb-1.5 group-hover:text-[var(--accent)] transition-colors duration-200">
-                {tool.name}
-              </h2>
-              <p className="text-xs text-[var(--text-muted)] leading-relaxed">
-                {tool.description}
-              </p>
-            </Link>
-          </FadeIn>
+      <div className="mt-12 space-y-12">
+        {groups.map((group) => (
+          <section key={group.title}>
+            <h2 className="text-sm font-medium text-[var(--text)] mb-3">
+              {group.title}
+            </h2>
+            <ul className="grid sm:grid-cols-2 border-t border-[var(--border)]">
+              {group.tools.map((tool) => (
+                <li key={tool.slug} className="border-b border-[var(--border)]">
+                  <Link
+                    href={`/tools/${tool.slug}`}
+                    className="group flex items-start justify-between gap-4 py-4 sm:pr-8"
+                  >
+                    <div>
+                      <span className="text-sm font-medium text-[var(--text)] group-hover:underline underline-offset-4">
+                        {tool.name}
+                      </span>
+                      <p className="mt-1 text-[13px] leading-snug text-[var(--text-muted)]">
+                        {tool.description}
+                      </p>
+                    </div>
+                    <Icon
+                      name="arrowRight"
+                      size={14}
+                      className="mt-1 shrink-0 text-[var(--text-muted)] opacity-0 group-hover:opacity-100 transition-opacity"
+                    />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
         ))}
       </div>
     </div>

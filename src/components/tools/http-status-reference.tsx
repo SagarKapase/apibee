@@ -139,7 +139,7 @@ export function HttpStatusReference() {
 
   return (
     <ToolShell
-      title="HTTP Status Codes"
+      title="HTTP status codes"
       description="Every standard HTTP status code. Search by number or description."
     >
       {/* Search */}
@@ -162,7 +162,7 @@ export function HttpStatusReference() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by code, name, or description..."
-            className="w-full bg-[var(--code-bg)] pl-10 pr-4 py-3 text-sm font-mono text-[var(--code-fg)] rounded-xl outline-none border border-[var(--border)] placeholder-[#525252] focus:outline-none focus:ring-0 focus-visible:outline-none"
+            className="w-full bg-[var(--code-bg)] pl-10 pr-4 py-3 text-sm font-mono text-[var(--code-fg)] rounded-lg outline-none border border-[var(--border)] placeholder-[#525252] focus:outline-none focus:ring-0 focus-visible:outline-none"
             spellCheck={false}
           />
           {search && (
@@ -177,10 +177,10 @@ export function HttpStatusReference() {
       <div className="space-y-6">
         {filtered.map((group) => (
           <div key={group.label}>
-            <div className={`text-xs font-bold uppercase tracking-[0.12em] mb-2 ${group.color}`}>
+            <div className={`text-xs font-medium mb-2 ${group.color}`}>
               {group.label}
             </div>
-            <div className="rounded-xl border border-[var(--border)] overflow-hidden">
+            <div className="rounded-lg border border-[var(--border)] overflow-hidden">
               {group.codes.map((c, i) => (
                 <div
                   key={c.code}

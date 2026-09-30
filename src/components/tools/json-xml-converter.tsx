@@ -181,8 +181,8 @@ export function JsonXmlConverter() {
 
   return (
     <ToolShell
-      title="JSON ↔ XML Converter"
-      description="Convert between JSON and XML. Handles nested objects, arrays, and escaping."
+      title="JSON and XML converter"
+      description="Convert between JSON and XML, including nested objects, arrays and escaping."
     >
       {/* Direction toggle */}
       <div className="flex gap-1 mb-6 p-1 rounded-lg bg-[var(--surface)] border border-[var(--border)] w-fit">
@@ -190,7 +190,7 @@ export function JsonXmlConverter() {
           onClick={() => switchDirection("json-to-xml")}
           className={`px-4 py-1.5 text-xs font-semibold rounded-md cursor-pointer transition-all duration-200 ${
             direction === "json-to-xml"
-              ? "bg-[var(--accent)] text-white shadow-sm"
+              ? "bg-[var(--btn-bg)] text-[var(--btn-fg)] shadow-sm"
               : "text-[var(--text-muted)] hover:text-[var(--text)]"
           }`}
         >
@@ -200,7 +200,7 @@ export function JsonXmlConverter() {
           onClick={() => switchDirection("xml-to-json")}
           className={`px-4 py-1.5 text-xs font-semibold rounded-md cursor-pointer transition-all duration-200 ${
             direction === "xml-to-json"
-              ? "bg-[var(--accent)] text-white shadow-sm"
+              ? "bg-[var(--btn-bg)] text-[var(--btn-fg)] shadow-sm"
               : "text-[var(--text-muted)] hover:text-[var(--text)]"
           }`}
         >
@@ -250,7 +250,7 @@ export function JsonXmlConverter() {
             output ? (
               <CopyButton
                 text={output}
-                className="text-[#525252] hover:text-[var(--accent)] text-xs"
+                className="text-[#78716c] hover:text-[#e7e5e4] text-xs"
               />
             ) : undefined
           }

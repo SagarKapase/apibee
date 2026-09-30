@@ -124,8 +124,8 @@ export function TimestampConverter() {
 
   return (
     <ToolShell
-      title="Unix Timestamp Converter"
-      description="Convert between Unix timestamps and human-readable dates. Live clock shows current time."
+      title="Unix timestamp"
+      description="Convert between Unix timestamps and readable dates."
     >
       {/* Live Clock */}
       <ToolPanel label="Current Time" dark>
@@ -141,7 +141,7 @@ export function TimestampConverter() {
           <CopyButton
             text={String(now)}
             label="Copy"
-            className="text-xs text-[#525252] hover:text-[var(--accent)] border border-white/10 rounded-md px-3 py-1.5 transition-colors"
+            className="text-xs text-[#78716c] hover:text-[#e7e5e4] border border-white/10 rounded-md px-3 py-1.5 transition-colors"
           />
         </div>
       </ToolPanel>
@@ -226,7 +226,7 @@ export function TimestampConverter() {
           <div className="p-4 space-y-4">
             <div className="grid grid-cols-3 gap-2">
               <div>
-                <label className="text-[9px] font-bold uppercase tracking-[0.12em] text-[var(--text-muted)] mb-1 block">
+                <label className="text-xs font-medium text-[var(--text-muted)] mb-1 block">
                   Year
                 </label>
                 <input
@@ -239,7 +239,7 @@ export function TimestampConverter() {
                 />
               </div>
               <div>
-                <label className="text-[9px] font-bold uppercase tracking-[0.12em] text-[var(--text-muted)] mb-1 block">
+                <label className="text-xs font-medium text-[var(--text-muted)] mb-1 block">
                   Month
                 </label>
                 <input
@@ -252,7 +252,7 @@ export function TimestampConverter() {
                 />
               </div>
               <div>
-                <label className="text-[9px] font-bold uppercase tracking-[0.12em] text-[var(--text-muted)] mb-1 block">
+                <label className="text-xs font-medium text-[var(--text-muted)] mb-1 block">
                   Day
                 </label>
                 <input
@@ -267,7 +267,7 @@ export function TimestampConverter() {
             </div>
             <div className="grid grid-cols-3 gap-2">
               <div>
-                <label className="text-[9px] font-bold uppercase tracking-[0.12em] text-[var(--text-muted)] mb-1 block">
+                <label className="text-xs font-medium text-[var(--text-muted)] mb-1 block">
                   Hour
                 </label>
                 <input
@@ -280,7 +280,7 @@ export function TimestampConverter() {
                 />
               </div>
               <div>
-                <label className="text-[9px] font-bold uppercase tracking-[0.12em] text-[var(--text-muted)] mb-1 block">
+                <label className="text-xs font-medium text-[var(--text-muted)] mb-1 block">
                   Minute
                 </label>
                 <input
@@ -293,7 +293,7 @@ export function TimestampConverter() {
                 />
               </div>
               <div>
-                <label className="text-[9px] font-bold uppercase tracking-[0.12em] text-[var(--text-muted)] mb-1 block">
+                <label className="text-xs font-medium text-[var(--text-muted)] mb-1 block">
                   Second
                 </label>
                 <input
@@ -325,7 +325,7 @@ function DateRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between gap-2 py-1.5 border-b border-[var(--border)] last:border-b-0">
       <div className="min-w-0">
-        <span className="text-[9px] font-bold uppercase tracking-[0.1em] text-[var(--text-muted)] mr-2">
+        <span className="text-xs font-medium text-[var(--text-muted)] mr-2">
           {label}
         </span>
         <span className="text-xs font-mono text-[var(--text)] break-all">

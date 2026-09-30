@@ -18,14 +18,14 @@ const groups: SidebarGroup[] = [
     title: "Overview",
     items: [
       { id: "introduction", label: "Introduction" },
-      { id: "quick-start", label: "Quick Start" },
+      { id: "quick-start", label: "Quick start" },
     ],
   },
   {
     title: "Guides",
     items: [
       { id: "authentication", label: "Authentication" },
-      { id: "error-handling", label: "Error Handling" },
+      { id: "error-handling", label: "Error handling" },
     ],
   },
   {
@@ -100,7 +100,7 @@ export function DocsSidebar() {
     <>
       <button
         onClick={() => setOpen(!open)}
-        className="lg:hidden fixed bottom-4 right-4 z-50 bg-[var(--accent)] text-white rounded-full w-11 h-11 flex items-center justify-center shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 transition-all cursor-pointer active:scale-95"
+        className="lg:hidden fixed bottom-4 right-4 z-50 bg-[var(--btn-bg)] text-[var(--btn-fg)] rounded-full w-11 h-11 flex items-center justify-center shadow-md transition-colors cursor-pointer"
         aria-label="Toggle navigation"
       >
         <svg
@@ -146,7 +146,7 @@ export function DocsSidebar() {
             <input
               ref={inputRef}
               type="text"
-              placeholder="Search..."
+              placeholder="Search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               className="w-full pl-8 pr-14 py-1.5 text-xs rounded-lg
@@ -155,7 +155,7 @@ export function DocsSidebar() {
                 focus:outline-none focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]
                 transition-colors duration-150"
             />
-            <kbd className="absolute right-2 top-1/2 -translate-y-1/2 hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[9px] font-mono text-[var(--text-muted)] bg-[var(--surface)] border border-[var(--border)] rounded">
+            <kbd className="absolute right-2 top-1/2 -translate-y-1/2 hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[11px] font-mono text-[var(--text-muted)] bg-[var(--surface)] border border-[var(--border)] rounded">
               Ctrl K
             </kbd>
           </div>
@@ -164,7 +164,7 @@ export function DocsSidebar() {
         <nav ref={navRef} className="flex-1 overflow-y-auto py-4 px-3">
           {filtered.map((group, gi) => (
             <div key={group.title} className={gi > 0 ? "mt-5" : ""}>
-              <h3 className="text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--text-muted)] mb-2 px-2.5">
+              <h3 className="text-xs font-medium text-[var(--text-muted)] mb-2 px-2.5">
                 {group.title}
               </h3>
               <ul className="space-y-0.5">
@@ -178,7 +178,7 @@ export function DocsSidebar() {
                         border-l-2 ml-px
                         ${
                           active === item.id
-                            ? "border-[var(--accent)] text-[var(--accent)] font-semibold bg-[var(--accent-soft)]"
+                            ? "border-[var(--accent)] text-[var(--text)] font-medium bg-[var(--accent-soft)]"
                             : "border-transparent text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--accent-soft)]"
                         }
                       `}
@@ -201,7 +201,7 @@ export function DocsSidebar() {
 
       {open && (
         <div
-          className="fixed inset-0 z-30 bg-black/30 backdrop-blur-[2px] lg:hidden"
+          className="fixed inset-0 z-30 bg-black/30 lg:hidden"
           onClick={() => setOpen(false)}
         />
       )}

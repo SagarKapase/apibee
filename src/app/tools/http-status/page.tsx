@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { HttpStatusReference } from "@/components/tools/http-status-reference";
 
 export const metadata: Metadata = {
-  title: "HTTP Status Codes — APIBee Tools",
+  title: "HTTP Status Codes",
   description: "Complete reference of HTTP status codes with descriptions and categories. Searchable. Client-side only.",
 };
 

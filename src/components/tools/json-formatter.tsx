@@ -97,8 +97,8 @@ export function JsonFormatter() {
 
   return (
     <ToolShell
-      title="JSON Formatter & Validator"
-      description="Paste messy JSON, get it formatted and validated. Errors show position info."
+      title="JSON formatter"
+      description="Format and validate JSON. Syntax errors show where the problem is."
     >
       <div className="grid lg:grid-cols-2 gap-4">
         {/* Input */}
@@ -143,7 +143,7 @@ export function JsonFormatter() {
                   className={`text-[10px] font-mono font-bold px-1.5 py-0.5 rounded cursor-pointer transition-colors duration-150 ${
                     indent === n
                       ? "bg-[var(--accent)]/20 text-[var(--accent)]"
-                      : "text-[#525252] hover:text-[#a8a29e]"
+                      : "text-[#78716c] hover:text-[#e7e5e4]"
                   }`}
                 >
                   {n}sp
@@ -154,7 +154,7 @@ export function JsonFormatter() {
                 className={`text-[10px] font-mono font-bold px-1.5 py-0.5 rounded cursor-pointer transition-colors duration-150 ${
                   indent === 0
                     ? "bg-[var(--accent)]/20 text-[var(--accent)]"
-                    : "text-[#525252] hover:text-[#a8a29e]"
+                    : "text-[#78716c] hover:text-[#e7e5e4]"
                 }`}
               >
                 Min
@@ -162,7 +162,7 @@ export function JsonFormatter() {
               {output && (
                 <CopyButton
                   text={output}
-                  className="text-[#525252] hover:text-[var(--accent)] text-xs"
+                  className="text-[#78716c] hover:text-[#e7e5e4] text-xs"
                 />
               )}
             </div>

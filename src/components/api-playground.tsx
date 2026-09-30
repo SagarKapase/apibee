@@ -10,7 +10,6 @@ import { Highlighted } from "@/lib/syntax";
 export function APIPlayground() {
   const [resourceIdx, setResourceIdx] = useState(0);
   const [endpointIdx, setEndpointIdx] = useState(0);
-  const [contentKey, setContentKey] = useState(0);
 
   const resource = resources[resourceIdx];
   const endpoint = resource.endpoints[endpointIdx];
@@ -20,49 +19,35 @@ export function APIPlayground() {
   function selectResource(idx: number) {
     setResourceIdx(idx);
     setEndpointIdx(0);
-    setContentKey((k) => k + 1);
   }
 
   function selectEndpoint(idx: number) {
     setEndpointIdx(idx);
-    setContentKey((k) => k + 1);
   }
 
   return (
-    <div className="rounded-xl border border-[var(--border)] overflow-hidden terminal-glow">
+    <div className="rounded-lg border border-[var(--border)] overflow-hidden terminal-glow">
       {/* Resource tabs */}
-      <div className="flex border-b border-[var(--border)] bg-[var(--surface)]">
+      <div
+        role="tablist"
+        aria-label="Resource"
+        className="flex overflow-x-auto border-b border-[var(--border)] bg-[var(--surface)]"
+      >
         {resources.map((r, i) => (
           <button
             key={r.id}
+            role="tab"
+            aria-selected={resourceIdx === i}
             onClick={() => selectResource(i)}
-            className={`relative flex-1 flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium cursor-pointer
-              transition-all duration-250
-              active:scale-[0.97]
-              ${
-                resourceIdx === i
-                  ? "text-[var(--accent)] bg-[var(--accent-soft)]"
-                  : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--accent-soft)]"
-              }
-            `}
+            className={`relative shrink-0 px-4 py-3 text-[13px] whitespace-nowrap cursor-pointer transition-colors ${
+              resourceIdx === i
+                ? "text-[var(--text)] font-medium"
+                : "text-[var(--text-muted)] hover:text-[var(--text)]"
+            }`}
           >
-            <span
-              className={`hidden sm:inline transition-transform duration-300 ${
-                resourceIdx === i ? "scale-110" : ""
-              }`}
-            >
-              {r.icon}
-            </span>
-            <span className="truncate">{r.title}</span>
-            {/* Animated underline */}
+            {r.title}
             {resourceIdx === i && (
-              <span
-                className="absolute bottom-0 left-3 right-3 h-[2px] rounded-t bg-[var(--accent)]"
-                style={{
-                  animation:
-                    "tabGrow 0.3s cubic-bezier(0.16,1,0.3,1)",
-                }}
-              />
+              <span className="absolute bottom-0 left-4 right-4 h-[2px] bg-[var(--accent)]" />
             )}
           </button>
         ))}
@@ -71,23 +56,17 @@ export function APIPlayground() {
       {/* URL bar */}
       <div className="flex items-center gap-2 px-4 py-3 bg-[var(--code-bg)] border-b border-white/[0.06]">
         <MethodTag method={endpoint.method} />
-        <code
-          key={contentKey}
-          className="flex-1 text-xs sm:text-sm font-mono text-[var(--code-fg)] truncate select-all"
-          style={{
-            animation: "fadeSlide 0.25s cubic-bezier(0.16,1,0.3,1)",
-          }}
-        >
+        <code className="flex-1 text-xs sm:text-sm font-mono text-[var(--code-fg)] truncate select-all">
           {fullUrl}
         </code>
         <CopyButton
           text={fullUrl}
-          className="text-[#525252] hover:text-[var(--accent)] shrink-0"
+          className="text-[#78716c] hover:text-[#e7e5e4] shrink-0"
         />
         <CopyButton
           text={buildCurl(endpoint)}
           label="cURL"
-          className="text-[10px] text-[#525252] hover:text-[var(--accent)] border border-white/10 rounded px-2 py-0.5 shrink-0 transition-all duration-150 active:scale-95 hover:border-white/20"
+          className="text-[10px] text-[#78716c] hover:text-[#e7e5e4] border border-white/10 rounded px-2 py-0.5 shrink-0 transition-all duration-150 hover:border-white/20"
         />
       </div>
 
@@ -95,7 +74,7 @@ export function APIPlayground() {
         {/* Endpoint list (left) */}
         <div className="lg:w-64 shrink-0 border-b lg:border-b-0 lg:border-r border-[var(--border)] bg-[var(--surface)]">
           <div className="px-3 py-2">
-            <span className="text-[9px] font-bold uppercase tracking-[0.12em] text-[var(--text-muted)]">
+            <span className="text-xs font-medium text-[var(--text-muted)]">
               Endpoints
             </span>
           </div>
@@ -106,7 +85,6 @@ export function APIPlayground() {
                 onClick={() => selectEndpoint(i)}
                 className={`flex items-center gap-2 px-3 py-2 text-left whitespace-nowrap cursor-pointer w-full
                   transition-all duration-200
-                  active:scale-[0.97]
                   ${
                     endpointIdx === i
                       ? "bg-[var(--accent-soft)] text-[var(--text)] border-l-2 border-l-[var(--accent)]"
@@ -124,18 +102,13 @@ export function APIPlayground() {
         </div>
 
         {/* Response area (right) */}
-        <div className="flex-1 min-w-0" key={contentKey}>
+        <div className="flex-1 min-w-0">
           {/* Request body (POST/PUT only) */}
           {endpoint.requestBody && (
-            <div
-              className="border-b border-[var(--border)]"
-              style={{
-                animation: "fadeSlide 0.3s cubic-bezier(0.16,1,0.3,1)",
-              }}
-            >
+            <div className="border-b border-[var(--border)]">
               <div className="flex items-center justify-between px-4 py-2 bg-[var(--surface)]">
-                <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-muted)]">
-                  Request Body
+                <span className="text-xs font-medium text-[var(--text-muted)]">
+                  Request body
                 </span>
                 <CopyButton
                   text={endpoint.requestBody}
@@ -160,14 +133,10 @@ export function APIPlayground() {
           )}
 
           {/* Response */}
-          <div
-            style={{
-              animation: "fadeSlide 0.3s cubic-bezier(0.16,1,0.3,1) 0.05s both",
-            }}
-          >
+          <div>
             <div className="flex items-center justify-between px-4 py-2 bg-[var(--surface)]">
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-muted)]">
+                <span className="text-xs font-medium text-[var(--text-muted)]">
                   Response
                 </span>
                 <span className="text-[10px] font-mono font-bold text-emerald-500">
@@ -193,16 +162,6 @@ export function APIPlayground() {
         </div>
       </div>
 
-      <style>{`
-        @keyframes tabGrow {
-          from { transform: scaleX(0); }
-          to { transform: scaleX(1); }
-        }
-        @keyframes fadeSlide {
-          from { opacity: 0; transform: translateY(6px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
     </div>
   );
 }

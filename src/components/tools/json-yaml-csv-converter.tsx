@@ -320,8 +320,8 @@ export function JsonYamlCsvConverter() {
 
   return (
     <ToolShell
-      title="JSON ↔ YAML / CSV Converter"
-      description="Convert between JSON, YAML, and CSV. No libraries — pure JavaScript."
+      title="JSON, YAML and CSV converter"
+      description="Convert between JSON, YAML and CSV. Runs in your browser."
     >
       {/* Format selectors */}
       <div className="flex items-center gap-3 mb-6 flex-wrap">
@@ -370,13 +370,13 @@ export function JsonYamlCsvConverter() {
         <div className="flex gap-2 ml-auto">
           <button
             onClick={loadExample}
-            className="px-3 py-1.5 text-xs font-medium rounded-lg border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--accent-soft)] transition-all duration-200 cursor-pointer active:scale-95"
+            className="px-3 py-1.5 text-xs font-medium rounded-lg border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--accent-soft)] transition-all duration-200 cursor-pointer"
           >
             Load Example
           </button>
           <button
             onClick={() => setInput("")}
-            className="px-3 py-1.5 text-xs font-medium rounded-lg border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--accent-soft)] transition-all duration-200 cursor-pointer active:scale-95"
+            className="px-3 py-1.5 text-xs font-medium rounded-lg border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--accent-soft)] transition-all duration-200 cursor-pointer"
           >
             Clear
           </button>
@@ -402,7 +402,7 @@ export function JsonYamlCsvConverter() {
             output ? (
               <CopyButton
                 text={output}
-                className="text-[#525252] hover:text-[var(--accent)] text-xs"
+                className="text-[#78716c] hover:text-[#e7e5e4] text-xs"
               />
             ) : undefined
           }
