@@ -10,7 +10,9 @@ sections in bold caps, code in shaded Consolas paragraphs.
 
 import json
 import re
+import shlex
 import sys
+from urllib.parse import parse_qsl
 from pathlib import Path
 
 import docx
@@ -97,7 +99,7 @@ def is_code(p):
 def table_rows(tbl):
     rows = []
     for r in tbl.rows:
-        rows.append([clean(c.text) for c in r.cells])
+        rows.append([normalize_host(clean(c.text)) for c in r.cells])
     return rows
 
 
@@ -139,7 +141,7 @@ def code_text(blocks):
 
 
 def prose(blocks):
-    return [c for kind, _, c, code in blocks if kind == "p" and not code and c.strip()]
+    return [normalize_host(c) for kind, _, c, code in blocks if kind == "p" and not code and c.strip()]
 
 
 def first_table(blocks):
@@ -247,6 +249,120 @@ def parse_example_request(operation_id, blocks, request_body):
         data = "  -d '" + compact.replace("'", "'\\''") + "'"
         curl = re.sub(r"^  (?:-d |--data-urlencode )[^\n]*…[^\n]*$", lambda _: data, curl, flags=re.M)
     return {"method": method, "path": path, "curl": curl}
+
+
+def parse_curl(curl):
+    """Turn an example curl command into the fields a request form needs."""
+    try:
+        args = shlex.split(curl.replace("\\\n", " "))
+    except ValueError:
+        return None
+    req = {"headers": [], "body": None, "bodyType": None, "form": [], "digest": False}
+    i = 1
+    url = ""
+    while i < len(args):
+        a = args[i]
+        nxt = args[i + 1] if i + 1 < len(args) else ""
+        if a == "-X":
+            i += 2
+            continue
+        if a == "-H":
+            name, _, value = nxt.partition(":")
+            req["headers"].append([name.strip(), value.strip()])
+            i += 2
+            continue
+        if a in ("-d", "--data", "--data-raw"):
+            req["body"] = nxt
+            i += 2
+            continue
+        if a == "--data-urlencode":
+            k, _, v = nxt.partition("=")
+            req["form"].append([k, v, False])
+            req["bodyType"] = "form"
+            i += 2
+            continue
+        if a == "--data-binary":
+            req["bodyType"] = "binary"
+            i += 2
+            continue
+        if a == "-F":
+            k, _, v = nxt.partition("=")
+            is_file = v.startswith("@")
+            req["form"].append([k, v[1:] if is_file else v, is_file])
+            req["bodyType"] = "multipart"
+            i += 2
+            continue
+        if a == "--digest":
+            req["digest"] = True
+            i += 1
+            continue
+        if a == "-u":
+            req["basic"] = nxt
+            i += 2
+            continue
+        if not a.startswith("-"):
+            url = a
+        i += 1
+    if req["body"] is not None and req["bodyType"] is None:
+        content_type = next((v for k, v in req["headers"] if k.lower() == "content-type"), "")
+        if "x-www-form-urlencoded" in content_type:
+            req["bodyType"] = "form"
+            req["form"] = [[k, v, False] for k, v in parse_qsl(req["body"], keep_blank_values=True)]
+            req["body"] = None
+        else:
+            req["bodyType"] = "raw"
+    path, _, query = url.replace("{{baseUrl}}", "").partition("?")
+    req["query"] = [[k, v] for k, v in parse_qsl(query, keep_blank_values=True)]
+    req["examplePath"] = path
+    return req
+
+
+def path_params(template, example_path):
+    """Values of {name} segments in the template, read from the example path."""
+    names = re.findall(r"\{(\w+)\}", template)
+    if not names:
+        return {}
+    for catch_all in (False, True):
+        pattern = re.escape(template)
+        for n, name in enumerate(names):
+            last = n == len(names) - 1
+            group = "(.+)" if catch_all and last else "([^/]+)"
+            pattern = pattern.replace(re.escape("{" + name + "}"), group, 1)
+        m = re.fullmatch(pattern, example_path, flags=re.I)
+        if m:
+            return dict(zip(names, m.groups()))
+    return {name: "" for name in names}
+
+
+# The document gives these resource groups generic "record" summaries.
+RECORD_NOUNS = {
+    "books": ("book", "books"),
+    "employees": ("employee", "employees"),
+    "companies": ("company", "companies"),
+    "people": ("person", "people"),
+    "movies": ("movie", "movies"),
+    "countries": ("country", "countries"),
+    "events": ("event", "events"),
+    "albums": ("album", "albums"),
+    "photos": ("photo", "photos"),
+}
+
+
+def name_records(summary, group_id):
+    """'Get a record by ID' -> 'Get a book by ID' for the generic resource groups."""
+    if group_id not in RECORD_NOUNS:
+        return summary
+    one, many = RECORD_NOUNS[group_id]
+    article = "an" if one[0] in "aeiou" else "a"
+    summary = re.sub(r"\ba record\b", f"{article} {one}", summary)
+    summary = re.sub(r"\brecords\b", many, summary)
+    return re.sub(r"\brecord\b", one, summary)
+
+
+def short_title(summary):
+    """Sidebar label: the summary's first clause, without the full stop."""
+    title = re.split(r"\s\(|: |\. |; ", summary, maxsplit=1)[0]
+    return title.rstrip(".").replace("`", "")
 
 
 HEADER_LINE = re.compile(r"^[A-Za-z][A-Za-z0-9-]*: ")
@@ -415,11 +531,23 @@ def main(path):
     seen = {}
     for c in categories:
         for g in c["groups"]:
+            in_group = {}
             for e in g["endpoints"]:
                 base = slug(e["id"] or (e["methods"][0] + e["path"]))
                 n = seen.get(base, 0) + 1
                 seen[base] = n
                 e["anchor"] = base if n == 1 else f"{base}-{n}"
+                # URL slug within the group: "Books_GetById" -> "get-by-id".
+                action = slug(e["id"].split("_", 1)[-1]) if e["id"] else base
+                k = in_group.get(action, 0) + 1
+                in_group[action] = k
+                e["slug"] = action if k == 1 else f"{action}-{k}"
+                e["summary"] = name_records(e["summary"], g["id"])
+                e["title"] = short_title(e["summary"])
+                request = parse_curl(e["exampleRequest"]["curl"])
+                if request:
+                    request["pathParams"] = path_params(e["path"], request.pop("examplePath"))
+                    e["request"] = request
 
     catalog = {"categories": categories, "graphql": graphql, "models": models}
     OUT.write_text(json.dumps(catalog, ensure_ascii=False, indent=1), encoding="utf-8")

@@ -12,6 +12,7 @@ import {
   categories,
   codeExamples,
   endpointCount,
+  endpointHref,
   findGroup,
   groups,
   sampleResponse,
@@ -32,6 +33,7 @@ const playground: PlaygroundGroup[] = PLAYGROUND_GROUPS.flatMap((id) => {
         const lines = withHost(e.exampleResponse.body).split("\n");
         return {
           key: e.anchor,
+          href: endpointHref(id, e.slug),
           method: e.exampleRequest.method,
           path: e.exampleRequest.path,
           summary: e.summary,

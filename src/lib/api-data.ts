@@ -50,6 +50,24 @@ export function findGroup(id: string) {
   };
 }
 
+export const endpoints = groups.flatMap((group) =>
+  group.endpoints.map((endpoint) => ({ group, endpoint }))
+);
+
+export const endpointHref = (groupId: string, slug: string) => `/docs/${groupId}/${slug}`;
+
+export function findEndpoint(groupId: string, slug: string) {
+  const index = endpoints.findIndex(
+    (e) => e.group.id === groupId && e.endpoint.slug === slug
+  );
+  if (index === -1) return null;
+  return {
+    ...endpoints[index],
+    previous: endpoints[index - 1] ?? null,
+    next: endpoints[index + 1] ?? null,
+  };
+}
+
 export const codeExamples: Record<string, string> = {
   JavaScript: `fetch('${BASE_URL}/api/Products?limit=5')
   .then(res => res.json())

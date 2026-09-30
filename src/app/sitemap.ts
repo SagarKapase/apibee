@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
-import { groups } from "@/lib/api-data";
+import { endpointHref, endpoints, groups } from "@/lib/api-data";
+import { lessons } from "@/lib/learn";
 
 const BASE = "https://snap-test.in";
 
@@ -33,6 +34,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "weekly" as const,
       priority: 0.8,
+    })),
+    { url: `${BASE}/learn`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    ...lessons.map((l) => ({
+      url: `${BASE}/learn/${l.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+    ...endpoints.map((e) => ({
+      url: `${BASE}${endpointHref(e.group.id, e.endpoint.slug)}`,
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: 0.6,
     })),
     { url: `${BASE}/tools`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     ...tools.map((slug) => ({

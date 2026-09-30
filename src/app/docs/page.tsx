@@ -106,7 +106,7 @@ function C({ children }: { children: React.ReactNode }) {
 
 export default function DocsPage() {
   return (
-    <article>
+    <article className="max-w-4xl">
       <h1
         id="introduction"
         className="text-3xl sm:text-4xl font-semibold tracking-tight text-[var(--text)]"

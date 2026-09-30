@@ -36,9 +36,25 @@ export interface ApiResponse {
   description: string;
 }
 
+/** The example request, split into the fields a request form needs. */
+export interface RequestSpec {
+  headers: [string, string][];
+  body: string | null;
+  bodyType: "raw" | "form" | "multipart" | "binary" | null;
+  /** name, value, isFile */
+  form: [string, string, boolean][];
+  digest: boolean;
+  basic?: string;
+  query: [string, string][];
+  pathParams: Record<string, string>;
+}
+
 export interface Endpoint {
   id: string;
   anchor: string;
+  slug: string;
+  title: string;
+  request: RequestSpec;
   methods: Method[];
   path: string;
   summary: string;
