@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { BASE_URL, bodyLang, type Method } from "@/lib/api-config";
 import { MethodTag } from "./method-tag";
 import { CopyButton } from "./copy-button";
@@ -8,6 +9,7 @@ import { Highlighted } from "@/lib/syntax";
 
 export interface PlaygroundEndpoint {
   key: string;
+  href: string;
   method: Method;
   path: string;
   summary: string;
@@ -114,9 +116,15 @@ export function APIPlayground({ groups }: { groups: PlaygroundGroup[] }) {
 
         {/* Request and response */}
         <div className="flex-1 min-w-0">
-          <p className="px-4 py-2.5 text-[13px] text-[var(--text-muted)] border-b border-[var(--border)] bg-[var(--surface)]">
-            {endpoint.summary}
-          </p>
+          <div className="flex items-center justify-between gap-3 px-4 py-2.5 text-[13px] border-b border-[var(--border)] bg-[var(--surface)]">
+            <p className="text-[var(--text-muted)]">{endpoint.summary}</p>
+            <Link
+              href={endpoint.href}
+              className="shrink-0 link-underline text-[var(--text)]"
+            >
+              Open in docs
+            </Link>
+          </div>
           {endpoint.requestBody && (
             <div className="border-b border-[var(--border)]">
               <div className="flex items-center justify-between px-4 py-2 bg-[var(--surface)]">

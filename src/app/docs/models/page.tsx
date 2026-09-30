@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function ModelsPage() {
   return (
-    <article>
+    <article className="max-w-4xl">
       <h1 className="text-3xl font-semibold tracking-tight text-[var(--text)]">
         Data models
       </h1>

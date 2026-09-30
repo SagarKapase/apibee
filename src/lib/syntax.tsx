@@ -113,7 +113,7 @@ function highlightGeneric(
 function highlightXML(code: string): React.ReactNode[] {
   const nodes: React.ReactNode[] = [];
   const re =
-    /(<\/?)([a-zA-Z][\w.-]*)([^>]*?)(\/?>)|([^<]+)/g;
+    /(<\/?)([a-zA-Z][\w.:-]*)([^>]*?)(\/?>)|([^<]+)|(<!--[\s\S]*?-->)|(<[?!][^>]*>)|(<)/g;
   let m: RegExpExecArray | null;
   let i = 0;
 
@@ -144,6 +144,13 @@ function highlightXML(code: string): React.ReactNode[] {
       nodes.push(s(m[4], C.punct, i++));
     } else if (m[5]) {
       nodes.push(s(m[5], C.text, i++));
+    } else if (m[6]) {
+      nodes.push(s(m[6], C.comment, i++));
+    } else if (m[7]) {
+      // <?xml ...?> declarations and <!DOCTYPE ...>
+      nodes.push(s(m[7], C.punct, i++));
+    } else if (m[8]) {
+      nodes.push(s(m[8], C.text, i++));
     }
   }
   return nodes;

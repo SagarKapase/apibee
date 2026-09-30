@@ -39,7 +39,7 @@ export default function GraphQLPage() {
   const mutations = graphql.operations.filter((o) => o.kind === "mutation");
 
   return (
-    <article>
+    <article className="max-w-4xl">
       <h1 className="text-3xl font-semibold tracking-tight text-[var(--text)]">
         GraphQL
       </h1>
