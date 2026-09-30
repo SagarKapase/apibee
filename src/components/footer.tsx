@@ -20,6 +20,12 @@ export function Footer() {
           >
             Tools
           </Link>
+          <Link
+            href="/learn"
+            className="hover:text-[var(--text)] transition-colors"
+          >
+            Learn
+          </Link>
           <a
             href="mailto:contact@snap-test.in"
             className="hover:text-[var(--text)] transition-colors"
