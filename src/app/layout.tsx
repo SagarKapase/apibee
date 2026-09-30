@@ -20,17 +20,17 @@ export const metadata: Metadata = {
     icon: "/favicon.svg",
   },
   title: {
-    default: "APIBee: a fake REST API for prototyping and testing",
-    template: "%s | APIBee",
+    default: "snap-test.in: a fake REST API for prototyping and testing",
+    template: "%s | snap-test.in",
   },
   description:
     "A free fake REST API with realistic JSON and XML data. No API key or account required.",
   openGraph: {
-    title: "APIBee: a fake REST API for prototyping and testing",
+    title: "snap-test.in: a fake REST API for prototyping and testing",
     description:
       "A free fake REST API with realistic JSON and XML data. No API key or account required.",
-    url: "https://apibee.io",
-    siteName: "APIBee",
+    url: "https://snap-test.in",
+    siteName: "snap-test.in",
     type: "website",
   },
 };

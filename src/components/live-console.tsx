@@ -3,8 +3,7 @@
 import { useState, useCallback, useRef } from "react";
 import { CopyButton } from "./copy-button";
 import { Highlighted } from "@/lib/syntax";
-
-const LIVE_URL = "https://api.snap-test.in";
+import { BASE_URL } from "@/lib/api-data";
 
 type Method = "GET" | "POST" | "PUT" | "DELETE";
 
@@ -136,7 +135,7 @@ export function LiveConsole() {
     setError(null);
     setResponse(null);
 
-    const url = `${LIVE_URL}${path}`;
+    const url = `${BASE_URL}${path}`;
     const opts: RequestInit = {
       method,
       signal: controller.signal,
@@ -225,7 +224,7 @@ export function LiveConsole() {
           </span>
         </div>
         <span className="text-[10px] font-mono text-[#525252]">
-          {LIVE_URL}
+          {BASE_URL}
         </span>
       </div>
 

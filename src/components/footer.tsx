@@ -5,7 +5,7 @@ export function Footer() {
     <footer className="border-t border-[var(--border)] mt-auto">
       <div className="max-w-5xl mx-auto px-5 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[var(--text-muted)]">
         <p>
-          &copy; {new Date().getFullYear()} APIBee.io
+          &copy; {new Date().getFullYear()} snap-test.in
         </p>
         <div className="flex items-center gap-4">
           <Link
@@ -21,18 +21,10 @@ export function Footer() {
             Tools
           </Link>
           <a
-            href="https://github.com"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="mailto:contact@snap-test.in"
             className="hover:text-[var(--text)] transition-colors"
           >
-            GitHub
-          </a>
-          <a
-            href="mailto:contact@apibee.io"
-            className="hover:text-[var(--text)] transition-colors"
-          >
-            Contact
+            Support
           </a>
         </div>
       </div>

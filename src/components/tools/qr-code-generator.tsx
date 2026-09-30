@@ -335,7 +335,7 @@ export function QrCodeGenerator() {
             actions={
               <div className="flex gap-2">
                 <button
-                  onClick={() => setInput("https://apibee.io")}
+                  onClick={() => setInput("https://snap-test.in")}
                   className="text-[10px] font-bold text-[var(--accent)] cursor-pointer hover:underline"
                 >
                   Load Example
@@ -353,7 +353,7 @@ export function QrCodeGenerator() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               className="w-full min-h-[120px] bg-[var(--code-bg)] px-4 py-3 text-[13px] font-mono text-[var(--code-fg)] resize-y outline-none leading-[1.6] placeholder-[#525252] focus:outline-none focus:ring-0 focus-visible:outline-none border-none"
-              placeholder="https://apibee.io"
+              placeholder="https://snap-test.in"
               spellCheck={false}
             />
           </ToolPanel>
