@@ -1,6 +1,15 @@
 import React from "react";
 
-type Lang = "json" | "javascript" | "python" | "curl" | "java" | "php" | "xml";
+export type Lang =
+  | "json"
+  | "javascript"
+  | "python"
+  | "curl"
+  | "java"
+  | "php"
+  | "xml"
+  | "graphql"
+  | "text";
 
 const C = {
   keyword: "#8ab4f8",
@@ -161,6 +170,10 @@ const LANG_KEYWORDS: Record<string, { kw: string[]; fn: string[] }> = {
     kw: ["curl"],
     fn: [],
   },
+  graphql: {
+    kw: ["query", "mutation", "fragment", "on", "true", "false", "null"],
+    fn: [],
+  },
   java: {
     kw: [
       "public", "private", "protected", "static", "final", "void", "class",
@@ -193,7 +206,9 @@ export function Highlighted({
   lang: Lang;
 }) {
   let nodes: React.ReactNode[];
-  if (lang === "json") {
+  if (lang === "text") {
+    return <span style={{ color: C.text }}>{code}</span>;
+  } else if (lang === "json") {
     nodes = highlightJSON(code);
   } else if (lang === "xml") {
     nodes = highlightXML(code);

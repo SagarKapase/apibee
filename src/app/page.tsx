@@ -1,42 +1,77 @@
-import { Fragment } from "react";
 import Link from "next/link";
-import { APIPlayground } from "@/components/api-playground";
+import {
+  APIPlayground,
+  type PlaygroundGroup,
+} from "@/components/api-playground";
 import { CodeTabs } from "@/components/code-tabs";
 import { CopyButton } from "@/components/copy-button";
-import { MethodTag } from "@/components/method-tag";
 import { LiveConsole } from "@/components/live-console";
 import { Icon } from "@/components/icon";
+import { BASE_URL, withHost } from "@/lib/api-config";
 import {
-  resources,
+  categories,
   codeExamples,
+  endpointCount,
+  findGroup,
+  groups,
   sampleResponse,
-  BASE_URL,
 } from "@/lib/api-data";
 
-const endpointCount = resources.reduce((n, r) => n + r.endpoints.length, 0);
+// Groups shown in the homepage explorer. Only these are sent to the browser.
+const PLAYGROUND_GROUPS = ["products", "books", "countries", "echo", "status", "utils"];
+const MAX_RESPONSE_LINES = 40;
+
+const playground: PlaygroundGroup[] = PLAYGROUND_GROUPS.flatMap((id) => {
+  const found = findGroup(id);
+  if (!found) return [];
+  return [
+    {
+      id,
+      title: found.group.title,
+      endpoints: found.group.endpoints.map((e) => {
+        const lines = withHost(e.exampleResponse.body).split("\n");
+        return {
+          key: e.anchor,
+          method: e.exampleRequest.method,
+          path: e.exampleRequest.path,
+          summary: e.summary,
+          curl: withHost(e.exampleRequest.curl),
+          requestBody: e.requestBody?.example,
+          status: e.exampleResponse.status,
+          response:
+            lines.length > MAX_RESPONSE_LINES
+              ? [...lines.slice(0, MAX_RESPONSE_LINES), "…"].join("\n")
+              : lines.join("\n"),
+        };
+      }),
+    },
+  ];
+});
 
 const facts = [
   {
-    term: "Formats",
-    detail: "JSON for every resource. Users are also available as XML.",
-  },
-  {
     term: "Authentication",
-    detail: (
-      <>
-        None, except <code>/api/admin/authorize</code>, which takes a Bearer
-        token from <code>/api/user/Login</code>.
-      </>
-    ),
+    detail:
+      "Most endpoints are public. The authentication endpoints accept fixed test credentials for Basic, Bearer, JWT, API key, OAuth 2.0, Digest and HMAC.",
   },
   {
     term: "Writes",
     detail:
-      "POST, PUT and DELETE return realistic responses, but changes are not saved. Data resets.",
+      "Creates, updates and deletes work. Data is kept in memory and returns to the seed data when the server restarts.",
   },
   {
-    term: "Cost",
-    detail: "Free. No API key, no account.",
+    term: "Delays and errors",
+    detail: (
+      <>
+        Add <code>?delay=2</code> to wait before the response, or{" "}
+        <code>?error=503</code> to get a simulated error, on any endpoint.
+      </>
+    ),
+  },
+  {
+    term: "Formats",
+    detail:
+      "JSON by default, with XML, CSV, YAML, HTML, images, PDF, streams, WebSockets, SOAP and GraphQL where relevant.",
   },
 ];
 
@@ -73,12 +108,12 @@ export default function Home() {
       <section className="border-b border-[var(--border)]">
         <div className="max-w-5xl mx-auto px-5 pt-16 sm:pt-24 pb-12">
           <h1 className="max-w-2xl text-3xl sm:text-[2.75rem] sm:leading-[1.1] font-semibold tracking-tight text-[var(--text)]">
-            A fake REST API for prototypes, tests and teaching.
+            A free API for testing HTTP clients.
           </h1>
           <p className="mt-4 max-w-xl text-[var(--text-muted)] leading-relaxed">
-            {resources.length} resources and {endpointCount} endpoints with
-            realistic data. Responses in JSON or XML. No API key or account
-            required.
+            {endpointCount} endpoints with realistic data: products, books and
+            countries, plus status codes, redirects, auth schemes, file formats,
+            streaming and failure injection. No account required.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -98,7 +133,7 @@ export default function Home() {
           </div>
 
           <div className="mt-12">
-            <APIPlayground />
+            <APIPlayground groups={playground} />
           </div>
         </div>
       </section>
@@ -125,12 +160,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Resources */}
+      {/* What's included */}
       <section className="border-b border-[var(--border)]">
         <div className="max-w-5xl mx-auto px-5 py-16">
           <SectionHeader
-            title="Resources"
-            description="Each resource links to related ones by ID, so you can build list, detail and relation views."
+            title="What's included"
+            description={`${groups.length} groups of endpoints in ${categories.length} categories. Each links to its reference.`}
             aside={
               <span className="hidden sm:block text-xs font-mono text-[var(--text-muted)] whitespace-nowrap">
                 {endpointCount} endpoints
@@ -138,30 +173,30 @@ export default function Home() {
             }
           />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border-t border-l border-[var(--border)]">
-            {resources.map((r) => (
-              <Link
-                key={r.id}
-                href={`/docs#${r.id}`}
-                className="group flex gap-3 p-5 border-r border-b border-[var(--border)] hover:bg-[var(--accent-soft)] transition-colors"
-              >
-                <Icon
-                  name={r.icon}
-                  size={18}
-                  className="mt-0.5 shrink-0 text-[var(--text-muted)] group-hover:text-[var(--text)] transition-colors"
-                />
-                <div className="min-w-0">
-                  <h3 className="text-sm font-medium text-[var(--text)]">
-                    {r.title}
-                  </h3>
-                  <p className="mt-1 text-[13px] leading-snug text-[var(--text-muted)]">
-                    {r.description}
-                  </p>
-                  <p className="mt-2 text-xs font-mono text-[var(--text-muted)]">
-                    {r.endpoints.length} endpoints
-                  </p>
-                </div>
-              </Link>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-10">
+            {categories.map((c) => (
+              <div key={c.id}>
+                <h3 className="text-sm font-medium text-[var(--text)] mb-2">
+                  {c.title}
+                </h3>
+                <ul className="border-t border-[var(--border)] text-sm">
+                  {c.groups.map((g) => (
+                    <li key={g.id} className="border-b border-[var(--border)]">
+                      <Link
+                        href={`/docs/${g.id}`}
+                        className="group flex items-baseline justify-between gap-3 py-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors"
+                      >
+                        <span className="text-[var(--text)] group-hover:underline underline-offset-4">
+                          {g.title}
+                        </span>
+                        <span className="text-xs font-mono">
+                          {g.endpoints.length}
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ))}
           </div>
         </div>
@@ -186,66 +221,8 @@ export default function Home() {
               </div>
             ))}
           </dl>
-        </div>
-      </section>
-
-      {/* All endpoints */}
-      <section className="border-b border-[var(--border)]">
-        <div className="max-w-5xl mx-auto px-5 py-16">
-          <SectionHeader title="All endpoints" />
-          <div className="rounded-lg border border-[var(--border)] overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="bg-[var(--surface)] border-b border-[var(--border)]">
-                    <th className="text-left py-2.5 px-4 text-xs font-medium text-[var(--text-muted)] w-24">
-                      Method
-                    </th>
-                    <th className="text-left py-2.5 px-4 text-xs font-medium text-[var(--text-muted)]">
-                      Path
-                    </th>
-                    <th className="text-left py-2.5 px-4 text-xs font-medium text-[var(--text-muted)] hidden md:table-cell">
-                      Description
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {resources.map((resource) => (
-                    <Fragment key={resource.id}>
-                      <tr className="border-b border-[var(--border)] bg-[var(--surface)]">
-                        <th
-                          colSpan={3}
-                          scope="colgroup"
-                          className="px-4 py-2 text-left text-xs font-medium text-[var(--text)]"
-                        >
-                          {resource.title}
-                        </th>
-                      </tr>
-                      {resource.endpoints.map((ep) => (
-                        <tr
-                          key={`${resource.id}-${ep.method}-${ep.path}`}
-                          className="border-b border-[var(--border)] last:border-b-0 hover:bg-[var(--accent-soft)] transition-colors"
-                        >
-                          <td className="py-2.5 px-4">
-                            <MethodTag method={ep.method} />
-                          </td>
-                          <td className="py-2.5 px-4 font-mono text-[12px] text-[var(--text)]">
-                            {ep.path}
-                          </td>
-                          <td className="py-2.5 px-4 text-[var(--text-muted)] text-[13px] hidden md:table-cell">
-                            {ep.description}
-                          </td>
-                        </tr>
-                      ))}
-                    </Fragment>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <p className="mt-4 text-sm text-[var(--text-muted)]">
-            Parameters, request bodies and example responses are in the{" "}
+          <p className="mt-10 text-sm text-[var(--text-muted)]">
+            Credentials, pagination and error formats are covered in the{" "}
             <Link href="/docs" className="link-underline text-[var(--text)]">
               API reference
             </Link>

@@ -20,6 +20,18 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Updating the API reference
+
+The docs pages are built from `src/lib/api-catalog.json`, which is generated
+from the API reference Word document. After the document changes, run:
+
+```bash
+pip install python-docx
+python scripts/generate-api-catalog.py path/to/APIBee-API-Reference.docx
+```
+
+Then commit the updated `api-catalog.json`.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
