@@ -19,13 +19,16 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.svg",
   },
-  title: "APIBee — Fake REST API with real data shapes",
+  title: {
+    default: "APIBee: a fake REST API for prototyping and testing",
+    template: "%s | APIBee",
+  },
   description:
-    "Fake REST API that returns JSON and XML. Hit the URL, get data back. No signup, no API key.",
+    "A free fake REST API with realistic JSON and XML data. No API key or account required.",
   openGraph: {
-    title: "APIBee — Fake REST API with real data shapes",
+    title: "APIBee: a fake REST API for prototyping and testing",
     description:
-      "Fake REST API that returns JSON and XML. No signup, no key.",
+      "A free fake REST API with realistic JSON and XML data. No API key or account required.",
     url: "https://apibee.io",
     siteName: "APIBee",
     type: "website",

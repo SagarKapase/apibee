@@ -49,7 +49,7 @@ export function DocsToc() {
   return (
     <aside className="hidden xl:block fixed top-14 right-0 w-52 h-[calc(100vh-3.5rem)] overflow-y-auto">
       <nav ref={navRef} className="py-8 px-4">
-        <h3 className="text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--text-muted)] mb-3">
+        <h3 className="text-xs font-medium text-[var(--text-muted)] mb-3">
           On this page
         </h3>
         <ul className="space-y-0.5">

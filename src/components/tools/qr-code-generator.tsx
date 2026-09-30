@@ -324,8 +324,8 @@ export function QrCodeGenerator() {
 
   return (
     <ToolShell
-      title="QR Code Generator"
-      description="Paste a URL or text. Get a QR code. Download it as PNG."
+      title="QR code"
+      description="Turn a URL or text into a QR code and download it as PNG."
     >
       <div className="grid lg:grid-cols-2 gap-4">
         {/* Left: Input */}
@@ -359,9 +359,9 @@ export function QrCodeGenerator() {
           </ToolPanel>
 
           {/* Settings */}
-          <div className="rounded-xl border border-[var(--border)] p-4 space-y-4">
+          <div className="rounded-lg border border-[var(--border)] p-4 space-y-4">
             <div>
-              <label className="text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--text-muted)] mb-1 block">
+              <label className="text-xs font-medium text-[var(--text-muted)] mb-1 block">
                 Size: {qrSize}px
               </label>
               <input
@@ -375,7 +375,7 @@ export function QrCodeGenerator() {
             </div>
             <div className="flex gap-4">
               <div>
-                <label className="text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--text-muted)] mb-1 block">
+                <label className="text-xs font-medium text-[var(--text-muted)] mb-1 block">
                   Foreground
                 </label>
                 <input
@@ -386,7 +386,7 @@ export function QrCodeGenerator() {
                 />
               </div>
               <div>
-                <label className="text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--text-muted)] mb-1 block">
+                <label className="text-xs font-medium text-[var(--text-muted)] mb-1 block">
                   Background
                 </label>
                 <input
@@ -413,7 +413,7 @@ export function QrCodeGenerator() {
                 Download PNG
               </button>
               {dataUrl && (
-                <CopyButton text={dataUrl} label="Data URL" className="text-[10px] text-[#525252] hover:text-[var(--accent)]" />
+                <CopyButton text={dataUrl} label="Data URL" className="text-[10px] text-[#78716c] hover:text-[#e7e5e4]" />
               )}
             </div>
           }

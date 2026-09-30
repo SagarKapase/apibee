@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { QrCodeGenerator } from "@/components/tools/qr-code-generator";
 
 export const metadata: Metadata = {
-  title: "QR Code Generator — APIBee Tools",
+  title: "QR Code Generator",
   description: "Paste a URL or text, get a QR code. Download as PNG. Client-side only.",
 };
 

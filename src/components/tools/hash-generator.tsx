@@ -151,8 +151,8 @@ export function HashGenerator() {
 
   return (
     <ToolShell
-      title="Hash Generator"
-      description="Type or paste text. See MD5, SHA-1, SHA-256, and SHA-512 hashes instantly."
+      title="Hash generator"
+      description="MD5, SHA-1, SHA-256 and SHA-512 hashes of any text, updated as you type."
     >
       {/* Input */}
       <ToolPanel
@@ -183,7 +183,7 @@ export function HashGenerator() {
       {/* Hash results */}
       <div className="mt-4 space-y-3">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-bold uppercase tracking-[0.1em] text-[var(--text-muted)]">
+          <span className="text-xs font-medium text-[var(--text-muted)]">
             Hashes
           </span>
           {hashes && (
@@ -204,7 +204,7 @@ export function HashGenerator() {
               hashes ? (
                 <CopyButton
                   text={hashes[algo.key]}
-                  className="text-[#525252] hover:text-[var(--accent)] text-xs"
+                  className="text-[#78716c] hover:text-[#e7e5e4] text-xs"
                 />
               ) : undefined
             }

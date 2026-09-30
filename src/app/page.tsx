@@ -4,9 +4,8 @@ import { APIPlayground } from "@/components/api-playground";
 import { CodeTabs } from "@/components/code-tabs";
 import { CopyButton } from "@/components/copy-button";
 import { MethodTag } from "@/components/method-tag";
-import { Testimonials } from "@/components/testimonials";
-import { FadeIn } from "@/components/fade-in";
 import { LiveConsole } from "@/components/live-console";
+import { Icon } from "@/components/icon";
 import {
   resources,
   codeExamples,
@@ -14,196 +13,244 @@ import {
   BASE_URL,
 } from "@/lib/api-data";
 
+const endpointCount = resources.reduce((n, r) => n + r.endpoints.length, 0);
+
+const facts = [
+  {
+    term: "Formats",
+    detail: "JSON for every resource. Users are also available as XML.",
+  },
+  {
+    term: "Authentication",
+    detail: (
+      <>
+        None, except <code>/api/admin/authorize</code>, which takes a Bearer
+        token from <code>/api/user/Login</code>.
+      </>
+    ),
+  },
+  {
+    term: "Writes",
+    detail:
+      "POST, PUT and DELETE return realistic responses, but changes are not saved. Data resets.",
+  },
+  {
+    term: "Cost",
+    detail: "Free. No API key, no account.",
+  },
+];
+
+function SectionHeader({
+  title,
+  description,
+  aside,
+}: {
+  title: string;
+  description?: string;
+  aside?: React.ReactNode;
+}) {
+  return (
+    <div className="flex items-end justify-between gap-4 mb-6">
+      <div>
+        <h2 className="text-xl font-semibold tracking-tight text-[var(--text)]">
+          {title}
+        </h2>
+        {description && (
+          <p className="mt-1 text-sm text-[var(--text-muted)] max-w-xl">
+            {description}
+          </p>
+        )}
+      </div>
+      {aside}
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <>
-      {/* ── Hero ── */}
+      {/* Hero */}
       <section className="border-b border-[var(--border)]">
-        <div className="max-w-5xl mx-auto px-5 pt-14 sm:pt-20 pb-10">
-          <FadeIn>
-            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-8">
-              <div>
-                <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[var(--text)] mb-2">
-                  API<span className="text-[var(--accent)]">Bee</span>
-                </h1>
-                <p className="text-[var(--text-muted)] max-w-md">
-                  Fake REST API you can actually call. Returns JSON and XML. No
-                  key, no signup, no nonsense.
-                </p>
-              </div>
-              <div className="flex items-center gap-3 shrink-0">
-                <div className="inline-flex items-center gap-2 bg-[var(--code-bg)] rounded-lg px-3.5 py-2 hover:shadow-md hover:shadow-[var(--ring)] transition-shadow duration-300">
-                  <code className="text-xs font-mono text-[var(--code-fg)] select-all">
-                    {BASE_URL}
-                  </code>
-                  <CopyButton
-                    text={BASE_URL}
-                    className="text-[#525252] hover:text-[var(--accent)]"
-                  />
-                </div>
-                <Link
-                  href="/docs"
-                  className="btn-press hidden sm:inline-flex items-center justify-center h-9 px-4 bg-[var(--accent)] text-white text-sm font-medium rounded-lg hover:shadow-lg hover:shadow-[var(--ring)]"
-                >
-                  Docs
-                </Link>
-              </div>
-            </div>
-          </FadeIn>
+        <div className="max-w-5xl mx-auto px-5 pt-16 sm:pt-24 pb-12">
+          <h1 className="max-w-2xl text-3xl sm:text-[2.75rem] sm:leading-[1.1] font-semibold tracking-tight text-[var(--text)]">
+            A fake REST API for prototypes, tests and teaching.
+          </h1>
+          <p className="mt-4 max-w-xl text-[var(--text-muted)] leading-relaxed">
+            {resources.length} resources and {endpointCount} endpoints with
+            realistic data. Responses in JSON or XML. No API key or account
+            required.
+          </p>
 
-          <FadeIn delay={0.1}>
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <Link
+              href="/docs"
+              className="btn-press inline-flex items-center gap-2 h-10 px-4 rounded-md bg-[var(--btn-bg)] text-[var(--btn-fg)] text-sm font-medium hover:bg-[var(--btn-hover)]"
+            >
+              Read the docs
+              <Icon name="arrowRight" size={14} />
+            </Link>
+            <div className="inline-flex items-center gap-3 h-10 pl-4 pr-3 rounded-md border border-[var(--border)] bg-[var(--surface)]">
+              <code className="text-[13px] font-mono text-[var(--text)] select-all">
+                {BASE_URL}
+              </code>
+              <CopyButton text={BASE_URL} label="base URL" hideLabel />
+            </div>
+          </div>
+
+          <div className="mt-12">
             <APIPlayground />
-          </FadeIn>
+          </div>
         </div>
       </section>
 
-      {/* ── How to use it ── */}
+      {/* Usage */}
       <section className="bg-[var(--surface)] border-b border-[var(--border)]">
-        <div className="max-w-5xl mx-auto px-5 py-14">
-          <FadeIn>
-            <h2 className="text-lg font-semibold text-[var(--text)] mb-6">
-              Three lines. That&apos;s it.
-            </h2>
-          </FadeIn>
-          <FadeIn delay={0.08}>
-            <CodeTabs examples={codeExamples} sampleResponse={sampleResponse} />
-          </FadeIn>
+        <div className="max-w-5xl mx-auto px-5 py-16">
+          <SectionHeader
+            title="Call it from any language"
+            description="It is plain HTTPS. Use fetch, requests, curl or any other HTTP client."
+          />
+          <CodeTabs examples={codeExamples} sampleResponse={sampleResponse} />
         </div>
       </section>
 
-      {/* ── Live Console ── */}
+      {/* Live console */}
       <section className="border-b border-[var(--border)]">
-        <div className="max-w-5xl mx-auto px-5 py-14">
-          <FadeIn>
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h2 className="text-lg font-semibold text-[var(--text)] mb-1">
-                  Try it live
-                </h2>
-                <p className="text-sm text-[var(--text-muted)]">
-                  Pick a preset or type your own. Real requests, real responses.
-                </p>
-              </div>
-            </div>
-          </FadeIn>
-          <FadeIn delay={0.08}>
-            <LiveConsole />
-          </FadeIn>
+        <div className="max-w-5xl mx-auto px-5 py-16">
+          <SectionHeader
+            title="Send a live request"
+            description="Choose a preset or edit the request. It goes to the running API. If the server has been idle, the first response can take a few seconds."
+          />
+          <LiveConsole />
         </div>
       </section>
 
-      {/* ── What you get ── */}
+      {/* Resources */}
       <section className="border-b border-[var(--border)]">
-        <div className="max-w-5xl mx-auto px-5 py-14">
-          <FadeIn>
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-semibold text-[var(--text)]">
-                What you get
-              </h2>
-              <span className="text-xs font-mono text-[var(--text-muted)]">
-                {resources.reduce((n, r) => n + r.endpoints.length, 0)}{" "}
-                endpoints
+        <div className="max-w-5xl mx-auto px-5 py-16">
+          <SectionHeader
+            title="Resources"
+            description="Each resource links to related ones by ID, so you can build list, detail and relation views."
+            aside={
+              <span className="hidden sm:block text-xs font-mono text-[var(--text-muted)] whitespace-nowrap">
+                {endpointCount} endpoints
               </span>
-            </div>
-          </FadeIn>
+            }
+          />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-            {resources.map((r, i) => (
-              <FadeIn key={r.id} delay={0.05 + i * 0.08}>
-                <Link
-                  href={`/docs#${r.id}`}
-                  className="group flex gap-4 border border-[var(--border)] rounded-xl p-5 hover-lift hover:border-[var(--accent)]/40 hover:shadow-lg hover:shadow-[var(--ring)] block h-full"
-                >
-                  <span className="text-2xl mt-0.5 shrink-0 transition-transform duration-300 group-hover:scale-110">
-                    {r.icon}
-                  </span>
-                  <div className="min-w-0">
-                    <h3 className="font-semibold text-[var(--text)] text-sm group-hover:text-[var(--accent)] transition-colors duration-200">
-                      {r.title}
-                    </h3>
-                    <p className="text-xs text-[var(--text-muted)] mt-0.5 mb-3">
-                      {r.description}
-                    </p>
-                    <div className="flex flex-wrap gap-1">
-                      {r.endpoints.map((ep) => (
-                        <MethodTag key={`${ep.method}-${ep.path}`} method={ep.method} />
-                      ))}
-                    </div>
-                  </div>
-                </Link>
-              </FadeIn>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border-t border-l border-[var(--border)]">
+            {resources.map((r) => (
+              <Link
+                key={r.id}
+                href={`/docs#${r.id}`}
+                className="group flex gap-3 p-5 border-r border-b border-[var(--border)] hover:bg-[var(--accent-soft)] transition-colors"
+              >
+                <Icon
+                  name={r.icon}
+                  size={18}
+                  className="mt-0.5 shrink-0 text-[var(--text-muted)] group-hover:text-[var(--text)] transition-colors"
+                />
+                <div className="min-w-0">
+                  <h3 className="text-sm font-medium text-[var(--text)]">
+                    {r.title}
+                  </h3>
+                  <p className="mt-1 text-[13px] leading-snug text-[var(--text-muted)]">
+                    {r.description}
+                  </p>
+                  <p className="mt-2 text-xs font-mono text-[var(--text-muted)]">
+                    {r.endpoints.length} endpoints
+                  </p>
+                </div>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Testimonials ── */}
-      <Testimonials />
+      {/* Behaviour */}
+      <section className="bg-[var(--surface)] border-b border-[var(--border)]">
+        <div className="max-w-5xl mx-auto px-5 py-16">
+          <SectionHeader title="How it behaves" />
+          <dl className="grid sm:grid-cols-2 gap-x-12 gap-y-6">
+            {facts.map((f) => (
+              <div
+                key={f.term}
+                className="border-t border-[var(--border)] pt-4"
+              >
+                <dt className="text-sm font-medium text-[var(--text)]">
+                  {f.term}
+                </dt>
+                <dd className="mt-1 text-sm leading-relaxed text-[var(--text-muted)] [&_code]:font-mono [&_code]:text-[12px] [&_code]:text-[var(--text)]">
+                  {f.detail}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
 
-      {/* ── All endpoints ── */}
+      {/* All endpoints */}
       <section className="border-b border-[var(--border)]">
-        <div className="max-w-5xl mx-auto px-5 py-14">
-          <FadeIn>
-            <div className="rounded-xl border border-[var(--border)] overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="bg-[var(--surface)] border-b border-[var(--border)]">
-                      <th className="text-left py-2.5 px-4 text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-muted)] w-20">
-                        Method
-                      </th>
-                      <th className="text-left py-2.5 px-4 text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-muted)]">
-                        Endpoint
-                      </th>
-                      <th className="text-left py-2.5 px-4 text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-muted)] hidden md:table-cell">
-                        Description
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {resources.map((resource) => (
-                      <Fragment key={resource.id}>
-                        <tr>
-                          <td
-                            colSpan={3}
-                            className="px-4 pt-3 pb-1 text-[9px] font-bold uppercase tracking-[0.15em] text-[var(--accent)]"
-                          >
-                            {resource.icon} {resource.title}
+        <div className="max-w-5xl mx-auto px-5 py-16">
+          <SectionHeader title="All endpoints" />
+          <div className="rounded-lg border border-[var(--border)] overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="bg-[var(--surface)] border-b border-[var(--border)]">
+                    <th className="text-left py-2.5 px-4 text-xs font-medium text-[var(--text-muted)] w-24">
+                      Method
+                    </th>
+                    <th className="text-left py-2.5 px-4 text-xs font-medium text-[var(--text-muted)]">
+                      Path
+                    </th>
+                    <th className="text-left py-2.5 px-4 text-xs font-medium text-[var(--text-muted)] hidden md:table-cell">
+                      Description
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {resources.map((resource) => (
+                    <Fragment key={resource.id}>
+                      <tr className="border-b border-[var(--border)] bg-[var(--surface)]">
+                        <th
+                          colSpan={3}
+                          scope="colgroup"
+                          className="px-4 py-2 text-left text-xs font-medium text-[var(--text)]"
+                        >
+                          {resource.title}
+                        </th>
+                      </tr>
+                      {resource.endpoints.map((ep) => (
+                        <tr
+                          key={`${resource.id}-${ep.method}-${ep.path}`}
+                          className="border-b border-[var(--border)] last:border-b-0 hover:bg-[var(--accent-soft)] transition-colors"
+                        >
+                          <td className="py-2.5 px-4">
+                            <MethodTag method={ep.method} />
+                          </td>
+                          <td className="py-2.5 px-4 font-mono text-[12px] text-[var(--text)]">
+                            {ep.path}
+                          </td>
+                          <td className="py-2.5 px-4 text-[var(--text-muted)] text-[13px] hidden md:table-cell">
+                            {ep.description}
                           </td>
                         </tr>
-                        {resource.endpoints.map((ep) => (
-                          <tr
-                            key={`${resource.id}-${ep.method}-${ep.path}`}
-                            className="row-hover border-b border-[var(--border)]/50 hover:bg-[var(--accent-soft)] transition-colors duration-150"
-                          >
-                            <td className="py-2.5 px-4">
-                              <MethodTag method={ep.method} />
-                            </td>
-                            <td className="py-2.5 px-4 font-mono text-[12px] text-[var(--text)]">
-                              {ep.path}
-                            </td>
-                            <td className="py-2.5 px-4 text-[var(--text-muted)] text-xs hidden md:table-cell">
-                              {ep.description}
-                            </td>
-                          </tr>
-                        ))}
-                      </Fragment>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                      ))}
+                    </Fragment>
+                  ))}
+                </tbody>
+              </table>
             </div>
+          </div>
 
-            <p className="mt-4 text-center text-sm text-[var(--text-muted)]">
-              <Link
-                href="/docs"
-                className="link-underline text-[var(--accent)] font-medium"
-              >
-                Full docs
-              </Link>{" "}
-              — every endpoint, every response shape, copy-paste cURL.
-            </p>
-          </FadeIn>
+          <p className="mt-4 text-sm text-[var(--text-muted)]">
+            Parameters, request bodies and example responses are in the{" "}
+            <Link href="/docs" className="link-underline text-[var(--text)]">
+              API reference
+            </Link>
+            .
+          </p>
         </div>
       </section>
     </>

@@ -97,13 +97,6 @@ const methodColors: Record<Method, string> = {
   DELETE: "text-red-400",
 };
 
-const methodBg: Record<Method, string> = {
-  GET: "bg-emerald-400/10",
-  POST: "bg-blue-400/10",
-  PUT: "bg-amber-400/10",
-  DELETE: "bg-red-400/10",
-};
-
 interface ResponseData {
   status: number;
   statusText: string;
@@ -121,7 +114,6 @@ export function LiveConsole() {
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState<ResponseData | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [flash, setFlash] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
 
   const applyPreset = useCallback((p: Preset) => {
@@ -133,8 +125,6 @@ export function LiveConsole() {
     setError(null);
     if (p.body) setTab("body");
     if (p.headers) setTab("headers");
-    setFlash(true);
-    setTimeout(() => setFlash(false), 300);
   }, []);
 
   const send = useCallback(async () => {
@@ -201,7 +191,7 @@ export function LiveConsole() {
       if (controller.signal.aborted) return;
       const msg =
         err instanceof TypeError
-          ? "Network error — the API might be waking up (hosted on free tier). Try again in a few seconds."
+          ? "Network error. The server may be starting up after being idle. Try again in a few seconds."
           : String(err);
       setError(msg);
     } finally {
@@ -226,13 +216,12 @@ export function LiveConsole() {
   const showTabs = method === "POST" || method === "PUT" || headers;
 
   return (
-    <div className="rounded-xl border border-[var(--border)] overflow-hidden terminal-glow">
+    <div className="rounded-lg border border-[var(--border)] overflow-hidden terminal-glow">
       {/* Top bar */}
-      <div className="flex items-center justify-between px-4 py-2.5 bg-[#1a1a22] border-b border-white/[0.06]">
+      <div className="flex items-center justify-between px-4 py-2.5 bg-[#161616] border-b border-white/[0.06]">
         <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-xs font-mono text-[#a8a29e]">
-            Live Console
+          <span className="text-xs font-medium text-[#d6d3d1]">
+            Console
           </span>
         </div>
         <span className="text-[10px] font-mono text-[#525252]">
@@ -241,7 +230,7 @@ export function LiveConsole() {
       </div>
 
       {/* Presets */}
-      <div className="flex gap-1.5 px-4 py-2.5 bg-[#13131a] border-b border-white/[0.06] overflow-x-auto">
+      <div className="flex gap-1.5 px-4 py-2.5 bg-[#111111] border-b border-white/[0.06] overflow-x-auto">
         {presets.map((p) => {
           const active = path === p.path && method === p.method;
           return (
@@ -249,12 +238,11 @@ export function LiveConsole() {
               key={p.label}
               onClick={() => applyPreset(p)}
               className={`shrink-0 px-2.5 py-1 text-[11px] font-medium rounded-md border cursor-pointer
-                transition-all duration-200
-                active:scale-95
+                transition-colors
                 ${
                   active
-                    ? "border-[var(--accent)]/50 bg-[var(--accent)]/15 text-[var(--accent)] shadow-[0_0_8px_-3px_var(--accent)]"
-                    : "border-white/[0.06] text-[#78716c] hover:text-[#d4d4d8] hover:border-white/15 hover:bg-white/[0.04]"
+                    ? "border-white/20 bg-white/[0.08] text-[#fafaf9]"
+                    : "border-white/[0.08] text-[#a8a29e] hover:text-[#e7e5e4] hover:border-white/15"
                 }
               `}
             >
@@ -266,9 +254,7 @@ export function LiveConsole() {
 
       {/* URL bar */}
       <div
-        className={`flex items-center gap-2 px-4 py-2.5 border-b border-white/[0.06] transition-colors duration-300 ${
-          flash ? methodBg[method] : "bg-[var(--code-bg)]"
-        }`}
+        className="flex items-center gap-2 px-4 py-2.5 border-b border-white/[0.06] bg-[var(--code-bg)]"
       >
         <select
           value={method}
@@ -290,13 +276,12 @@ export function LiveConsole() {
         <button
           onClick={send}
           disabled={loading}
-          className={`shrink-0 flex items-center gap-1.5 px-4 py-1.5 rounded-md text-xs font-bold cursor-pointer
-            transition-all duration-200
-            active:scale-95
+          className={`shrink-0 flex items-center gap-1.5 px-4 py-1.5 rounded-md text-xs font-semibold cursor-pointer
+            transition-colors
             ${
               loading
-                ? "bg-[var(--accent)]/50 text-white/50"
-                : "bg-[var(--accent)] text-white hover:shadow-lg hover:shadow-[var(--ring)] hover:-translate-y-px"
+                ? "bg-white/10 text-white/50"
+                : "bg-[#f59e0b] text-[#1c1917] hover:bg-[#fbbf24]"
             }
           `}
         >
@@ -313,22 +298,10 @@ export function LiveConsole() {
               >
                 <path d="M21 12a9 9 0 1 1-6.219-8.56" />
               </svg>
-              Sending...
+              Sending
             </>
           ) : (
-            <>
-              Send
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-              >
-                <path d="m5 12 14-7-4 7 4 7Z" fill="currentColor" />
-              </svg>
-            </>
+            "Send"
           )}
         </button>
       </div>
@@ -339,23 +312,20 @@ export function LiveConsole() {
         data-open={showTabs ? "true" : "false"}
       >
         <div>
-          <div className="flex bg-[#13131a] relative">
+          <div className="flex bg-[#111111] relative">
             {(method === "POST" || method === "PUT") && (
               <button
                 onClick={() => setTab("body")}
                 className={`relative px-4 py-2 text-[11px] font-medium cursor-pointer transition-colors duration-200 ${
                   tab === "body"
-                    ? "text-[var(--accent)]"
-                    : "text-[#525252] hover:text-[#a8a29e]"
+                    ? "text-[#fafaf9]"
+                    : "text-[#78716c] hover:text-[#e7e5e4]"
                 }`}
               >
                 Body
                 {tab === "body" && (
                   <span
-                    className="absolute bottom-0 left-2 right-2 h-[2px] rounded-t bg-[var(--accent)]"
-                    style={{
-                      animation: "tabSlide 0.25s cubic-bezier(0.16,1,0.3,1)",
-                    }}
+                    className="absolute bottom-0 left-2 right-2 h-[2px] bg-[#f59e0b]"
                   />
                 )}
               </button>
@@ -364,26 +334,20 @@ export function LiveConsole() {
               onClick={() => setTab("headers")}
               className={`relative px-4 py-2 text-[11px] font-medium cursor-pointer transition-colors duration-200 ${
                 tab === "headers"
-                  ? "text-[var(--accent)]"
-                  : "text-[#525252] hover:text-[#a8a29e]"
+                  ? "text-[#fafaf9]"
+                  : "text-[#78716c] hover:text-[#e7e5e4]"
               }`}
             >
               Headers
               {tab === "headers" && (
                 <span
-                  className="absolute bottom-0 left-2 right-2 h-[2px] rounded-t bg-[var(--accent)]"
-                  style={{
-                    animation: "tabSlide 0.25s cubic-bezier(0.16,1,0.3,1)",
-                  }}
+                  className="absolute bottom-0 left-2 right-2 h-[2px] bg-[#f59e0b]"
                 />
               )}
             </button>
           </div>
 
-          <div
-            className="transition-opacity duration-200"
-            style={{ opacity: flash ? 0.6 : 1 }}
-          >
+          <div>
             {tab === "body" && (method === "POST" || method === "PUT") && (
               <textarea
                 value={body}
@@ -413,7 +377,7 @@ export function LiveConsole() {
         {!response && !error && !loading && (
           <div className="px-4 py-8 text-center">
             <p className="text-[13px] text-[#525252] font-mono">
-              Hit Send to see the response
+              Press Send to run the request.
             </p>
           </div>
         )}
@@ -421,7 +385,6 @@ export function LiveConsole() {
         {loading && (
           <div
             className="px-4 py-8 text-center"
-            style={{ animation: "fadeIn 0.2s ease" }}
           >
             <div className="inline-flex items-center gap-2 text-[13px] text-[#a8a29e] font-mono">
               <svg
@@ -435,7 +398,7 @@ export function LiveConsole() {
               >
                 <path d="M21 12a9 9 0 1 1-6.219-8.56" />
               </svg>
-              Waiting for response...
+              Waiting for response
             </div>
           </div>
         )}
@@ -443,7 +406,6 @@ export function LiveConsole() {
         {error && (
           <div
             className="px-4 py-4"
-            style={{ animation: "slideUp 0.3s cubic-bezier(0.16,1,0.3,1)" }}
           >
             <div className="rounded-lg bg-red-500/10 border border-red-500/20 px-4 py-3 text-[12px] text-red-400 font-mono leading-relaxed">
               {error}
@@ -453,35 +415,27 @@ export function LiveConsole() {
 
         {response && (
           <div
-            style={{ animation: "slideUp 0.35s cubic-bezier(0.16,1,0.3,1)" }}
           >
             {/* Response header */}
             <div className="flex items-center justify-between px-4 py-2 border-b border-white/[0.06]">
               <div className="flex items-center gap-3">
-                <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#525252]">
+                <span className="text-xs font-medium text-[#525252]">
                   Response
                 </span>
                 <span
                   className={`text-xs font-mono font-bold ${statusColor}`}
-                  style={{
-                    animation: "popIn 0.3s cubic-bezier(0.16,1,0.3,1)",
-                  }}
                 >
                   {response.status} {response.statusText}
                 </span>
                 <span
                   className={`text-xs font-mono ${timeColor}`}
-                  style={{
-                    animation:
-                      "popIn 0.3s cubic-bezier(0.16,1,0.3,1) 0.05s both",
-                  }}
                 >
                   {response.time}ms
                 </span>
               </div>
               <CopyButton
                 text={response.body}
-                className="text-[#525252] hover:text-[var(--accent)] text-xs"
+                className="text-[#78716c] hover:text-[#e7e5e4] text-xs"
               />
             </div>
 
@@ -500,24 +454,6 @@ export function LiveConsole() {
         )}
       </div>
 
-      <style>{`
-        @keyframes tabSlide {
-          from { transform: scaleX(0); opacity: 0; }
-          to { transform: scaleX(1); opacity: 1; }
-        }
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        @keyframes slideUp {
-          from { opacity: 0; transform: translateY(8px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes popIn {
-          from { opacity: 0; transform: scale(0.8); }
-          to { opacity: 1; transform: scale(1); }
-        }
-      `}</style>
     </div>
   );
 }

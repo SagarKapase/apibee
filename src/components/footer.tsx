@@ -14,6 +14,12 @@ export function Footer() {
           >
             Docs
           </Link>
+          <Link
+            href="/tools"
+            className="hover:text-[var(--text)] transition-colors"
+          >
+            Tools
+          </Link>
           <a
             href="https://github.com"
             target="_blank"

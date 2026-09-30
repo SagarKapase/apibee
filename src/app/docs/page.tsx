@@ -3,10 +3,11 @@ import { DocsSidebar } from "@/components/docs-sidebar";
 import { EndpointAccordion } from "@/components/endpoint-accordion";
 import { CopyButton } from "@/components/copy-button";
 import { Highlighted } from "@/lib/syntax";
+import { Icon } from "@/components/icon";
 import { resources, BASE_URL } from "@/lib/api-data";
 
 export const metadata: Metadata = {
-  title: "Docs — APIBee API Reference",
+  title: "API reference",
   description:
     "Full API reference for APIBee. JSON and XML endpoints with request and response examples.",
 };
@@ -32,36 +33,36 @@ export default function DocsPage() {
               <span className="text-[var(--text)]">API Reference</span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3 text-[var(--text)]">
+            <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight mb-3 text-[var(--text)]">
               API Reference
             </h1>
             <p className="text-[var(--text-muted)] mb-8 max-w-lg leading-relaxed">
-              Fake users, fake jobs, real JSON shapes. No key needed. Just
-              hit the URL.
+              Every endpoint, its parameters and an example response. No
+              API key is required.
             </p>
 
             {/* Base URL + Quick start */}
             <div className="grid sm:grid-cols-2 gap-3 mb-6">
-              <div className="rounded-xl border border-[var(--border)] overflow-hidden">
+              <div className="rounded-lg border border-[var(--border)] overflow-hidden">
                 <div className="px-4 py-2 bg-[var(--surface)] border-b border-[var(--border)]">
-                  <span className="text-[9px] font-bold uppercase tracking-[0.12em] text-[var(--text-muted)]">
+                  <span className="text-xs font-medium text-[var(--text-muted)]">
                     Base URL
                   </span>
                 </div>
                 <div className="bg-[var(--code-bg)] px-4 py-3 flex items-center justify-between">
-                  <code className="text-sm font-mono text-[var(--accent)] select-all">
+                  <code className="text-sm font-mono text-[var(--code-fg)] select-all">
                     {BASE_URL}
                   </code>
                   <CopyButton
                     text={BASE_URL}
-                    className="text-[#525252] hover:text-[var(--accent)]"
+                    className="text-[#78716c] hover:text-[#e7e5e4]"
                   />
                 </div>
               </div>
-              <div className="rounded-xl border border-[var(--border)] overflow-hidden">
+              <div className="rounded-lg border border-[var(--border)] overflow-hidden">
                 <div className="px-4 py-2 bg-[var(--surface)] border-b border-[var(--border)] flex items-center justify-between">
-                  <span className="text-[9px] font-bold uppercase tracking-[0.12em] text-[var(--text-muted)]">
-                    Quick Start
+                  <span className="text-xs font-medium text-[var(--text-muted)]">
+                    Quick start
                   </span>
                   <CopyButton
                     text={quickStart}
@@ -80,29 +81,21 @@ export default function DocsPage() {
 
             {/* Info cards */}
             <div className="grid sm:grid-cols-2 gap-3">
-              <div className="rounded-xl border border-[var(--border)] p-4 flex items-start gap-3">
-                <div className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center shrink-0 mt-0.5">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="text-emerald-600 dark:text-emerald-400">
-                    <path d="M20 6 9 17l-5-5" />
-                  </svg>
-                </div>
+              <div className="rounded-lg border border-[var(--border)] p-4 flex items-start gap-3">
+                <Icon name="lock" size={16} className="mt-0.5 shrink-0 text-[var(--text-muted)]" />
                 <div>
-                  <h4 className="text-sm font-semibold text-[var(--text)] mb-0.5">No auth on most routes</h4>
+                  <h4 className="text-sm font-medium text-[var(--text)] mb-0.5">Authentication</h4>
                   <p className="text-xs text-[var(--text-muted)] leading-relaxed">
-                    Everything is open. One exception: <code className="text-[var(--accent)] text-[10px]">/api/admin/authorize</code> wants a Bearer token.
+                    Not required, except on <code className="font-mono text-[var(--text)] text-[11px]">/api/admin/authorize</code>, which takes a Bearer token.
                   </p>
                 </div>
               </div>
-              <div className="rounded-xl border border-[var(--border)] p-4 flex items-start gap-3">
-                <div className="w-5 h-5 rounded-full bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center shrink-0 mt-0.5">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" className="text-amber-600 dark:text-amber-400">
-                    <circle cx="12" cy="12" r="10" />
-                  </svg>
-                </div>
+              <div className="rounded-lg border border-[var(--border)] p-4 flex items-start gap-3">
+                <Icon name="receipt" size={16} className="mt-0.5 shrink-0 text-[var(--text-muted)]" />
                 <div>
-                  <h4 className="text-sm font-semibold text-[var(--text)] mb-0.5">Data resets</h4>
+                  <h4 className="text-sm font-medium text-[var(--text)] mb-0.5">Writes are not saved</h4>
                   <p className="text-xs text-[var(--text-muted)] leading-relaxed">
-                    POST, PUT, DELETE go through fine but nothing sticks. The database resets.
+                    POST, PUT and DELETE return normal responses, but the data resets.
                   </p>
                 </div>
               </div>
@@ -113,18 +106,20 @@ export default function DocsPage() {
           {resources.map((resource) => (
             <section key={resource.id} id={resource.id} className="mb-16">
               <div className="flex items-center gap-3 mb-4 pb-3 border-b border-[var(--border)]">
-                <span className="text-xl" aria-hidden="true">
-                  {resource.icon}
-                </span>
+                <Icon
+                  name={resource.icon}
+                  size={20}
+                  className="shrink-0 text-[var(--text-muted)]"
+                />
                 <div className="flex-1">
-                  <h2 className="text-xl font-bold tracking-tight text-[var(--text)]">
+                  <h2 className="text-xl font-semibold tracking-tight text-[var(--text)]">
                     {resource.title}
                   </h2>
                   <p className="text-xs text-[var(--text-muted)]">
                     {resource.description}
                   </p>
                 </div>
-                <span className="text-[10px] font-mono font-bold text-[var(--text-muted)] uppercase tracking-wider bg-[var(--surface)] border border-[var(--border)] px-2 py-0.5 rounded">
+                <span className="text-xs font-mono text-[var(--text-muted)] whitespace-nowrap">
                   {resource.endpoints.length} endpoints
                 </span>
               </div>
@@ -142,15 +137,15 @@ export default function DocsPage() {
           ))}
 
           {/* Bottom */}
-          <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-6 text-center">
+          <div className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-6 text-center">
             <p className="text-sm text-[var(--text-muted)] mb-2">
-              Something missing? Something broken?
+              Found a problem or need an endpoint that is not listed?
             </p>
             <a
               href="https://github.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--accent)] hover:underline"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--text)] link-underline"
             >
               Open an issue on GitHub
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

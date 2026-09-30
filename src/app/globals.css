@@ -7,36 +7,44 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/* ─── Light tokens (default) ─── */
+/* ─── Light tokens (default) ───
+   Brand is the amber from the logo. It is used sparingly: links,
+   active states, focus. Primary actions use ink, not the brand color. */
 :root {
-  --accent: #7c3aed;
-  --accent-hover: #6d28d9;
-  --accent-soft: #7c3aed18;
+  --accent: #b45309;
+  --accent-hover: #92400e;
+  --accent-soft: #1c19170a;
+  --btn-bg: #1c1917;
+  --btn-fg: #fafaf9;
+  --btn-hover: #292524;
   --bg: #fafaf9;
   --surface: #ffffff;
   --text: #1c1917;
-  --text-muted: #78716c;
+  --text-muted: #6b6560;
   --border: #e7e5e4;
-  --code-bg: #0f0f14;
-  --code-fg: #d4d4d8;
-  --code-accent: #c4b5fd;
-  --ring: #7c3aed44;
+  --code-bg: #0c0c0c;
+  --code-fg: #d6d3d1;
+  --code-accent: #fbbf24;
+  --ring: transparent;
 }
 
 /* ─── Dark tokens ─── */
 .dark {
-  --accent: #a78bfa;
-  --accent-hover: #c4b5fd;
-  --accent-soft: #a78bfa14;
+  --accent: #f59e0b;
+  --accent-hover: #fbbf24;
+  --accent-soft: #fafaf90d;
+  --btn-bg: #fafaf9;
+  --btn-fg: #0c0a09;
+  --btn-hover: #e7e5e4;
   --bg: #0c0a09;
-  --surface: #1c1917;
+  --surface: #151311;
   --text: #fafaf9;
   --text-muted: #a8a29e;
   --border: #292524;
-  --code-bg: #0a0a0f;
-  --code-fg: #d4d4d8;
-  --code-accent: #c4b5fd;
-  --ring: #a78bfa44;
+  --code-bg: #0a0a0a;
+  --code-fg: #d6d3d1;
+  --code-accent: #fbbf24;
+  --ring: transparent;
 }
 
 /* ─── Base ─── */
@@ -58,12 +66,8 @@ code, pre, .font-mono {
 
 /* ─── Selection ─── */
 ::selection {
-  background-color: #7c3aed33;
+  background-color: #f59e0b40;
   color: var(--text);
-}
-
-.dark ::selection {
-  background-color: #a78bfa33;
 }
 
 /* ─── Focus ─── */
@@ -82,12 +86,9 @@ code, pre, .font-mono {
   border-radius: 0;
 }
 
-/* ─── Terminal glow ─── */
+/* ─── Code panel frame (class name kept for existing markup) ─── */
 .terminal-glow {
-  box-shadow:
-    0 0 0 1px var(--border),
-    0 0 20px -4px var(--ring),
-    0 0 40px -8px var(--ring);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
 }
 
 /* ─── Code blocks ─── */
@@ -114,46 +115,26 @@ pre::-webkit-scrollbar-thumb:hover {
   background: #52525b88;
 }
 
-/* ─── Interaction curves ─── */
+/* ─── Interaction ───
+   Kept as class hooks; no lift, bounce or scale. */
 .hover-lift {
-  transition: transform 0.25s cubic-bezier(0.16,1,0.3,1),
-              box-shadow 0.25s cubic-bezier(0.16,1,0.3,1),
-              border-color 0.25s ease;
-}
-.hover-lift:hover {
-  transform: translateY(-2px);
-}
-.hover-lift:active {
-  transform: translateY(0);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
-/* ─── Button press ─── */
+/* ─── Button ─── */
 .btn-press {
-  transition: transform 0.15s ease, opacity 0.15s ease, box-shadow 0.2s ease;
-}
-.btn-press:hover {
-  transform: translateY(-1px);
-}
-.btn-press:active {
-  transform: translateY(0) scale(0.98);
+  transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 
-/* ─── Animated underline ─── */
+/* ─── Underline link ─── */
 .link-underline {
-  position: relative;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
 }
-.link-underline::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -1px;
-  width: 0;
-  height: 1.5px;
-  background: var(--accent);
-  transition: width 0.25s cubic-bezier(0.16,1,0.3,1);
-}
-.link-underline:hover::after {
-  width: 100%;
+.link-underline:hover {
+  text-decoration-color: currentColor;
 }
 
 /* ─── Smooth grid expand (accordion) ─── */
@@ -235,35 +216,6 @@ details[data-closing] > :not(summary) {
   }
 }
 
-/* ─── Table row hover bar ─── */
-.row-hover {
-  position: relative;
-}
-.row-hover::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 0;
-  background: var(--accent);
-  transition: width 0.2s cubic-bezier(0.16,1,0.3,1);
-}
-.row-hover:hover::before {
-  width: 3px;
-}
-
-/* ─── Navbar entrance ─── */
-@keyframes navReveal {
-  from {
-    opacity: 0;
-    transform: translateY(-100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
 /* ─── Reduced motion ─── */
 @media (prefers-reduced-motion: reduce) {

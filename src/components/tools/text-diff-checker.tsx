@@ -122,20 +122,20 @@ export function TextDiffChecker() {
 
   return (
     <ToolShell
-      title="Text Diff Checker"
-      description="Paste two versions of text. See exactly what changed — additions, deletions, line by line."
+      title="Text diff"
+      description="Paste two versions of a text to compare them line by line."
     >
       {/* Action buttons */}
       <div className="flex gap-2 mb-4">
         <button
           onClick={loadExample}
-          className="px-3 py-1.5 text-xs font-medium rounded-lg border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--accent-soft)] transition-all duration-200 cursor-pointer active:scale-95"
+          className="px-3 py-1.5 text-xs font-medium rounded-lg border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--accent-soft)] transition-all duration-200 cursor-pointer"
         >
           Load Example
         </button>
         <button
           onClick={clear}
-          className="px-3 py-1.5 text-xs font-medium rounded-lg border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--accent-soft)] transition-all duration-200 cursor-pointer active:scale-95"
+          className="px-3 py-1.5 text-xs font-medium rounded-lg border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--accent-soft)] transition-all duration-200 cursor-pointer"
         >
           Clear
         </button>

@@ -123,11 +123,11 @@ export function MockDataGenerator() {
 
   return (
     <ToolShell
-      title="Mock Data Generator"
-      description="Generate fake but realistic-looking data. Names, emails, jobs, addresses. Copy as JSON."
+      title="Mock data"
+      description="Generate fake names, emails, jobs and addresses, then copy them as JSON."
     >
       {/* Controls */}
-      <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4 mb-4">
+      <div className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-4 mb-4">
         <div className="flex flex-wrap items-center gap-4 mb-4">
           <div className="flex items-center gap-2">
             <label className="text-xs font-medium text-[var(--text-muted)]">
@@ -150,9 +150,9 @@ export function MockDataGenerator() {
               <button
                 key={f.key}
                 onClick={() => toggleField(f.key)}
-                className={`px-2.5 py-1 text-[11px] font-medium rounded-md border cursor-pointer transition-all duration-150 active:scale-95 ${
+                className={`px-2.5 py-1 text-[11px] font-medium rounded-md border cursor-pointer transition-all duration-150 ${
                   fields.has(f.key)
-                    ? "bg-[var(--accent)] text-white border-[var(--accent)]"
+                    ? "bg-[var(--btn-bg)] text-[var(--btn-fg)] border-[var(--btn-bg)]"
                     : "border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--accent-soft)]"
                 }`}
               >
@@ -164,7 +164,7 @@ export function MockDataGenerator() {
 
         <button
           onClick={doGenerate}
-          className="btn-press flex items-center gap-1.5 px-5 py-2 bg-[var(--accent)] text-white text-sm font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--ring)] cursor-pointer"
+          className="btn-press flex items-center gap-1.5 px-5 py-2 bg-[var(--btn-bg)] text-[var(--btn-fg)] text-sm font-semibold rounded-lg cursor-pointer"
         >
           Generate
           <svg
@@ -183,7 +183,7 @@ export function MockDataGenerator() {
       {/* Output */}
       {output && (
         <ToolPanel
-          label={`Output — ${recordCount} records`}
+          label={`Output (${recordCount} records)`}
           dark
           actions={
             <div className="flex items-center gap-2">
@@ -195,7 +195,7 @@ export function MockDataGenerator() {
               </button>
               <CopyButton
                 text={output}
-                className="text-[#525252] hover:text-[var(--accent)] text-xs"
+                className="text-[#78716c] hover:text-[#e7e5e4] text-xs"
               />
             </div>
           }
@@ -211,7 +211,7 @@ export function MockDataGenerator() {
       )}
 
       {!output && (
-        <div className="rounded-xl border border-[var(--border)] bg-[var(--code-bg)] px-4 py-12 text-center">
+        <div className="rounded-lg border border-[var(--border)] bg-[var(--code-bg)] px-4 py-12 text-center">
           <p className="text-sm font-mono text-[#525252]">
             Select fields and hit Generate
           </p>

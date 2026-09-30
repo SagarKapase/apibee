@@ -60,11 +60,11 @@ function tryDecode(token: string): { data?: Decoded; error?: string } {
     try {
       payload = JSON.parse(base64UrlDecode(parts[1]));
     } catch {
-      return { error: "Failed to decode payload — not valid Base64url JSON." };
+      return { error: "Could not decode the payload. It is not valid Base64url JSON." };
     }
     return { data: { header, payload, signature: parts[2] } };
   } catch {
-    return { error: "Failed to decode header — not valid Base64url JSON." };
+    return { error: "Could not decode the header. It is not valid Base64url JSON." };
   }
 }
 
@@ -108,20 +108,20 @@ export function JwtDecoder() {
 
   return (
     <ToolShell
-      title="JWT Decoder"
-      description="Paste a JWT token. See what's inside — header, payload, expiry. No verification, just decoding."
+      title="JWT decoder"
+      description="Paste a JWT to read its header, payload and expiry. The signature is not verified."
     >
       {/* Token input */}
-      <div className="rounded-xl border border-[var(--border)] overflow-hidden terminal-glow mb-4">
-        <div className="flex items-center justify-between px-4 py-2.5 bg-[#1a1a22] border-b border-white/[0.06]">
-          <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#a8a29e]">
+      <div className="rounded-lg border border-[var(--border)] overflow-hidden terminal-glow mb-4">
+        <div className="flex items-center justify-between px-4 py-2.5 bg-[#161616] border-b border-white/[0.06]">
+          <span className="text-xs font-medium text-[#a8a29e]">
             Token
           </span>
           <div className="flex items-center gap-2">
             {token && (
               <button
                 onClick={() => setToken("")}
-                className="text-[10px] text-[#525252] hover:text-[#a8a29e] transition-colors cursor-pointer"
+                className="text-[10px] text-[#78716c] hover:text-[#e7e5e4] transition-colors cursor-pointer"
               >
                 Clear
               </button>
@@ -129,7 +129,7 @@ export function JwtDecoder() {
             {token && (
               <CopyButton
                 text={token}
-                className="text-[#525252] hover:text-[var(--accent)] text-xs"
+                className="text-[#78716c] hover:text-[#e7e5e4] text-xs"
               />
             )}
           </div>
@@ -157,7 +157,7 @@ export function JwtDecoder() {
       {/* Error */}
       {error && (
         <div
-          className="rounded-xl border border-red-500/30 bg-red-500/10 px-5 py-4 mb-6"
+          className="rounded-lg border border-red-500/30 bg-red-500/10 px-5 py-4 mb-6"
           style={{
             animation: "slideUp 0.3s cubic-bezier(0.16,1,0.3,1)",
           }}
@@ -188,7 +188,7 @@ export function JwtDecoder() {
             </div>
             <div className="flex gap-2 px-4 py-3 border-t border-white/[0.06]">
               {decoded.header.alg && (
-                <span className="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-violet-500/15 text-violet-400">
+                <span className="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-white/[0.06] text-[#d6d3d1]">
                   {String(decoded.header.alg)}
                 </span>
               )}
@@ -207,7 +207,7 @@ export function JwtDecoder() {
             actions={
               exp !== null ? (
                 isExpired ? (
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-red-500/15 text-red-400 animate-pulse">
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-red-500/15 text-red-400">
                     EXPIRED
                   </span>
                 ) : (
@@ -234,7 +234,7 @@ export function JwtDecoder() {
             </div>
             {/* Claims breakdown */}
             <div className="px-4 py-3 border-t border-white/[0.06]">
-              <span className="text-[9px] font-bold uppercase tracking-[0.12em] text-[#525252] block mb-2">
+              <span className="text-xs font-medium text-[#525252] block mb-2">
                 Claims
               </span>
               {decoded.payload.sub != null && (
@@ -284,7 +284,7 @@ export function JwtDecoder() {
             actions={
               <CopyButton
                 text={decoded.signature}
-                className="text-[#525252] hover:text-[var(--accent)] text-xs"
+                className="text-[#78716c] hover:text-[#e7e5e4] text-xs"
               />
             }
           >
@@ -296,7 +296,7 @@ export function JwtDecoder() {
               </code>
               <p className="text-[11px] text-[var(--text-muted)] leading-relaxed border-t border-[var(--border)] pt-3">
                 Signature cannot be verified without the secret key. This tool
-                only decodes — it does not validate.
+                only decodes; it does not validate.
               </p>
             </div>
           </ToolPanel>
@@ -305,7 +305,7 @@ export function JwtDecoder() {
 
       {/* Empty state */}
       {!token && !error && !decoded && (
-        <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-6 py-10 text-center">
+        <div className="rounded-lg border border-[var(--border)] bg-[var(--surface)] px-6 py-10 text-center">
           <p className="text-sm text-[var(--text-muted)]">
             Paste a token above or{" "}
             <button

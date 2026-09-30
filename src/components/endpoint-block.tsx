@@ -37,7 +37,7 @@ export function EndpointBlock({ endpoint }: { endpoint: Endpoint }) {
       {/* Parameters */}
       {endpoint.params && endpoint.params.length > 0 && (
         <div className="mt-5 pl-3">
-          <h4 className="text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-muted)] mb-2">
+          <h4 className="text-xs font-medium text-[var(--text-muted)] mb-2">
             Parameters
           </h4>
           <div className="overflow-x-auto rounded-lg border border-[var(--border)]">
@@ -82,7 +82,7 @@ export function EndpointBlock({ endpoint }: { endpoint: Endpoint }) {
       {endpoint.requestBody && (
         <div className="mt-5 pl-3">
           <div className="flex items-center justify-between mb-2">
-            <h4 className="text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-muted)]">
+            <h4 className="text-xs font-medium text-[var(--text-muted)]">
               Request Body
               <span className="ml-2 text-[var(--accent)] font-mono normal-case tracking-normal">
                 {detectLang(endpoint.requestBody)}
@@ -106,7 +106,7 @@ export function EndpointBlock({ endpoint }: { endpoint: Endpoint }) {
       {/* Response */}
       <div className="mt-5 pl-3">
         <div className="flex items-center justify-between mb-2">
-          <h4 className="text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-muted)]">
+          <h4 className="text-xs font-medium text-[var(--text-muted)]">
             Response
             <span className="ml-2 text-emerald-500 font-mono normal-case tracking-normal text-[11px]">
               200

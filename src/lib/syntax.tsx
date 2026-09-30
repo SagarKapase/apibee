@@ -3,13 +3,13 @@ import React from "react";
 type Lang = "json" | "javascript" | "python" | "curl" | "java" | "php" | "xml";
 
 const C = {
-  keyword: "#a78bfa",
-  string: "#34d399",
-  number: "#fbbf24",
-  comment: "#525252",
-  punct: "#78716c",
-  text: "#d4d4d8",
-  fn: "#fbbf24",
+  keyword: "#8ab4f8",
+  string: "#a5d6a7",
+  number: "#f2b872",
+  comment: "#6b6560",
+  punct: "#8a837d",
+  text: "#d6d3d1",
+  fn: "#f2b872",
   url: "#a8a29e",
 } as const;
 

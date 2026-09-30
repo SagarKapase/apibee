@@ -80,8 +80,8 @@ export function PasswordGenerator() {
 
   return (
     <ToolShell
-      title="Password & Secret Generator"
-      description="Generate secure passwords, API keys, and random tokens. Uses crypto.getRandomValues()."
+      title="Password generator"
+      description="Passwords, API keys and random tokens, generated with crypto.getRandomValues()."
     >
       {/* Main display */}
       <ToolPanel
@@ -91,11 +91,11 @@ export function PasswordGenerator() {
           <div className="flex items-center gap-2">
             <button
               onClick={regen}
-              className="text-[10px] font-bold px-2.5 py-1 rounded-md bg-[var(--accent)] text-white cursor-pointer transition-all duration-150 active:scale-95 hover:opacity-90"
+              className="text-[11px] font-semibold px-2.5 py-1 rounded-md bg-[#f59e0b] text-[#1c1917] hover:bg-[#fbbf24] cursor-pointer transition-colors"
             >
               Regenerate
             </button>
-            <CopyButton text={value} className="text-[#525252] hover:text-[var(--accent)]" />
+            <CopyButton text={value} className="text-[#78716c] hover:text-[#e7e5e4]" />
           </div>
         }
       >
@@ -108,7 +108,7 @@ export function PasswordGenerator() {
           </p>
           {/* Strength meter */}
           <div className="mt-4 flex items-center gap-3">
-            <div className="flex-1 h-2 rounded-full bg-[#1a1a22] overflow-hidden">
+            <div className="flex-1 h-2 rounded-full bg-[#161616] overflow-hidden">
               <div
                 className={`h-full rounded-full transition-all duration-500 ${strength.color}`}
                 style={{ width: `${strength.pct}%` }}
@@ -127,7 +127,7 @@ export function PasswordGenerator() {
         <div className="space-y-5">
           {/* Length slider */}
           <div>
-            <label className="text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--text-muted)] mb-2 block">
+            <label className="text-xs font-medium text-[var(--text-muted)] mb-2 block">
               Length: <span className="text-[var(--accent)] font-mono">{length}</span>
             </label>
             <input
@@ -146,7 +146,7 @@ export function PasswordGenerator() {
 
           {/* Character sets */}
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--text-muted)] mb-2 block">
+            <span className="text-xs font-medium text-[var(--text-muted)] mb-2 block">
               Character Sets
             </span>
             <div className="flex flex-wrap gap-2">
@@ -154,9 +154,9 @@ export function PasswordGenerator() {
                 <button
                   key={key}
                   onClick={() => toggleSet(key)}
-                  className={`px-3 py-1.5 text-xs font-medium rounded-lg cursor-pointer transition-all duration-200 active:scale-95 ${
+                  className={`px-3 py-1.5 text-xs font-medium rounded-lg cursor-pointer transition-all duration-200 ${
                     activeSets.includes(key)
-                      ? "bg-[var(--accent)] text-white"
+                      ? "bg-[var(--btn-bg)] text-[var(--btn-fg)]"
                       : "border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--accent-soft)]"
                   }`}
                 >
@@ -177,7 +177,7 @@ export function PasswordGenerator() {
 
         {/* Right: presets */}
         <div>
-          <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--text-muted)] mb-2 block">
+          <span className="text-xs font-medium text-[var(--text-muted)] mb-2 block">
             Presets
           </span>
           <div className="grid grid-cols-2 gap-2">
@@ -185,7 +185,7 @@ export function PasswordGenerator() {
               <button
                 key={p.label}
                 onClick={() => applyPreset(p)}
-                className="px-3 py-2.5 text-xs font-medium rounded-lg border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--accent-soft)] hover:border-[var(--accent)]/30 cursor-pointer transition-all duration-200 active:scale-95 text-left"
+                className="px-3 py-2.5 text-xs font-medium rounded-lg border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--accent-soft)] hover:border-[var(--accent)]/30 cursor-pointer transition-all duration-200 text-left"
               >
                 <span className="block text-[var(--text)] font-semibold">{p.label}</span>
                 <span className="text-[10px]">
@@ -200,7 +200,7 @@ export function PasswordGenerator() {
       {/* Bulk generate */}
       <div className="mt-8">
         <div className="flex items-center gap-3 mb-3">
-          <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--text-muted)]">
+          <span className="text-xs font-medium text-[var(--text-muted)]">
             Bulk Generate
           </span>
           <input
@@ -213,7 +213,7 @@ export function PasswordGenerator() {
           />
           <button
             onClick={bulkGenerate}
-            className="text-[11px] font-bold px-3 py-1 rounded-md bg-[var(--accent)] text-white cursor-pointer transition-all duration-150 active:scale-95 hover:opacity-90"
+            className="text-[11px] font-bold px-3 py-1 rounded-md bg-[var(--btn-bg)] text-[var(--btn-fg)] cursor-pointer transition-all duration-150 hover:opacity-90"
           >
             Generate
           </button>
@@ -226,16 +226,16 @@ export function PasswordGenerator() {
           )}
         </div>
         {bulkList.length > 0 && (
-          <div className="rounded-xl border border-[var(--border)] overflow-hidden">
+          <div className="rounded-lg border border-[var(--border)] overflow-hidden">
             {bulkList.map((v, i) => (
               <div
                 key={`${v}-${i}`}
                 className={`flex items-center justify-between px-4 py-2 text-[12px] font-mono ${
-                  i % 2 === 0 ? "bg-[var(--code-bg)]" : "bg-[#13131a]"
+                  i % 2 === 0 ? "bg-[var(--code-bg)]" : "bg-[#111111]"
                 }`}
               >
                 <span className="text-[var(--code-fg)] break-all select-all">{v}</span>
-                <CopyButton text={v} className="text-[#525252] hover:text-[var(--accent)] shrink-0 ml-2" />
+                <CopyButton text={v} className="text-[#78716c] hover:text-[#e7e5e4] shrink-0 ml-2" />
               </div>
             ))}
           </div>
