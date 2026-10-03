@@ -6,5 +6,10 @@
   "assets": {
     "directory": "./out",
     "not_found_handling": "404-page"
-  }
+  },
+  // Cloudflare creates the DNS records and certificates for these hostnames.
+  "routes": [
+    { "pattern": "testingapis.com", "custom_domain": true },
+    { "pattern": "www.testingapis.com", "custom_domain": true }
+  ]
 }
