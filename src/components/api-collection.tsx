@@ -111,8 +111,29 @@ export function ApiCollection() {
         </div>
       </div>
 
+      <CategoryCards className="columns-1 md:columns-2 lg:columns-3" viewAll />
+    </>
+  );
+}
+
+/**
+ * One card per category with its groups and endpoint counts. The homepage shows
+ * View all links to /docs#<category>; on /docs the cards carry those anchors.
+ */
+export function CategoryCards({
+  className,
+  viewAll = false,
+  anchors = false,
+}: {
+  /** Column classes for the container. */
+  className: string;
+  viewAll?: boolean;
+  anchors?: boolean;
+}) {
+  return (
+    <>
       {/* Columns rather than a grid, so short cards stack under each other instead of leaving gaps. */}
-      <div className="columns-1 md:columns-2 lg:columns-3 gap-3.5">
+      <div className={`gap-3.5 ${className}`}>
         {categories.map((c) => {
           const { icon, accent, description } = presentation[c.id] ?? fallback;
           const tone = accents[accent];
@@ -121,6 +142,7 @@ export function ApiCollection() {
           return (
             <article
               key={c.id}
+              id={anchors ? c.id : undefined}
               aria-labelledby={`collection-${c.id}`}
               className="break-inside-avoid mb-3.5 rounded-[10px] border border-[var(--border)] bg-[var(--surface)] transition-[border-color,transform] duration-150 hover:-translate-y-px hover:border-stone-300 dark:hover:border-stone-700"
             >
@@ -146,7 +168,7 @@ export function ApiCollection() {
                 </div>
               </header>
 
-              <ul className={`px-4 ${twoColumns ? "columns-2 gap-x-5" : ""} ${c.groups.length > 1 ? "" : "pb-2"}`}>
+              <ul className={`px-4 ${twoColumns ? "columns-2 gap-x-5" : ""} ${viewAll && c.groups.length > 1 ? "" : "pb-2"}`}>
                 {c.groups.map((g) => (
                   <li key={g.id} className="break-inside-avoid border-t border-[var(--border)]">
                     <Link
@@ -164,7 +186,7 @@ export function ApiCollection() {
                 ))}
               </ul>
 
-              {c.groups.length > 1 && (
+              {viewAll && c.groups.length > 1 && (
                 <footer className="border-t border-[var(--border)] px-4 py-2.5">
                   <Link
                     href={`/docs#${c.id}`}
