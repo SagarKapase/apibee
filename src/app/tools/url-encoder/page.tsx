@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { UrlCodec } from "@/components/tools/url-codec";
 import { JsonLd } from "@/components/json-ld";
+import { ToolGuide } from "@/components/tools/tool-guide";
+import { guide } from "@/lib/tool-guides/url-encoder";
 import { pageMetadata, toolJsonLd } from "@/lib/seo";
 
 const page = {
@@ -16,6 +18,7 @@ export default function Page() {
     <>
       <JsonLd data={toolJsonLd(page)} />
       <UrlCodec />
+      <ToolGuide guide={guide} />
     </>
   );
 }

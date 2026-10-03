@@ -9,7 +9,7 @@ export function Footer() {
           <LogoMark className="h-4 w-auto text-[var(--text)]" />
           &copy; {new Date().getFullYear()} testingapis.com
         </p>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
           <Link
             href="/docs"
             className="hover:text-[var(--text)] transition-colors"
@@ -39,6 +39,18 @@ export function Footer() {
             className="hover:text-[var(--text)] transition-colors"
           >
             Support
+          </Link>
+          <Link
+            href="/privacy"
+            className="hover:text-[var(--text)] transition-colors"
+          >
+            Privacy
+          </Link>
+          <Link
+            href="/terms"
+            className="hover:text-[var(--text)] transition-colors"
+          >
+            Terms
           </Link>
         </div>
       </div>

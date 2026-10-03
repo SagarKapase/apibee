@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { ADSENSE_CLIENT } from "@/lib/ads";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
@@ -40,6 +41,8 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     type: "website",
   },
+  // Lets AdSense verify that this site belongs to the account.
+  ...(ADSENSE_CLIENT ? { other: { "google-adsense-account": ADSENSE_CLIENT } } : {}),
 };
 
 export default function RootLayout({
@@ -54,6 +57,14 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-screen flex flex-col">
+        {/* A plain async script, so the tag is in the HTML that AdSense checks. React moves it into <head>. */}
+        {ADSENSE_CLIENT && (
+          <script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
+            crossOrigin="anonymous"
+          />
+        )}
         <ThemeProvider>
           <Navbar />
           <main className="flex-1">{children}</main>
