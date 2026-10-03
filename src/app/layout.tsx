@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
@@ -16,12 +16,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Wordmark font for the logo.
+const poppins = Poppins({
+  variable: "--font-poppins",
+  weight: "700",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
   // Resolves relative canonical and Open Graph URLs against the production domain.
   metadataBase: new URL(SITE_URL),
-  icons: {
-    icon: "/favicon.svg",
-  },
   title: {
     default: "testingapis.com: a fake REST API for prototyping and testing",
     template: "%s | testingapis.com",
@@ -46,7 +50,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} antialiased`}
       suppressHydrationWarning
     >
       <body className="min-h-screen flex flex-col">

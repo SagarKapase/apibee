@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "@/components/theme-provider";
+import { Logo } from "@/components/logo";
 
 const navLinks = [
   { href: "/docs", label: "Docs" },
@@ -17,11 +18,8 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 h-14 border-b border-[var(--border)] bg-[var(--bg)]">
       <nav className="max-w-5xl h-full mx-auto flex items-center justify-between px-5">
-        <Link
-          href="/"
-          className="text-[15px] font-semibold tracking-tight text-[var(--text)]"
-        >
-          testingapis.com
+        <Link href="/" aria-label="testingapis.com home" className="text-[var(--text)]">
+          <Logo />
         </Link>
 
         <div className="flex items-center gap-1">
