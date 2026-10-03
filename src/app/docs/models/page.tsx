@@ -3,7 +3,7 @@ import { models } from "@/lib/api-data";
 
 export const metadata: Metadata = {
   title: "Data models",
-  description: "Fields of every request and response model in the snap-test.in API.",
+  description: "Fields of every request and response model in the testingapis.com API.",
 };
 
 export default function ModelsPage() {

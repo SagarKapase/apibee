@@ -1,6 +1,6 @@
 import { A, C, Code, Exercise, H2, H3, Note, Ol, P, Run, Table, Ul } from "@/components/lesson";
 
-const createRequest = `curl -i -X POST https://api.snap-test.in/api/Books \\
+const createRequest = `curl -i -X POST https://api.testingapis.com/api/Books \\
   -H "Content-Type: application/json" \\
   -d '{
     "title": "Testing Web APIs",
@@ -37,7 +37,7 @@ Content-Type: application/json; charset=utf-8
   }
 }`;
 
-const typoCreate = `curl -X POST https://api.snap-test.in/api/Books \\
+const typoCreate = `curl -X POST https://api.testingapis.com/api/Books \\
   -H "Content-Type: application/json" \\
   -d '{"title": "The Test Book", "author": "Ada Tester", "year": 2026}'`;
 
@@ -59,7 +59,7 @@ const typoResponse = `{
   }
 }`;
 
-const putRequest = `curl -X PUT https://api.snap-test.in/api/Books/27 \\
+const putRequest = `curl -X PUT https://api.testingapis.com/api/Books/27 \\
   -H "Content-Type: application/json" \\
   -d '{"title": "Lessons Learned in Software Testing", "author": "Cem Kaner", "price": 39.0}'`;
 
@@ -81,7 +81,7 @@ const putResponse = `{
   }
 }`;
 
-const patchRequest = `curl -X PATCH https://api.snap-test.in/api/Books/26 \\
+const patchRequest = `curl -X PATCH https://api.testingapis.com/api/Books/26 \\
   -H "Content-Type: application/merge-patch+json" \\
   -d '{"price": 35, "available": false, "colour": "blue", "id": 999}'`;
 
@@ -105,22 +105,22 @@ const patchResponse = `{
   }
 }`;
 
-const deleteTwice = `$ curl -i -X DELETE https://api.snap-test.in/api/Books/26
+const deleteTwice = `$ curl -i -X DELETE https://api.testingapis.com/api/Books/26
 HTTP/1.1 200 OK
 
 {"message":"Book deleted successfully"}
 
-$ curl -i https://api.snap-test.in/api/Books/26
+$ curl -i https://api.testingapis.com/api/Books/26
 HTTP/1.1 404 Not Found
 
 {"status":404,"error":"Not Found","message":"Book with ID 26 does not exist."}
 
-$ curl -i -X DELETE https://api.snap-test.in/api/Books/26
+$ curl -i -X DELETE https://api.testingapis.com/api/Books/26
 HTTP/1.1 404 Not Found
 
 {"status":404,"error":"Not Found","message":"Book with ID 26 does not exist."}`;
 
-const bulkCreate = `curl -X POST https://api.snap-test.in/api/Books/bulk \\
+const bulkCreate = `curl -X POST https://api.testingapis.com/api/Books/bulk \\
   -H "Content-Type: application/json" \\
   -d '[
     {"title": "Bulk A", "author": "Tester"},
@@ -130,7 +130,7 @@ const bulkCreate = `curl -X POST https://api.snap-test.in/api/Books/bulk \\
 
 {"status":400,"error":"Bad Request","message":"Item [2]: Missing required field: title"}`;
 
-const bulkDelete = `curl -X DELETE "https://api.snap-test.in/api/Books/bulk?ids=27,28,5000"
+const bulkDelete = `curl -X DELETE "https://api.testingapis.com/api/Books/bulk?ids=27,28,5000"
 
 {"message":"2 book record(s) deleted","deleted":[27,28],"notFound":[5000]}`;
 

@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { endpointHref, endpoints, groups } from "@/lib/api-data";
 import { lessons } from "@/lib/learn";
 
-const BASE = "https://snap-test.in";
+const BASE = "https://testingapis.com";
 
 const tools = [
   "json-formatter",

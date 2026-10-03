@@ -23,13 +23,13 @@ const PRESETS = [
     label: "Email",
     pattern: "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}",
     flags: "g",
-    test: "Contact us at hello@snap-test.in or support@example.com for help.",
+    test: "Contact us at hello@testingapis.com or support@example.com for help.",
   },
   {
     label: "URL",
     pattern: "https?:\\/\\/[^\\s]+",
     flags: "g",
-    test: "Visit https://snap-test.in or http://example.com/path?q=1 for more.",
+    test: "Visit https://testingapis.com or http://example.com/path?q=1 for more.",
   },
   {
     label: "IP Address",

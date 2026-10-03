@@ -1,6 +1,6 @@
 import { A, C, Code, Exercise, H2, H3, Note, P, Run, Table } from "@/components/lesson";
 
-const timeoutScript = `const BASE = "https://api.snap-test.in";
+const timeoutScript = `const BASE = "https://api.testingapis.com";
 
 try {
   const res = await fetch(\`\${BASE}/api/chaos/timeout?seconds=10\`, {
@@ -13,10 +13,10 @@ try {
 
 const timeoutOutput = `TimeoutError The operation was aborted due to timeout`;
 
-const curlTimeout = `$ curl -sS -m 2 "https://api.snap-test.in/api/chaos/timeout?seconds=10"
+const curlTimeout = `$ curl -sS -m 2 "https://api.testingapis.com/api/chaos/timeout?seconds=10"
 curl: (28) Operation timed out after 2003 milliseconds with 0 bytes received`;
 
-const retryAttempts = `$ curl -i "https://api.snap-test.in/api/chaos/retry/my-key?succeedAfter=3"
+const retryAttempts = `$ curl -i "https://api.testingapis.com/api/chaos/retry/my-key?succeedAfter=3"
 HTTP/1.1 503 Service Unavailable
 retry-after: 1
 x-attempt: 1
@@ -30,9 +30,9 @@ x-attempt: 4
 
 {"message":"Succeeded on attempt 4.","attempt":4,"succeedAfter":3}
 
-$ curl -X DELETE https://api.snap-test.in/api/chaos/retry/my-key`;
+$ curl -X DELETE https://api.testingapis.com/api/chaos/retry/my-key`;
 
-const retryScript = `const BASE = "https://api.snap-test.in";
+const retryScript = `const BASE = "https://api.testingapis.com";
 
 const RETRYABLE = new Set([408, 429, 500, 502, 503, 504]);
 
@@ -64,7 +64,7 @@ attempt 3: 503, waiting 1000 ms
 
 const paymentBody = `{"userId":101,"amount":49.99,"currency":"usd","method":"card","cardLast4":"4242","description":"Order #1001"}`;
 
-const paymentCurl = `curl -i -X POST https://api.snap-test.in/api/Payments \\
+const paymentCurl = `curl -i -X POST https://api.testingapis.com/api/Payments \\
   -H "Content-Type: application/json" \\
   -H "Idempotency-Key: 1298984a-69f8-4027-acbf-da8050d8e02b" \\
   -d '${paymentBody}'`;
@@ -99,7 +99,7 @@ HTTP/1.1 409 Conflict
 HTTP/1.1 201 Created
 {"message":"Payment created successfully","idempotencyKey":"573ab03f-8b15-49ca-bf8d-bddd8e602fe2","data":{"id":14, ...}}`;
 
-const rateLimit = `$ curl -i -H "X-Client-Id: lesson-10868" https://api.snap-test.in/api/RateLimit
+const rateLimit = `$ curl -i -H "X-Client-Id: lesson-10868" https://api.testingapis.com/api/RateLimit
 HTTP/1.1 200 OK
 x-ratelimit-limit: 5
 x-ratelimit-remaining: 4
@@ -117,19 +117,19 @@ x-ratelimit-reset: 1790793324
 
 {"status":429,"error":"Too Many Requests","message":"Rate limit of 5 requests per 60s exceeded. Retry in 56s.","retryAfter":56}`;
 
-const rateStatus = `$ curl -H "X-Client-Id: lesson-10868" https://api.snap-test.in/api/RateLimit/status
+const rateStatus = `$ curl -H "X-Client-Id: lesson-10868" https://api.testingapis.com/api/RateLimit/status
 {"clientId":"id:lesson-10868","used":5,"remaining":0,"limit":5,"resetsInSeconds":56}
 
-$ curl -X POST -H "X-Client-Id: lesson-10868" https://api.snap-test.in/api/RateLimit/reset
+$ curl -X POST -H "X-Client-Id: lesson-10868" https://api.testingapis.com/api/RateLimit/reset
 {"message":"Rate limit window reset.","clientId":"id:lesson-10868"}`;
 
-const noClientId = `$ curl https://api.snap-test.in/api/RateLimit/status
+const noClientId = `$ curl https://api.testingapis.com/api/RateLimit/status
 {"clientId":"ip:::1","used":0,"remaining":5,"limit":5,"resetsInSeconds":60}`;
 
-const drops = `$ curl -sS -o /dev/null -w "%{http_code} %{size_download}\\n" https://api.snap-test.in/api/chaos/abort
+const drops = `$ curl -sS -o /dev/null -w "%{http_code} %{size_download}\\n" https://api.testingapis.com/api/chaos/abort
 502 0
 
-$ curl -sS -o /dev/null -w "%{http_code} %{size_download}\\n" https://api.snap-test.in/api/chaos/partial
+$ curl -sS -o /dev/null -w "%{http_code} %{size_download}\\n" https://api.testingapis.com/api/chaos/partial
 502 223038`;
 
 const simulated = `HTTP/1.1 503 Service Unavailable

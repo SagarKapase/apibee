@@ -1,6 +1,6 @@
 import { A, C, Code, Exercise, H2, H3, Note, P, Run, Table, Ul } from "@/components/lesson";
 
-const createCurl = `curl -i -X POST https://api.snap-test.in/api/Books \\
+const createCurl = `curl -i -X POST https://api.testingapis.com/api/Books \\
   -H "Content-Type: application/json" \\
   -d '{"title":"The Pragmatic Programmer","author":"David Thomas",
        "isbn":"9780135957059","genre":"programming","publishedYear":2019,
@@ -28,7 +28,7 @@ Content-Type: application/json; charset=utf-8
   }
 }`;
 
-const patchCurl = `curl -X PATCH https://api.snap-test.in/api/Books/29 \\
+const patchCurl = `curl -X PATCH https://api.testingapis.com/api/Books/29 \\
   -H "Content-Type: application/json" \\
   -d '{"price":39.99}'`;
 
@@ -52,7 +52,7 @@ const patchResponse = `{
   }
 }`;
 
-const putCurl = `curl -X PUT https://api.snap-test.in/api/Books/29 \\
+const putCurl = `curl -X PUT https://api.testingapis.com/api/Books/29 \\
   -H "Content-Type: application/json" \\
   -d '{"title":"The Pragmatic Programmer","author":"David Thomas","price":39.99}'`;
 
@@ -74,10 +74,10 @@ const putResponse = `{
   }
 }`;
 
-const deleteResponses = `$ curl -X DELETE https://api.snap-test.in/api/Books/29
+const deleteResponses = `$ curl -X DELETE https://api.testingapis.com/api/Books/29
 {"message":"Book deleted successfully"}          (200 OK)
 
-$ curl -X DELETE https://api.snap-test.in/api/Books/29
+$ curl -X DELETE https://api.testingapis.com/api/Books/29
 {"status":404,"error":"Not Found","message":"Book with ID 29 does not exist."}   (404 Not Found)`;
 
 const methodNotAllowed = `HTTP/1.1 405 Method Not Allowed
@@ -273,7 +273,7 @@ export default function HttpMethods() {
         headers it would for a GET and stops there. Clients use it to check
         whether something exists or how big a file is without downloading it.
       </P>
-      <Code code={headResponse} lang="text" label="curl -I https://api.snap-test.in/api/methods/head" />
+      <Code code={headResponse} lang="text" label="curl -I https://api.testingapis.com/api/methods/head" />
       <P>
         OPTIONS asks what is allowed at a URL. Browsers send it automatically
         before some cross-origin requests (a &quot;preflight&quot;), which is
@@ -285,7 +285,7 @@ export default function HttpMethods() {
       <H2 id="wrong-method">Using the wrong method</H2>
       <P>
         <C>/api/methods/get</C> only accepts GET. Send it a POST with{" "}
-        <C>curl -i -X POST https://api.snap-test.in/api/methods/get</C>:
+        <C>curl -i -X POST https://api.testingapis.com/api/methods/get</C>:
       </P>
       <Code code={methodNotAllowed} lang="text" label="Response" />
       <P>
@@ -294,7 +294,7 @@ export default function HttpMethods() {
         a single book, which makes no sense because you create books at{" "}
         <C>/api/Books</C>, gets the same treatment:
       </P>
-      <Code code={booksNotAllowed} lang="text" label="curl -i -X POST https://api.snap-test.in/api/Books/1" />
+      <Code code={booksNotAllowed} lang="text" label="curl -i -X POST https://api.testingapis.com/api/Books/1" />
       <P>
         Sending every method to every endpoint is a cheap test that finds real
         problems. You are looking for methods that should be rejected but

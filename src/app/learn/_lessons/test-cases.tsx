@@ -11,12 +11,12 @@ Content-Length: 0`;
 const bugReport = `Title: GET /api/Products/{id} returns an empty 404 for non-numeric
        and out-of-range IDs, instead of the JSON error body
 
-Environment: https://api.snap-test.in, 30 Sep 2026
+Environment: https://api.testingapis.com, 30 Sep 2026
 
 Steps:
-  curl -i https://api.snap-test.in/api/Products/9999
-  curl -i https://api.snap-test.in/api/Products/abc
-  curl -i https://api.snap-test.in/api/Products/2147483648
+  curl -i https://api.testingapis.com/api/Products/9999
+  curl -i https://api.testingapis.com/api/Products/abc
+  curl -i https://api.testingapis.com/api/Products/2147483648
 
 Expected:
   All three return 404 with Content-Type: application/json and a body

@@ -2,7 +2,7 @@ import { A, C, Code, Exercise, H2, H3, Note, P, Run, Table, Ul } from "@/compone
 
 const jobBody = `{"type":"report","durationSeconds":5}`;
 
-const jobCreate = `$ curl -i -X POST https://api.snap-test.in/api/jobs \\
+const jobCreate = `$ curl -i -X POST https://api.testingapis.com/api/jobs \\
   -H "Content-Type: application/json" \\
   -d '${jobBody}'
 
@@ -49,7 +49,7 @@ HTTP/1.1 409 Conflict
 const jobTest = `import { test } from "node:test";
 import assert from "node:assert/strict";
 
-const BASE = "https://api.snap-test.in";
+const BASE = "https://api.testingapis.com";
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 // Poll until the job leaves queued/running, or give up after timeoutMs.
@@ -109,21 +109,21 @@ const jobTestOutput = `✔ a report job completes and has a result (6766.4482ms)
 
 const failedJob = `{"id":"job_1003","type":"fail","status":"failed","progress":60,"durationSeconds":2, ... "resultUrl":null,"error":"Simulated failure: worker crashed while processing batch 3 of 5."}`;
 
-const binCreate = `$ curl -i -X POST https://api.snap-test.in/api/webhooks/bins \\
+const binCreate = `$ curl -i -X POST https://api.testingapis.com/api/webhooks/bins \\
   -H "Content-Type: application/json" -d '{"name":"orders"}'
 
 HTTP/1.1 201 Created
 
-{"message":"Webhook bin created","data":{"id":"80b072a4ae14","name":"orders","createdAt":"2026-09-30T18:36:34Z","requestCount":0,"url":"http://api.snap-test.in/api/webhooks/80b072a4ae14","inspectUrl":"http://api.snap-test.in/api/webhooks/bins/80b072a4ae14"}}`;
+{"message":"Webhook bin created","data":{"id":"80b072a4ae14","name":"orders","createdAt":"2026-09-30T18:36:34Z","requestCount":0,"url":"http://api.testingapis.com/api/webhooks/80b072a4ae14","inspectUrl":"http://api.testingapis.com/api/webhooks/bins/80b072a4ae14"}}`;
 
-const binSend = `$ curl -X POST https://api.snap-test.in/api/webhooks/80b072a4ae14/orders/created \\
+const binSend = `$ curl -X POST https://api.testingapis.com/api/webhooks/80b072a4ae14/orders/created \\
   -H "Content-Type: application/json" \\
   -H "X-Event-Type: order.created" \\
   -d '{"event":"order.created","orderId":1001,"total":49.99}'
 
 {"received":true,"binId":"80b072a4ae14","requestId":"req_620e34d8e1c5","message":"Request captured"}`;
 
-const binInspect = `$ curl https://api.snap-test.in/api/webhooks/bins/80b072a4ae14
+const binInspect = `$ curl https://api.testingapis.com/api/webhooks/bins/80b072a4ae14
 
 {
   "id": "80b072a4ae14",
@@ -153,10 +153,10 @@ const binInspect = `$ curl https://api.snap-test.in/api/webhooks/bins/80b072a4ae
   ]
 }
 
-$ curl -X DELETE https://api.snap-test.in/api/webhooks/bins/80b072a4ae14
+$ curl -X DELETE https://api.testingapis.com/api/webhooks/bins/80b072a4ae14
 {"message":"Webhook bin deleted"}`;
 
-const githubSample = `$ curl -i https://api.snap-test.in/api/webhooks/samples/github
+const githubSample = `$ curl -i https://api.testingapis.com/api/webhooks/samples/github
 HTTP/1.1 200 OK
 Content-Type: application/json; charset=utf-8
 x-github-delivery: 72d3162e-cc78-11e3-81ab-4c9367dc0958
@@ -176,7 +176,7 @@ function verifyGitHub(rawBody, signatureHeader) {
   return a.length === b.length && timingSafeEqual(a, b);
 }
 
-const res = await fetch("https://api.snap-test.in/api/webhooks/samples/github");
+const res = await fetch("https://api.testingapis.com/api/webhooks/samples/github");
 const raw = await res.text(); // the exact bytes, not JSON.parse + stringify
 const signature = res.headers.get("x-hub-signature-256");
 
@@ -188,7 +188,7 @@ const verifyOutput = `original body: true
 re-serialized: false
 one byte changed: false`;
 
-const sseCurl = `$ curl -N -i "https://api.snap-test.in/api/stream/sse?count=3&interval=300"
+const sseCurl = `$ curl -N -i "https://api.testingapis.com/api/stream/sse?count=3&interval=300"
 HTTP/1.1 200 OK
 Content-Type: text/event-stream
 Transfer-Encoding: chunked
@@ -212,7 +212,7 @@ data: {"id":3,"message":"Event 3 of 3","timestamp":"2026-09-30T18:37:08.423Z"}
 event: done
 data: {"total":3}`;
 
-const sseResume = `$ curl -N -H "Last-Event-ID: 2" "https://api.snap-test.in/api/stream/sse?count=4&interval=200"
+const sseResume = `$ curl -N -H "Last-Event-ID: 2" "https://api.testingapis.com/api/stream/sse?count=4&interval=200"
 : connected, streaming events 3..4
 retry: 3000
 
@@ -230,7 +230,7 @@ data: {"total":4}`;
 const sseTest = `import { test } from "node:test";
 import assert from "node:assert/strict";
 
-const BASE = "https://api.snap-test.in";
+const BASE = "https://api.testingapis.com";
 
 // Read an SSE response and yield { event, id, data, at } for each event.
 async function* readEvents(res) {
@@ -290,7 +290,7 @@ const sseTestOutput = `✔ SSE stream sends numbered events in order, then done 
 ℹ pass 2
 ℹ fail 0`;
 
-const ndjson = `$ curl -N -i https://api.snap-test.in/api/stream/ndjson/3
+const ndjson = `$ curl -N -i https://api.testingapis.com/api/stream/ndjson/3
 HTTP/1.1 200 OK
 Content-Type: application/x-ndjson
 Transfer-Encoding: chunked
@@ -300,12 +300,12 @@ Cache-Control: no-cache
 {"id":2,"name":"Bravo-002","value":6.28,"even":true}
 {"id":3,"name":"Charlie-003","value":9.42,"even":false}`;
 
-const wsPlain = `$ curl -i https://api.snap-test.in/ws/echo
+const wsPlain = `$ curl -i https://api.testingapis.com/ws/echo
 HTTP/1.1 400 Bad Request
 
-{"status":400,"error":"Bad Request","message":"This endpoint only accepts WebSocket connections. Connect with a WebSocket client to ws://api.snap-test.in/ws/echo"}`;
+{"status":400,"error":"Bad Request","message":"This endpoint only accepts WebSocket connections. Connect with a WebSocket client to ws://api.testingapis.com/ws/echo"}`;
 
-const wsScript = `const ws = new WebSocket("wss://api.snap-test.in/ws/echo");
+const wsScript = `const ws = new WebSocket("wss://api.testingapis.com/ws/echo");
 
 ws.addEventListener("open", () => ws.send(JSON.stringify({ hello: "world" })));
 ws.addEventListener("message", (e) => {

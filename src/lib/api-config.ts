@@ -1,9 +1,9 @@
 // Shared by server and client components. Keep this file free of catalog
 // data so importing it does not pull the full API reference into a bundle.
 
-export const BASE_URL = "https://api.snap-test.in";
-export const WS_BASE_URL = "wss://api.snap-test.in";
-export const HOST = "api.snap-test.in";
+export const BASE_URL = "https://api.testingapis.com";
+export const WS_BASE_URL = "wss://api.testingapis.com";
+export const HOST = "api.testingapis.com";
 
 export type Method =
   | "GET"

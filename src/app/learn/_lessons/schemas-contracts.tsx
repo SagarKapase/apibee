@@ -42,7 +42,7 @@ import Ajv from "ajv";
 import addFormats from "ajv-formats";
 import { productSchema } from "./product-schema.mjs";
 
-const BASE = "https://api.snap-test.in";
+const BASE = "https://api.testingapis.com";
 const ajv = new Ajv({ allErrors: true });
 addFormats(ajv);
 const validateProduct = ajv.compile(productSchema);
@@ -71,7 +71,7 @@ const schemaTestOutput = `$ node --test products.test.mjs
 ℹ fail 0`;
 
 const brokenScript = `// Same Ajv setup as above, with validate = ajv.compile(productSchema)
-const product = await (await fetch("https://api.snap-test.in/api/Products/1")).json();
+const product = await (await fetch("https://api.testingapis.com/api/Products/1")).json();
 const broken = { ...product, price: "249.99", discount: 10 };
 delete broken.inStock;
 
@@ -82,7 +82,7 @@ const brokenOutput = `data must have required property 'inStock'
 data must NOT have additional properties
 data/price must be number`;
 
-const wrongValue = `const product = await (await fetch("https://api.snap-test.in/api/Products/1")).json();
+const wrongValue = `const product = await (await fetch("https://api.testingapis.com/api/Products/1")).json();
 console.log(validate({ ...product, price: 2.49, title: "Smartwatch Series 6" }));
 // true`;
 
@@ -126,7 +126,7 @@ const specComponent = `"Product": {
 
 const specCheck = `import Ajv from "ajv";
 
-const BASE = "https://api.snap-test.in";
+const BASE = "https://api.testingapis.com";
 const spec = await (await fetch(\`\${BASE}/openapi/v1.json\`)).json();
 
 // The spec uses OpenAPI formats such as int32 and double, which Ajv
@@ -189,14 +189,14 @@ x-api-version: 2
   "apiVersion": "2"
 }`;
 
-const negotiate = `$ curl -i -H "X-API-Version: 1" "https://api.snap-test.in/api/versioned/profile?api-version=2"
+const negotiate = `$ curl -i -H "X-API-Version: 1" "https://api.testingapis.com/api/versioned/profile?api-version=2"
 HTTP/1.1 200 OK
 deprecation: @1751328000
 sunset: Thu, 31 Dec 2026 23:59:59 GMT
 x-api-version: 1
 x-api-version-source: header
 
-$ curl -i -H "X-API-Version: 3" https://api.snap-test.in/api/versioned/profile
+$ curl -i -H "X-API-Version: 3" https://api.testingapis.com/api/versioned/profile
 HTTP/1.1 400 Bad Request
 
 {"status":400,"error":"Bad Request","message":"API version '3' is not supported.","source":"header","supportedVersions":["1","2"]}`;

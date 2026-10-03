@@ -95,7 +95,7 @@ export function initialState(endpoint: Endpoint): RequestState {
 
 export type Credentials = Record<string, string>;
 
-const STORE_KEY = "snap-test:credentials";
+const STORE_KEY = "testingapis:credentials";
 
 export function loadCredentials(): Credentials {
   try {

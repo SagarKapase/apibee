@@ -21,7 +21,7 @@ export function Navbar() {
           href="/"
           className="text-[15px] font-semibold tracking-tight text-[var(--text)]"
         >
-          snap-test.in
+          testingapis.com
         </Link>
 
         <div className="flex items-center gap-1">

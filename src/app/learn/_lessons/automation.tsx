@@ -4,7 +4,7 @@ const productsTest = `// products.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
-const BASE_URL = process.env.BASE_URL ?? "https://api.snap-test.in";
+const BASE_URL = process.env.BASE_URL ?? "https://api.testingapis.com";
 
 test("GET /api/Products/1 returns the product", async () => {
   const res = await fetch(\`\${BASE_URL}/api/Products/1\`);
@@ -33,7 +33,7 @@ const booksTest = `// books.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
-const BASE_URL = process.env.BASE_URL ?? "https://api.snap-test.in";
+const BASE_URL = process.env.BASE_URL ?? "https://api.testingapis.com";
 
 const newBook = {
   title: "Automation test book",
@@ -108,12 +108,12 @@ const expectStatus = `async function expectStatus(res, expected) {
 }
 
 test("GET /api/Books/9999 returns the book", async () => {
-  const res = await fetch("https://api.snap-test.in/api/Books/9999");
+  const res = await fetch("https://api.testingapis.com/api/Books/9999");
   await expectStatus(res, 200);
 });`;
 
 const expectStatusOutput = `✖ GET /api/Books/9999 returns the book (454.4073ms)
-  AssertionError [ERR_ASSERTION]: https://api.snap-test.in/api/Books/9999 returned 404, expected 200. Body: {"status":404,"error":"Not Found","message":"Book with ID 9999 does not exist."}`;
+  AssertionError [ERR_ASSERTION]: https://api.testingapis.com/api/Books/9999 returned 404, expected 200. Body: {"status":404,"error":"Not Found","message":"Book with ID 9999 does not exist."}`;
 
 const pythonTest = `# test_api.py
 import os
@@ -121,7 +121,7 @@ import os
 import pytest
 import requests
 
-BASE_URL = os.environ.get("BASE_URL", "https://api.snap-test.in")
+BASE_URL = os.environ.get("BASE_URL", "https://api.testingapis.com")
 
 
 def test_get_product():

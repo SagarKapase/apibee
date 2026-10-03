@@ -5,7 +5,7 @@ import { ToolShell, ToolPanel } from "@/components/tools/tool-shell";
 import { CopyButton } from "@/components/copy-button";
 import { Highlighted } from "@/lib/syntax";
 
-const EXAMPLE = `curl -X POST https://api.snap-test.in/api/user/addUser -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGci..." -d '{"name":"Test","email":"test@dev.io","job":"Developer","city":"Tokyo"}'`;
+const EXAMPLE = `curl -X POST https://api.testingapis.com/api/user/addUser -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGci..." -d '{"name":"Test","email":"test@dev.io","job":"Developer","city":"Tokyo"}'`;
 
 const methodColors: Record<string, string> = {
   GET: "bg-emerald-500/20 text-emerald-400",

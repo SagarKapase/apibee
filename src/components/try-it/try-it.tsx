@@ -318,7 +318,7 @@ export function TryIt({ endpoint, groupId }: { endpoint: Endpoint; groupId: stri
           const form = new FormData();
           for (const f of state.form) {
             if (f.isFile) {
-              form.append(f.key, f.file ?? new Blob(["Sample file from snap-test.in\n"], { type: "text/plain" }), f.file?.name ?? f.value);
+              form.append(f.key, f.file ?? new Blob(["Sample file from testingapis.com\n"], { type: "text/plain" }), f.file?.name ?? f.value);
             } else {
               form.append(f.key, fill(f.value, values));
             }

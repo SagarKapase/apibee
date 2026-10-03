@@ -1,19 +1,19 @@
 import { A, C, Code, Exercise, H2, H3, Note, P, Run, Table, Ul } from "@/components/lesson";
 
 const rawRequest = `GET /api/echo?color=red HTTP/1.1
-Host: api.snap-test.in
+Host: api.testingapis.com
 User-Agent: curl/8.18.0
 Accept: */*`;
 
 const echoGet = `{
   "method": "GET",
-  "url": "http://api.snap-test.in/api/echo?color=red&size=10",
+  "url": "http://api.testingapis.com/api/echo?color=red&size=10",
   "path": "/api/echo",
   "queryString": "?color=red&size=10",
   "query": { "color": "red", "size": "10" },
   "headers": {
     "Accept": "*/*",
-    "Host": "api.snap-test.in",
+    "Host": "api.testingapis.com",
     "User-Agent": "curl/8.18.0",
     "Accept-Encoding": "gzip, br",
     "Cf-Ipcountry": "IN",
@@ -35,7 +35,7 @@ const notEncoded = `{
   "query": { "tag": "a", "b": "" }
 }`;
 
-const postCurl = `curl -X POST https://api.snap-test.in/api/echo \\
+const postCurl = `curl -X POST https://api.testingapis.com/api/echo \\
   -H "Content-Type: application/json" \\
   -d '{"title":"Dune","year":1965}'`;
 
@@ -49,7 +49,7 @@ const postEcho = `{
   "json": { "title": "Dune", "year": 1965 }
 }`;
 
-const formCurl = `curl -X POST https://api.snap-test.in/api/echo \\
+const formCurl = `curl -X POST https://api.testingapis.com/api/echo \\
   -d '{"title":"Dune"}'`;
 
 const formEcho = `{
@@ -85,7 +85,7 @@ export default function HttpRequests() {
       <P>
         HTTP/1.1 is a text protocol. Before any encryption, a request is a few
         lines of plain text. This is the request curl sends for{" "}
-        <C>https://api.snap-test.in/api/echo?color=red</C>. You can see it
+        <C>https://api.testingapis.com/api/echo?color=red</C>. You can see it
         yourself by running curl with <C>-v</C> (verbose): the lines that
         start with <C>&gt;</C> are what went out.
       </P>
@@ -138,12 +138,12 @@ export default function HttpRequests() {
 
       <H2 id="url">The URL</H2>
       <P>Break this URL into its parts:</P>
-      <Code code="https://api.snap-test.in/api/Products?category=books&limit=5" lang="text" label="URL" />
+      <Code code="https://api.testingapis.com/api/Products?category=books&limit=5" lang="text" label="URL" />
       <Table
         head={["Part", "Value", "Meaning"]}
         rows={[
           ["Scheme", <C key="s">https</C>, "How to connect. https is HTTP inside an encrypted connection."],
-          ["Host", <C key="h">api.snap-test.in</C>, "Which server. It is also sent as the Host header."],
+          ["Host", <C key="h">api.testingapis.com</C>, "Which server. It is also sent as the Host header."],
           ["Path", <C key="p">/api/Products</C>, "Which resource on that server."],
           ["Query string", <C key="q">category=books&amp;limit=5</C>, "Extra parameters, after the ?, separated by &."],
         ]}
@@ -217,7 +217,7 @@ export default function HttpRequests() {
           [<C key="2">Accept</C>, "The formats you are willing to receive.", <C key="e">application/json</C>],
           [<C key="3">User-Agent</C>, "Which client sent the request.", <C key="e">curl/8.18.0</C>],
           [<C key="4">Authorization</C>, "Credentials, such as a token.", <C key="e">Bearer abc123</C>],
-          [<C key="5">Host</C>, "Which site on the server. Clients fill it in from the URL.", <C key="e">api.snap-test.in</C>],
+          [<C key="5">Host</C>, "Which site on the server. Clients fill it in from the URL.", <C key="e">api.testingapis.com</C>],
         ]}
       />
       <P>

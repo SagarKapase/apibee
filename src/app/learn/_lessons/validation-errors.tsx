@@ -60,7 +60,7 @@ Content-Type: application/problem+json; charset=utf-8
   }
 }`;
 
-const strictUnknown = `curl -X POST https://api.snap-test.in/api/validation/strict \\
+const strictUnknown = `curl -X POST https://api.testingapis.com/api/validation/strict \\
   -H "Content-Type: application/json" \\
   -d '{"name": "Widget", "email": "a@b.co", "quantity": 2, "discount": 50}'
 
@@ -93,7 +93,7 @@ Content-Type: application/json; charset=utf-8
 HTTP/1.1 415 Unsupported Media Type
 {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.16","title":"Unsupported Media Type","status":415,"traceId":"00-4cadc1e1..."}`;
 
-const leakyError = `curl -X POST https://api.snap-test.in/api/Books \\
+const leakyError = `curl -X POST https://api.testingapis.com/api/Books \\
   -H "Content-Type: application/json" \\
   -d '{"title": "x", "author": "y", "pages": "many"}'
 

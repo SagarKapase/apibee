@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import { ToolShell, ToolPanel } from "@/components/tools/tool-shell";
 
 const EXAMPLE_ORIGINAL = `{
-  "name": "snap-test.in",
+  "name": "testingapis.com",
   "version": "1.0.0",
   "description": "Free REST API for developers",
   "endpoints": 12,
@@ -13,7 +13,7 @@ const EXAMPLE_ORIGINAL = `{
 }`;
 
 const EXAMPLE_MODIFIED = `{
-  "name": "snap-test.in",
+  "name": "testingapis.com",
   "version": "2.0.0",
   "description": "Free REST API for developers and teams",
   "endpoints": 16,
