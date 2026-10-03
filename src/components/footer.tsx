@@ -26,12 +26,18 @@ export function Footer() {
           >
             Learn
           </Link>
-          <a
-            href="mailto:contact@testingapis.com"
+          <Link
+            href="/about"
+            className="hover:text-[var(--text)] transition-colors"
+          >
+            About
+          </Link>
+          <Link
+            href="/support"
             className="hover:text-[var(--text)] transition-colors"
           >
             Support
-          </a>
+          </Link>
         </div>
       </div>
     </footer>
