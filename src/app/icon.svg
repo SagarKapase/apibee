@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -4 320 320">
+  <style>.ink{color:#292524}@media (prefers-color-scheme:dark){.ink{color:#fafaf9}}</style>
+  <g class="ink">
+    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M104 18Q127 28 131 74M216 18Q193 28 189 74" stroke-width="12"/>
+      <path d="M71 96 20 146 71 196M249 96 300 146 249 196" stroke-width="24"/>
+    </g>
+    <circle cx="104" cy="18" r="13" fill="currentColor"/>
+    <circle cx="216" cy="18" r="13" fill="currentColor"/>
+  </g>
+  <g fill="#F59E0B" stroke="#F59E0B" stroke-linejoin="round">
+    <path d="M87 141 123.5 77.8H196.5L233 141 196.5 204.2H123.5Z" stroke-width="14"/>
+    <path d="M106 226H214L204 246H116Z" stroke-width="8"/>
+    <path d="M131 267H189L160 299Z" stroke-width="8"/>
+  </g>
+  <path d="M127 141 148 162 194 117" fill="none" stroke="#292524" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

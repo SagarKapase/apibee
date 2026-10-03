@@ -5,6 +5,7 @@
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-brand: var(--font-poppins);
 }
 
 /* ─── Light tokens (default) ───
