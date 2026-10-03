@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CodeBlock } from "@/components/code-block";
 import { CopyButton } from "@/components/copy-button";
+import { Icon } from "@/components/icon";
 import { BASE_URL, WS_BASE_URL } from "@/lib/api-config";
 import { categories, endpointCount, groups } from "@/lib/api-data";
 import { pageMetadata } from "@/lib/seo";
@@ -143,12 +144,33 @@ export default function DocsPage() {
         <CodeBlock label="Quick start" code={quickStart} lang="javascript" />
       </div>
 
+      <div className="mt-4 flex flex-wrap items-center gap-3">
+        {/* /openapi.json is a build-time copy of the live document (src/app/openapi.json/route.ts). */}
+        <a
+          href="/openapi.json"
+          download="testingapis-openapi.json"
+          className="btn-press inline-flex items-center gap-2 h-10 px-4 rounded-md bg-[var(--btn-bg)] text-[var(--btn-fg)] text-sm font-medium hover:bg-[var(--btn-hover)]"
+        >
+          <Icon name="download" size={14} />
+          Download OpenAPI spec
+        </a>
+        <a
+          href={`${BASE_URL}/swagger/index.html`}
+          target="_blank"
+          rel="noopener"
+          className="btn-press inline-flex items-center gap-2 h-10 px-4 rounded-md border border-[var(--border)] bg-[var(--surface)] text-[var(--text)] text-sm font-medium hover:bg-[var(--accent-soft)]"
+        >
+          Open Swagger UI
+          <Icon name="externalLink" size={14} />
+        </a>
+      </div>
+
       <Section id="discovery" title="Discovery">
         <Table
           head={["What", "Where"]}
           rows={[
             ["OpenAPI 3.0 document", <Url key="o" href={`${BASE_URL}/openapi/v1.json`} />],
-            ["Swagger UI", <Url key="s" href={`${BASE_URL}/swagger`} />],
+            ["Swagger UI", <Url key="s" href={`${BASE_URL}/swagger/index.html`} />],
             ["Live route catalog", <Url key="c" method="GET" href={`${BASE_URL}/api`} />],
             [
               "Health checks",
