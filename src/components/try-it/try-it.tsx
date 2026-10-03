@@ -2,14 +2,16 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { BASE_URL, type Endpoint, type Method } from "@/lib/api-config";
-import { Highlighted } from "@/lib/syntax";
 import { CopyButton } from "../copy-button";
 import { MethodTag } from "../method-tag";
+import { CodeExamples } from "./code-examples";
 import { ResponseView, type ResponseState } from "./response-view";
+import { Section } from "./section";
 import { WebSocketPanel } from "./ws-panel";
 import {
   FORBIDDEN_HEADERS,
   PLACEHOLDERS,
+  REASONS,
   buildUrl,
   fill,
   initialState,
@@ -31,58 +33,9 @@ import {
 const inputClass =
   "w-full rounded-md border border-[var(--border)] bg-[var(--bg)] px-2.5 py-1.5 text-[13px] font-mono text-[var(--text)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--text-muted)]";
 
-const REASONS: Record<number, string> = {
-  200: "OK", 201: "Created", 202: "Accepted", 204: "No Content", 206: "Partial Content",
-  301: "Moved Permanently", 302: "Found", 303: "See Other", 304: "Not Modified",
-  307: "Temporary Redirect", 308: "Permanent Redirect", 400: "Bad Request",
-  401: "Unauthorized", 402: "Payment Required", 403: "Forbidden", 404: "Not Found",
-  405: "Method Not Allowed", 406: "Not Acceptable", 408: "Request Timeout", 409: "Conflict",
-  410: "Gone", 412: "Precondition Failed", 413: "Content Too Large", 415: "Unsupported Media Type",
-  416: "Range Not Satisfiable", 418: "I'm a teapot", 422: "Unprocessable Content",
-  428: "Precondition Required", 429: "Too Many Requests", 500: "Internal Server Error",
-  501: "Not Implemented", 502: "Bad Gateway", 503: "Service Unavailable", 504: "Gateway Timeout",
-};
-
 const MAX_TEXT = 2 * 1024 * 1024;
 const COLLAPSED_ROWS = 5;
 const FILE_TYPES = /pdf|octet-stream|zip|gzip|brotli|x-tar|audio\/|video\/|font\/|msword|officedocument/;
-
-function Section({
-  title,
-  defaultOpen = true,
-  children,
-}: {
-  title: string;
-  defaultOpen?: boolean;
-  children: React.ReactNode;
-}) {
-  const [open, setOpen] = useState(defaultOpen);
-  return (
-    <div className="border-b border-[var(--border)]">
-      <button
-        type="button"
-        onClick={() => setOpen(!open)}
-        aria-expanded={open}
-        className="w-full flex items-center gap-1.5 px-4 py-2.5 text-xs font-medium text-[var(--text)] cursor-pointer"
-      >
-        <svg
-          width="10"
-          height="10"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          aria-hidden="true"
-          className={`transition-transform ${open ? "rotate-90" : ""}`}
-        >
-          <path d="m9 18 6-6-6-6" />
-        </svg>
-        {title}
-      </button>
-      {open && <div className="px-4 pb-4">{children}</div>}
-    </div>
-  );
-}
 
 function FieldLabel({ name, meta, required, title }: { name: string; meta?: string; required?: boolean; title?: string }) {
   return (
@@ -221,7 +174,6 @@ export function TryIt({ endpoint, groupId }: { endpoint: Endpoint; groupId: stri
   const isWebSocket = endpoint.path.startsWith("/ws/");
   const [state, setState] = useState<RequestState>(() => initialState(endpoint));
   const [creds, setCreds] = useState<Credentials>({});
-  const [codeTab, setCodeTab] = useState<"cURL" | "fetch" | "Python">("cURL");
   const [fetching, setFetching] = useState<string | null>(null);
   const [credError, setCredError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -262,11 +214,14 @@ export function TryIt({ endpoint, groupId }: { endpoint: Endpoint; groupId: stri
   const hasBody = methodHasBody(state.method) && bodyType !== null;
   const notes = notesFor(endpoint, groupId);
 
-  const code = useMemo(() => {
-    if (codeTab === "fetch") return toFetch(endpoint, state, creds);
-    if (codeTab === "Python") return toPython(endpoint, state, creds);
-    return toCurl(endpoint, state, creds);
-  }, [codeTab, endpoint, state, creds]);
+  const examples = useMemo(
+    () => ({
+      cURL: toCurl(endpoint, state, creds),
+      fetch: toFetch(endpoint, state, creds),
+      Python: toPython(endpoint, state, creds),
+    }),
+    [endpoint, state, creds]
+  );
 
   function setCredential(name: string, value: string) {
     const next = { ...creds, [name]: value };
@@ -445,36 +400,7 @@ export function TryIt({ endpoint, groupId }: { endpoint: Endpoint; groupId: stri
       ) : (
         <>
           <Section title="Code examples">
-            <div className="rounded-lg border border-[var(--border)] overflow-hidden">
-              <div className="flex items-center justify-between bg-[#161616] border-b border-white/[0.06] pl-1 pr-3">
-                <div className="flex" role="tablist" aria-label="Language">
-                  {(["cURL", "fetch", "Python"] as const).map((t) => (
-                    <button
-                      key={t}
-                      type="button"
-                      role="tab"
-                      aria-selected={codeTab === t}
-                      onClick={() => setCodeTab(t)}
-                      className={`relative px-3 py-2 text-xs cursor-pointer ${
-                        codeTab === t ? "text-[#fafaf9]" : "text-[#78716c] hover:text-[#d6d3d1]"
-                      }`}
-                    >
-                      {t}
-                      {codeTab === t && <span className="absolute bottom-0 left-2 right-2 h-[2px] bg-[var(--code-accent)]" />}
-                    </button>
-                  ))}
-                </div>
-                <CopyButton text={code} label={`${codeTab} example`} hideLabel className="text-[#78716c] hover:text-[#e7e5e4]" />
-              </div>
-              <pre className="bg-[var(--code-bg)] px-3 py-3 overflow-auto max-h-64 text-[12px] leading-[1.6]">
-                <code className="font-mono">
-                  <Highlighted
-                    code={code}
-                    lang={codeTab === "cURL" ? "curl" : codeTab === "fetch" ? "javascript" : "python"}
-                  />
-                </code>
-              </pre>
-            </div>
+            <CodeExamples examples={examples} />
           </Section>
 
           {(endpoint.auth || entered.length > 0 || generated.length > 0) && (

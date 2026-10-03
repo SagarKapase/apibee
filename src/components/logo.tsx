@@ -40,9 +40,9 @@ export function LogoMark({ className }: { className?: string }) {
 // Mark plus the "testingapis.com" wordmark, set in Poppins Bold with "apis" in amber.
 export function Logo({ className = "" }: { className?: string }) {
   return (
-    <span className={`inline-flex items-center gap-2 ${className}`}>
-      <LogoMark className="h-7 w-auto shrink-0" />
-      <span className="font-brand text-[19px] font-bold leading-none tracking-[-0.02em]">
+    <span className={`inline-flex items-center gap-1.5 sm:gap-2 ${className}`}>
+      <LogoMark className="h-6 sm:h-7 w-auto shrink-0" />
+      <span className="font-brand text-[16px] sm:text-[19px] font-bold whitespace-nowrap leading-none tracking-[-0.02em]">
         testing<span className="text-[#f59e0b]">apis</span>.com
       </span>
     </span>

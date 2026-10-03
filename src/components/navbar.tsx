@@ -17,12 +17,12 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 h-14 border-b border-[var(--border)] bg-[var(--bg)]">
-      <nav className="max-w-5xl h-full mx-auto flex items-center justify-between px-5">
+      <nav className="max-w-5xl h-full mx-auto flex items-center justify-between gap-2 px-4 sm:px-5">
         <Link href="/" aria-label="testingapis.com home" className="text-[var(--text)]">
           <Logo />
         </Link>
 
-        <div className="flex items-center gap-1">
+        <div className="flex items-center sm:gap-1">
           {navLinks.map((link) => {
             const isActive = pathname.startsWith(link.href);
             return (
@@ -30,7 +30,7 @@ export function Navbar() {
                 key={link.href}
                 href={link.href}
                 aria-current={isActive ? "page" : undefined}
-                className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
+                className={`px-1.5 sm:px-3 py-1.5 text-sm rounded-md transition-colors ${
                   isActive
                     ? "text-[var(--text)] font-medium"
                     : "text-[var(--text-muted)] hover:text-[var(--text)]"
@@ -41,7 +41,7 @@ export function Navbar() {
             );
           })}
 
-          <div className="w-px h-4 bg-[var(--border)] mx-2" />
+          <div className="hidden sm:block w-px h-4 bg-[var(--border)] mx-2" />
 
           <button
             onClick={toggle}
