@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { CurlParser } from "@/components/tools/curl-parser";
 import { JsonLd } from "@/components/json-ld";
+import { ToolGuide } from "@/components/tools/tool-guide";
+import { guide } from "@/lib/tool-guides/curl-parser";
 import { pageMetadata, toolJsonLd } from "@/lib/seo";
 
 const page = {
@@ -16,6 +18,7 @@ export default function Page() {
     <>
       <JsonLd data={toolJsonLd(page)} />
       <CurlParser />
+      <ToolGuide guide={guide} />
     </>
   );
 }

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { RegexTester } from "@/components/tools/regex-tester";
 import { JsonLd } from "@/components/json-ld";
+import { ToolGuide } from "@/components/tools/tool-guide";
+import { guide } from "@/lib/tool-guides/regex-tester";
 import { pageMetadata, toolJsonLd } from "@/lib/seo";
 
 const page = {
@@ -16,6 +18,7 @@ export default function Page() {
     <>
       <JsonLd data={toolJsonLd(page)} />
       <RegexTester />
+      <ToolGuide guide={guide} />
     </>
   );
 }
