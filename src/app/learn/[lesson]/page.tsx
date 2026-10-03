@@ -57,41 +57,39 @@ export default async function LessonPage({
           publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
         }}
       />
-      <p className="text-xs text-[var(--text-muted)] mb-3">
+      <p className="mb-3 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--text-muted)]">
         <Link href="/learn" className="hover:text-[var(--text)]">
           Learn
         </Link>
-        <span className="mx-1.5">/</span>
+        <span className="mx-2" aria-hidden="true">/</span>
         {lesson.level}
-        <span className="mx-1.5">/</span>
-        Lesson {number} of {lessons.length}
+        <span className="mx-2" aria-hidden="true">/</span>
+        <span className="text-[var(--accent)]">
+          Lesson {number} of {lessons.length}
+        </span>
       </p>
-      <h1 className="text-3xl font-semibold tracking-tight text-[var(--text)]">
+      <h1 className="text-3xl sm:text-4xl font-semibold tracking-[-0.03em] text-[var(--text)]">
         {lesson.title}
       </h1>
-      <p className="mt-3 text-[var(--text-muted)] leading-relaxed">{lesson.summary}</p>
+      <p className="mt-3 text-[15px] text-[var(--text-muted)] leading-relaxed">{lesson.summary}</p>
 
       <div className="mt-8 text-[15px] leading-7 text-[var(--text)]">
         <Body />
       </div>
 
-      <nav className="mt-14 pt-6 border-t border-[var(--border)] grid grid-cols-2 gap-4 text-sm">
+      <nav aria-label="Lessons" className="mt-14 grid gap-3 sm:grid-cols-2">
         {previous ? (
-          <Link href={`/learn/${previous.slug}`} className="group">
-            <span className="block text-xs text-[var(--text-muted)]">Previous</span>
-            <span className="text-[var(--text)] group-hover:underline underline-offset-4">
-              {previous.title}
-            </span>
+          <Link href={`/learn/${previous.slug}`} className="group rounded-[9px] border border-[var(--border)] bg-[var(--surface)] p-4 transition-colors duration-150 hover:border-[var(--text-muted)]/40">
+            <span className="block font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--text-muted)]">Previous</span>
+            <span className="mt-1 block text-sm font-semibold text-[var(--text)]">{previous.title}</span>
           </Link>
         ) : (
-          <span />
+          <span className="hidden sm:block" />
         )}
         {next && (
-          <Link href={`/learn/${next.slug}`} className="group text-right">
-            <span className="block text-xs text-[var(--text-muted)]">Next</span>
-            <span className="text-[var(--text)] group-hover:underline underline-offset-4">
-              {next.title}
-            </span>
+          <Link href={`/learn/${next.slug}`} className="group rounded-[9px] border border-[var(--border)] bg-[var(--surface)] p-4 transition-colors duration-150 hover:border-[var(--text-muted)]/40 text-right">
+            <span className="block font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--text-muted)]">Next</span>
+            <span className="mt-1 block text-sm font-semibold text-[var(--text)]">{next.title}</span>
           </Link>
         )}
       </nav>

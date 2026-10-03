@@ -93,7 +93,8 @@ export function DocsSidebar({
   reference: NavLink[];
   search: SearchEntry[];
 }) {
-  const pathname = usePathname();
+  // Pages are served with a trailing slash; nav hrefs are written without one.
+  const pathname = usePathname().replace(/(.)\/$/, "$1");
   const currentGroup = pathname.split("/")[2] ?? "";
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -167,7 +168,7 @@ export function DocsSidebar({
       </button>
 
       <aside
-        className={`fixed top-14 left-0 w-72 h-[calc(100vh-3.5rem)] border-r border-[var(--border)] bg-[var(--surface)] z-40 flex flex-col transition-transform duration-200 lg:translate-x-0 ${
+        className={`fixed top-14 left-0 w-72 h-[calc(100vh-3.5rem)] lg:sticky lg:self-start lg:shrink-0 border-r border-[var(--border)] bg-[var(--surface)] z-40 flex flex-col transition-transform duration-200 lg:translate-x-0 ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >

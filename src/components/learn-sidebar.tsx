@@ -14,7 +14,8 @@ function linkClass(active: boolean) {
 }
 
 export function LearnSidebar() {
-  const pathname = usePathname();
+  // Pages are served with a trailing slash; nav hrefs are written without one.
+  const pathname = usePathname().replace(/(.)\/$/, "$1");
   const [open, setOpen] = useState(false);
 
   return (
@@ -31,7 +32,7 @@ export function LearnSidebar() {
       </button>
 
       <aside
-        className={`fixed top-14 left-0 w-72 h-[calc(100vh-3.5rem)] border-r border-[var(--border)] bg-[var(--surface)] z-40 transition-transform duration-200 lg:translate-x-0 ${
+        className={`fixed top-14 left-0 w-72 h-[calc(100vh-3.5rem)] lg:sticky lg:self-start lg:shrink-0 border-r border-[var(--border)] bg-[var(--surface)] z-40 transition-transform duration-200 lg:translate-x-0 ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -46,7 +47,7 @@ export function LearnSidebar() {
           </Link>
           {levels.map(({ level }) => (
             <div key={level}>
-              <h3 className="text-xs font-medium text-[var(--text)] mb-1.5 px-2">{level}</h3>
+              <h3 className="mb-1.5 px-2 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--text-muted)]">{level}</h3>
               <ul className="space-y-px">
                 {lessons.map((l, i) =>
                   l.level !== level ? null : (
@@ -57,7 +58,7 @@ export function LearnSidebar() {
                         aria-current={pathname === `/learn/${l.slug}` ? "page" : undefined}
                         className={linkClass(pathname === `/learn/${l.slug}`)}
                       >
-                        <span className="w-5 shrink-0 text-right tabular-nums text-[var(--text-muted)]">
+                        <span className="w-5 shrink-0 text-right font-mono text-[11px] leading-5 tabular-nums text-[var(--text-muted)]">
                           {i + 1}
                         </span>
                         <span>{l.title}</span>
