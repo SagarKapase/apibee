@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import {
   APIPlayground,
@@ -7,6 +8,7 @@ import { CodeTabs } from "@/components/code-tabs";
 import { CopyButton } from "@/components/copy-button";
 import { LiveConsole } from "@/components/live-console";
 import { Icon } from "@/components/icon";
+import { JsonLd } from "@/components/json-ld";
 import { BASE_URL, withHost } from "@/lib/api-config";
 import {
   categories,
@@ -17,6 +19,21 @@ import {
   groups,
   sampleResponse,
 } from "@/lib/api-data";
+import { SITE_NAME, SITE_URL } from "@/lib/seo";
+
+// Title, description and Open Graph tags come from the root layout.
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
+
+// Lets Google show "testingapis.com" as the site name in search results.
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: SITE_NAME,
+  alternateName: "Testing APIs",
+  url: `${SITE_URL}/`,
+};
 
 // Groups shown in the homepage explorer. Only these are sent to the browser.
 const PLAYGROUND_GROUPS = ["products", "books", "countries", "echo", "status", "utils"];
@@ -106,6 +123,7 @@ function SectionHeader({
 export default function Home() {
   return (
     <>
+      <JsonLd data={websiteJsonLd} />
       {/* Hero */}
       <section className="border-b border-[var(--border)]">
         <div className="max-w-5xl mx-auto px-5 pt-16 sm:pt-24 pb-12">

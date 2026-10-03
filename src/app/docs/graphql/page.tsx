@@ -4,11 +4,14 @@ import { CopyButton } from "@/components/copy-button";
 import { MethodTag } from "@/components/method-tag";
 import { BASE_URL, withHost } from "@/lib/api-config";
 import { graphql, type GraphQLOperation } from "@/lib/api-data";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "GraphQL",
-  description: "GraphQL queries and mutations available at /graphql.",
-};
+export const metadata: Metadata = pageMetadata({
+  path: "/docs/graphql",
+  title: "Free fake GraphQL API",
+  description:
+    "Every query and mutation on the free testingapis.com GraphQL endpoint at /graphql, with example requests and responses. No API key required.",
+});
 
 const example = graphql.intro.find((i) => i.code)?.text ?? "";
 

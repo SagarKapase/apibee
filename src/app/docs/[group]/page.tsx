@@ -6,6 +6,7 @@ import { InlineText } from "@/components/inline-text";
 import { MethodTag } from "@/components/method-tag";
 import { fullUrl } from "@/lib/api-config";
 import { endpointHref, findGroup, groups } from "@/lib/api-data";
+import { pageMetadata } from "@/lib/seo";
 
 export const dynamicParams = false;
 
@@ -21,10 +22,11 @@ export async function generateMetadata({
   const { group: id } = await params;
   const found = findGroup(id);
   if (!found) return {};
-  return {
+  return pageMetadata({
+    path: `/docs/${found.group.id}`,
     title: `${found.group.title} API`,
     description: found.group.description,
-  };
+  });
 }
 
 export default async function GroupPage({

@@ -5,6 +5,7 @@ import { EndpointDoc } from "@/components/endpoint-doc";
 import { MethodTag } from "@/components/method-tag";
 import { TryIt } from "@/components/try-it/try-it";
 import { endpointHref, endpoints, findEndpoint } from "@/lib/api-data";
+import { pageMetadata } from "@/lib/seo";
 
 export const dynamicParams = false;
 
@@ -19,10 +20,11 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const found = findEndpoint(group, endpoint);
   if (!found) return {};
   const e = found.endpoint;
-  return {
+  return pageMetadata({
+    path: endpointHref(group, endpoint),
     title: `${e.title} (${e.methods[0]} ${e.path})`,
     description: e.summary,
-  };
+  });
 }
 
 function Neighbour({

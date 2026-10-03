@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Icon } from "@/components/icon";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/tools",
   title: "Developer tools",
   description:
     "JSON formatter, JWT decoder, Base64 and URL encoders, format converters and generators. Everything runs in your browser.",
-};
+});
 
 const groups = [
   {

@@ -1,11 +1,21 @@
 import type { Metadata } from "next";
 import { MockDataGenerator } from "@/components/tools/mock-data-generator";
+import { JsonLd } from "@/components/json-ld";
+import { pageMetadata, toolJsonLd } from "@/lib/seo";
 
-export const metadata: Metadata = {
+const page = {
+  path: "/tools/mock-data",
   title: "Mock Data Generator",
   description: "Generate fake names, emails, addresses, and more. Configurable, bulk-ready. Client-side only.",
 };
 
+export const metadata: Metadata = pageMetadata(page);
+
 export default function Page() {
-  return <MockDataGenerator />;
+  return (
+    <>
+      <JsonLd data={toolJsonLd(page)} />
+      <MockDataGenerator />
+    </>
+  );
 }

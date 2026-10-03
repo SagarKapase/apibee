@@ -4,12 +4,14 @@ import { CodeBlock } from "@/components/code-block";
 import { CopyButton } from "@/components/copy-button";
 import { BASE_URL, WS_BASE_URL } from "@/lib/api-config";
 import { categories, endpointCount, groups } from "@/lib/api-data";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/docs",
   title: "API reference",
   description:
     "Reference for every testingapis.com endpoint: parameters, authentication, request bodies and example responses.",
-};
+});
 
 const quickStart = `fetch('${BASE_URL}/api/Products?limit=3')
   .then(res => res.json())

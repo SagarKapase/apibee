@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { lessons, levels } from "@/lib/learn";
 import { BASE_URL } from "@/lib/api-config";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/learn",
   title: "Learn API testing",
   description:
     "A free API testing tutorial in 19 lessons, from your first HTTP request to security, load and CI. Every example runs against a real API.",
-};
+});
 
 export default function LearnPage() {
   return (
