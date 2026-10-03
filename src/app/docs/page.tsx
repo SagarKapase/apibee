@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CategoryCards } from "@/components/api-collection";
 import { CodeBlock } from "@/components/code-block";
 import { CopyButton } from "@/components/copy-button";
 import { Icon } from "@/components/icon";
 import { BASE_URL, WS_BASE_URL } from "@/lib/api-config";
-import { categories, endpointCount, groups } from "@/lib/api-data";
+import { endpointCount, groups } from "@/lib/api-data";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -369,31 +370,12 @@ export default function DocsPage() {
       </Section>
 
       <Section id="endpoints" title="Endpoints">
-        <div className="grid sm:grid-cols-2 gap-x-10 gap-y-8">
-          {categories.map((c) => (
-            // The homepage links here as /docs#<category id>.
-            <div key={c.id} id={c.id}>
-              <h3 className="text-sm font-medium text-[var(--text)] mb-2">
-                {c.title}
-              </h3>
-              <ul className="border-t border-[var(--border)]">
-                {c.groups.map((g) => (
-                  <li key={g.id} className="border-b border-[var(--border)]">
-                    <Link
-                      href={`/docs/${g.id}`}
-                      className="flex items-baseline justify-between gap-3 py-2 hover:text-[var(--text)]"
-                    >
-                      <span className="text-[var(--text)]">{g.title}</span>
-                      <span className="text-xs font-mono">
-                        {g.endpoints.length}
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+        <p>
+          {endpointCount} endpoints in {groups.length} groups. Each group opens its reference,
+          with parameters and example requests and responses.
+        </p>
+        {/* Each card has its category id, which the homepage links to as /docs#<id>. */}
+        <CategoryCards className="columns-1 md:columns-2" anchors />
       </Section>
     </article>
   );
