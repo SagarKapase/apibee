@@ -152,7 +152,7 @@ export function HttpStatusReference() {
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
-            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#525252]"
+            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#656b73]"
           >
             <circle cx="11" cy="11" r="8" />
             <path d="m21 21-4.3-4.3" />
@@ -162,11 +162,11 @@ export function HttpStatusReference() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by code, name, or description..."
-            className="w-full bg-[var(--code-bg)] pl-10 pr-4 py-3 text-sm font-mono text-[var(--code-fg)] rounded-lg outline-none border border-[var(--border)] placeholder-[#525252] focus:outline-none focus:ring-0 focus-visible:outline-none"
+            className="w-full bg-[var(--code-bg)] pl-10 pr-4 py-3 text-sm font-mono text-[var(--code-fg)] rounded-lg outline-none border border-[var(--border)] placeholder-[#656b73] focus:outline-none focus:ring-0 focus-visible:outline-none"
             spellCheck={false}
           />
           {search && (
-            <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[10px] font-mono text-[#525252]">
+            <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[10px] font-mono text-[#656b73]">
               {totalShown} result{totalShown !== 1 ? "s" : ""}
             </span>
           )}

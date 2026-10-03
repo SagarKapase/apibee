@@ -4,10 +4,11 @@ import {
   APIPlayground,
   type PlaygroundGroup,
 } from "@/components/api-playground";
+import { ApiCollection } from "@/components/api-collection";
 import { CodeTabs } from "@/components/code-tabs";
 import { CopyButton } from "@/components/copy-button";
-import { LiveConsole } from "@/components/live-console";
-import { Icon } from "@/components/icon";
+import { LiveConsole, type ConsoleResource } from "@/components/live-console";
+import { Icon, type IconName } from "@/components/icon";
 import { JsonLd } from "@/components/json-ld";
 import { BASE_URL, withHost } from "@/lib/api-config";
 import {
@@ -16,7 +17,6 @@ import {
   endpointCount,
   endpointHref,
   findGroup,
-  groups,
   sampleResponse,
 } from "@/lib/api-data";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
@@ -35,11 +35,14 @@ const websiteJsonLd = {
   url: `${SITE_URL}/`,
 };
 
-// Groups shown in the homepage explorer. Only these are sent to the browser.
-const PLAYGROUND_GROUPS = ["products", "books", "countries", "echo", "status", "utils"];
+// The explorer's sidebar lists the Resources category; the tabs are the most used groups.
+// Only these groups are sent to the browser.
+const EXPLORER_TABS = ["products", "posts", "countries", "echo", "status", "utils"];
+const EXPLORER_RESOURCES =
+  categories.find((c) => c.id === "resources")?.groups.map((g) => g.id) ?? [];
 const MAX_RESPONSE_LINES = 40;
 
-const playground: PlaygroundGroup[] = PLAYGROUND_GROUPS.flatMap((id) => {
+const playground: PlaygroundGroup[] = [...new Set([...EXPLORER_TABS, ...EXPLORER_RESOURCES])].flatMap((id) => {
   const found = findGroup(id);
   if (!found) return [];
   return [
@@ -57,12 +60,59 @@ const playground: PlaygroundGroup[] = PLAYGROUND_GROUPS.flatMap((id) => {
           curl: withHost(e.exampleRequest.curl),
           requestBody: e.requestBody?.example,
           status: e.exampleResponse.status,
+          headers: e.exampleResponse.headers,
           response:
             lines.length > MAX_RESPONSE_LINES
               ? [...lines.slice(0, MAX_RESPONSE_LINES), "…"].join("\n")
               : lines.join("\n"),
         };
       }),
+    },
+  ];
+});
+
+const summary: { icon: IconName; title: string; detail: string }[] = [
+  { icon: "box", title: String(endpointCount), detail: "endpoints" },
+  { icon: "layers", title: String(categories.length), detail: "categories" },
+  { icon: "fileText", title: "Realistic data", detail: "products, books, countries + more" },
+  { icon: "zap", title: "No account", detail: "no API key or sign-up" },
+];
+
+// Statements here must stay true of the API.
+const usageNotes: { icon: IconName; title: string; detail: string }[] = [
+  { icon: "zap", title: "Simple HTTP", detail: "Standard methods, JSON responses by default" },
+  { icon: "code", title: "No SDK required", detail: "Works with any language or HTTP tool" },
+  { icon: "globe", title: "Public and free", detail: "Most endpoints need no credentials" },
+];
+
+// Resources in the live console sidebar. Titles, counts and the request each one loads come from the catalog.
+const CONSOLE_GROUPS = ["products", "posts", "countries", "echo", "status", "utils", "books", "movies"];
+
+const consoleResources: ConsoleResource[] = CONSOLE_GROUPS.flatMap((id) => {
+  const found = findGroup(id);
+  if (!found) return [];
+  const { group } = found;
+  const first = group.endpoints[0];
+  // The path every endpoint in the group starts with, cut back to a whole segment.
+  const paths = group.endpoints.map((e) => e.exampleRequest.path.split("?")[0]);
+  let prefix = paths.reduce((acc, p) => {
+    let i = 0;
+    while (i < acc.length && acc[i] === p[i]) i++;
+    return acc.slice(0, i);
+  });
+  if (!paths.every((p) => p.length === prefix.length || p[prefix.length] === "/")) {
+    prefix = prefix.slice(0, prefix.lastIndexOf("/") + 1);
+  }
+  prefix = prefix.replace(/\/$/, "");
+  return [
+    {
+      id,
+      title: group.title,
+      count: group.endpoints.length,
+      prefix,
+      method: first.exampleRequest.method,
+      path: first.exampleRequest.path,
+      body: first.requestBody?.example,
     },
   ];
 });
@@ -94,28 +144,39 @@ const facts = [
   },
 ];
 
+// Monospace eyebrow, then a heading with one amber phrase.
 function SectionHeader({
+  eyebrow,
   title,
+  highlight,
   description,
-  aside,
 }: {
+  eyebrow: string;
   title: string;
+  /** The part of the title shown in amber. */
+  highlight?: string;
   description?: string;
-  aside?: React.ReactNode;
 }) {
+  const at = highlight ? title.indexOf(highlight) : -1;
   return (
-    <div className="flex items-end justify-between gap-4 mb-6">
-      <div>
-        <h2 className="text-xl font-semibold tracking-tight text-[var(--text)]">
-          {title}
-        </h2>
-        {description && (
-          <p className="mt-1 text-sm text-[var(--text-muted)] max-w-xl">
-            {description}
-          </p>
+    <div className="mb-7">
+      <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--text-muted)]">
+        {eyebrow}
+      </p>
+      <h2 className="mt-2 text-[1.75rem] sm:text-4xl font-semibold leading-[1.08] tracking-[-0.03em] text-[var(--text)]">
+        {at === -1 ? (
+          title
+        ) : (
+          <>
+            {title.slice(0, at)}
+            <span className="text-[var(--accent)]">{highlight}</span>
+            {title.slice(at + highlight!.length)}
+          </>
         )}
-      </div>
-      {aside}
+      </h2>
+      {description && (
+        <p className="mt-2.5 max-w-2xl text-sm leading-relaxed text-[var(--text-muted)]">{description}</p>
+      )}
     </div>
   );
 }
@@ -126,46 +187,87 @@ export default function Home() {
       <JsonLd data={websiteJsonLd} />
       {/* Hero */}
       <section className="border-b border-[var(--border)]">
-        <div className="max-w-5xl mx-auto px-5 pt-16 sm:pt-24 pb-12">
-          <h1 className="max-w-2xl text-3xl sm:text-[2.75rem] sm:leading-[1.1] font-semibold tracking-tight text-[var(--text)]">
-            A free API for testing HTTP clients.
-          </h1>
-          <p className="mt-4 max-w-xl text-[var(--text-muted)] leading-relaxed">
-            {endpointCount} endpoints with realistic data: products, books and
-            countries, plus status codes, redirects, auth schemes, file formats,
-            streaming and failure injection. No account required.
-          </p>
+        <div className="max-w-5xl mx-auto px-5 pt-14 sm:pt-20 pb-12">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_25rem] lg:items-center">
+            <div>
+              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.13em] text-[var(--text-muted)]">
+                API documentation
+              </p>
+              <h1 className="mt-3 text-[2.25rem] leading-[1.05] sm:text-5xl sm:leading-[1.02] font-semibold tracking-[-0.035em] text-[var(--text)]">
+                A free API for <span className="text-[var(--accent)]">testing</span>
+                <br />
+                HTTP clients.
+              </h1>
+              <p className="mt-4 max-w-xl text-[15px] text-[var(--text-muted)] leading-relaxed">
+                {endpointCount} endpoints with realistic data: products, books and
+                countries, plus status codes, redirects, auth schemes, file formats,
+                streaming and failure injection. No account required.
+              </p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <Link
-              href="/docs"
-              className="btn-press inline-flex items-center gap-2 h-10 px-4 rounded-md bg-[var(--btn-bg)] text-[var(--btn-fg)] text-sm font-medium hover:bg-[var(--btn-hover)]"
-            >
-              Read the docs
-              <Icon name="arrowRight" size={14} />
-            </Link>
-            <div className="inline-flex items-center gap-3 h-10 pl-4 pr-3 rounded-md border border-[var(--border)] bg-[var(--surface)]">
-              <code className="text-[13px] font-mono text-[var(--text)] select-all">
-                {BASE_URL}
-              </code>
-              <CopyButton text={BASE_URL} label="base URL" hideLabel />
+              <div className="mt-7 flex flex-col sm:flex-row sm:items-center gap-3">
+                <Link
+                  href="/docs"
+                  className="btn-press inline-flex items-center justify-center gap-2 h-10 px-4 rounded-md bg-[#f59e0b] text-[#1c1917] text-sm font-semibold hover:bg-[#fbbf24]"
+                >
+                  Read the docs
+                  <Icon name="arrowRight" size={14} />
+                </Link>
+                <div className="flex items-center gap-3 h-10 pl-3 pr-2 rounded-md border border-[var(--border)] bg-[var(--bg)] sm:min-w-[19rem]">
+                  <code className="flex-1 min-w-0 truncate text-[13px] font-mono text-[var(--text)] select-all">
+                    {BASE_URL}
+                  </code>
+                  <CopyButton text={BASE_URL} label="base URL" hideLabel className="shrink-0 p-1" />
+                </div>
+              </div>
             </div>
+
+            {/* One panel with hairline dividers: the gap shows the border color behind the cells. */}
+            <dl className="grid grid-cols-1 min-[360px]:grid-cols-2 gap-px overflow-hidden rounded-[10px] border border-[var(--border)] bg-[var(--border)]">
+              {summary.map((item) => (
+                <div key={item.title} className="flex items-center gap-3 bg-[var(--surface)] p-3.5 sm:p-4">
+                  <span className="grid place-items-center size-9 shrink-0 rounded-full bg-amber-500/10 text-[var(--accent)]">
+                    <Icon name={item.icon} size={17} />
+                  </span>
+                  <div className="min-w-0">
+                    <dt className="text-[15px] font-semibold leading-tight text-[var(--text)]">{item.title}</dt>
+                    <dd className="mt-0.5 text-xs leading-snug text-[var(--text-muted)]">{item.detail}</dd>
+                  </div>
+                </div>
+              ))}
+            </dl>
           </div>
 
           <div className="mt-12">
-            <APIPlayground groups={playground} />
+            <APIPlayground groups={playground} resources={EXPLORER_RESOURCES} tabs={EXPLORER_TABS} />
           </div>
         </div>
       </section>
 
       {/* Usage */}
-      <section className="bg-[var(--surface)] border-b border-[var(--border)]">
+      <section className="border-b border-[var(--border)]">
         <div className="max-w-5xl mx-auto px-5 py-16">
           <SectionHeader
+            eyebrow="Quick start"
             title="Call it from any language"
-            description="It is plain HTTPS. Use fetch, requests, curl or any other HTTP client."
+            highlight="any language"
+            description="It is a plain HTTPS API that returns JSON. Use fetch, requests, curl or any other HTTP client."
           />
-          <CodeTabs examples={codeExamples} sampleResponse={sampleResponse} />
+          <div className="grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[minmax(0,1fr)_15rem] lg:gap-12 items-start">
+            <CodeTabs examples={codeExamples} sampleResponse={sampleResponse} />
+            <ul className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1 lg:gap-0 lg:divide-y lg:divide-[var(--border)]">
+              {usageNotes.map((n) => (
+                <li key={n.title} className="flex gap-3 lg:py-3.5 lg:first:pt-1">
+                  <span className="grid place-items-center size-8 shrink-0 rounded-[7px] bg-amber-500/10 text-[var(--accent)]">
+                    <Icon name={n.icon} size={16} />
+                  </span>
+                  <div>
+                    <p className="text-[13px] font-semibold text-[var(--text)]">{n.title}</p>
+                    <p className="mt-0.5 text-xs leading-snug text-[var(--text-muted)]">{n.detail}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
 
@@ -173,59 +275,26 @@ export default function Home() {
       <section className="border-b border-[var(--border)]">
         <div className="max-w-5xl mx-auto px-5 py-16">
           <SectionHeader
+            eyebrow="Try it now"
             title="Send a live request"
-            description="Choose a preset or edit the request. It goes to the running API. If the server has been idle, the first response can take a few seconds."
+            highlight="live request"
+            description="Choose a resource or a preset, or edit the request. It goes to the running API, not a mock. If the server has been idle, the first response can take a few seconds."
           />
-          <LiveConsole />
+          <LiveConsole resources={consoleResources} />
         </div>
       </section>
 
       {/* What's included */}
       <section className="border-b border-[var(--border)]">
         <div className="max-w-5xl mx-auto px-5 py-16">
-          <SectionHeader
-            title="What's included"
-            description={`${groups.length} groups of endpoints in ${categories.length} categories. Each links to its reference.`}
-            aside={
-              <span className="hidden sm:block text-xs font-mono text-[var(--text-muted)] whitespace-nowrap">
-                {endpointCount} endpoints
-              </span>
-            }
-          />
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-10">
-            {categories.map((c) => (
-              <div key={c.id}>
-                <h3 className="text-sm font-medium text-[var(--text)] mb-2">
-                  {c.title}
-                </h3>
-                <ul className="border-t border-[var(--border)] text-sm">
-                  {c.groups.map((g) => (
-                    <li key={g.id} className="border-b border-[var(--border)]">
-                      <Link
-                        href={`/docs/${g.id}`}
-                        className="group flex items-baseline justify-between gap-3 py-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors"
-                      >
-                        <span className="text-[var(--text)] group-hover:underline underline-offset-4">
-                          {g.title}
-                        </span>
-                        <span className="text-xs font-mono">
-                          {g.endpoints.length}
-                        </span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+          <ApiCollection />
         </div>
       </section>
 
       {/* Behaviour */}
-      <section className="bg-[var(--surface)] border-b border-[var(--border)]">
+      <section className="border-b border-[var(--border)]">
         <div className="max-w-5xl mx-auto px-5 py-16">
-          <SectionHeader title="How it behaves" />
+          <SectionHeader eyebrow="Details" title="How it behaves" highlight="behaves" />
           <dl className="grid sm:grid-cols-2 gap-x-12 gap-y-6">
             {facts.map((f) => (
               <div

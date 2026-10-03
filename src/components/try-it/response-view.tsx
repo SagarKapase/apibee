@@ -128,7 +128,7 @@ export function ResponseView({ response }: { response: ResponseState }) {
               text={body?.text ?? response.text}
               label="response body"
               hideLabel
-              className="absolute top-2 right-2 text-[#78716c] hover:text-[#e7e5e4]"
+              className="absolute top-2 right-2 text-[#8d9299] hover:text-[#e1e3e5]"
             />
           )}
           <pre className="bg-[var(--code-bg)] px-3 py-3 pr-9 overflow-auto max-h-[28rem] text-[12px] leading-[1.6]">

@@ -108,7 +108,7 @@ export function RunRequest({
       )}
       {result && (
         <div className="border-t border-[var(--border)]">
-          <div className="px-3 py-1.5 bg-[#161616] text-xs font-mono text-[#a8a29e] space-y-0.5">
+          <div className="px-3 py-1.5 bg-[#0f1112] text-xs font-mono text-[#969ba3] space-y-0.5">
             <p>
               <span className={result.status < 400 ? "text-emerald-400" : "text-red-400"}>
                 {result.status} {result.statusText}
@@ -128,7 +128,7 @@ export function RunRequest({
               </code>
             </pre>
           ) : (
-            <p className="bg-[var(--code-bg)] px-4 py-3 text-[12px] font-mono text-[#78716c]">
+            <p className="bg-[var(--code-bg)] px-4 py-3 text-[12px] font-mono text-[#8d9299]">
               (empty body)
             </p>
           )}

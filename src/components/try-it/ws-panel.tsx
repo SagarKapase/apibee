@@ -97,14 +97,14 @@ export function WebSocketPanel({ path }: { path: string }) {
       </div>
       <div className="rounded-lg border border-[var(--border)] bg-[var(--code-bg)] max-h-72 overflow-auto px-3 py-2 font-mono text-[12px] leading-[1.6]">
         {log.length === 0 ? (
-          <p className="text-[#78716c]">Messages appear here.</p>
+          <p className="text-[#8d9299]">Messages appear here.</p>
         ) : (
           log.map((e) => (
             <p key={e.id} className="break-all">
-              <span className="text-[#78716c]">{e.at} </span>
+              <span className="text-[#8d9299]">{e.at} </span>
               <span
                 className={
-                  e.dir === "in" ? "text-emerald-400" : e.dir === "out" ? "text-sky-400" : "text-[#a8a29e]"
+                  e.dir === "in" ? "text-emerald-400" : e.dir === "out" ? "text-sky-400" : "text-[#969ba3]"
                 }
               >
                 {e.dir === "in" ? "← " : e.dir === "out" ? "→ " : "· "}

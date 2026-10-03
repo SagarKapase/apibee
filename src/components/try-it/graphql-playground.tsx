@@ -68,7 +68,7 @@ function CodeEditor({
   return (
     <div className="grid max-h-80 overflow-auto rounded-md border border-[var(--border)] bg-[var(--code-bg)] focus-within:border-[var(--text-muted)]">
       <pre aria-hidden="true" className={`${layer} pointer-events-none text-[var(--code-fg)]`}>
-        {value ? <Highlighted code={value} lang={lang} /> : <span className="text-[#78716c]">{placeholder}</span>}
+        {value ? <Highlighted code={value} lang={lang} /> : <span className="text-[#8d9299]">{placeholder}</span>}
         {"\n"}
       </pre>
       <textarea

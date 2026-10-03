@@ -68,7 +68,7 @@ export function UuidGenerator() {
           <div className="flex items-center gap-2">
             <CopyButton
               text={displayed}
-              className="text-[#78716c] hover:text-[#e7e5e4] text-xs"
+              className="text-[#8d9299] hover:text-[#e1e3e5] text-xs"
             />
             <button
               onClick={generate}
@@ -117,11 +117,11 @@ export function UuidGenerator() {
                 <CopyButton
                   text={bulk.map((u) => formatUuid(u, upper, noDashes)).join("\n")}
                   label="Copy All"
-                  className="text-[#78716c] hover:text-[#e7e5e4] text-xs"
+                  className="text-[#8d9299] hover:text-[#e1e3e5] text-xs"
                 />
                 <button
                   onClick={() => setBulk([])}
-                  className="text-[10px] font-medium text-[#525252] hover:text-red-400 cursor-pointer transition-colors"
+                  className="text-[10px] font-medium text-[#656b73] hover:text-red-400 cursor-pointer transition-colors"
                 >
                   Clear
                 </button>
@@ -143,7 +143,7 @@ export function UuidGenerator() {
                     </code>
                     <CopyButton
                       text={formatted}
-                      className="text-[#78716c] hover:text-[#e7e5e4] opacity-0 group-hover:opacity-100 transition-opacity text-xs"
+                      className="text-[#8d9299] hover:text-[#e1e3e5] opacity-0 group-hover:opacity-100 transition-opacity text-xs"
                     />
                   </div>
                 );

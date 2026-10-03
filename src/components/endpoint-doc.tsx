@@ -23,7 +23,7 @@ function statusTone(status: string) {
   if (code >= 200 && code < 300) return "text-emerald-400";
   if (code >= 300 && code < 400) return "text-sky-400";
   if (code >= 400) return "text-red-400";
-  return "text-[#a8a29e]";
+  return "text-[#969ba3]";
 }
 
 function codeTone(code: string) {

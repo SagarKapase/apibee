@@ -352,7 +352,7 @@ export function QrCodeGenerator() {
             <textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              className="w-full min-h-[120px] bg-[var(--code-bg)] px-4 py-3 text-[13px] font-mono text-[var(--code-fg)] resize-y outline-none leading-[1.6] placeholder-[#525252] focus:outline-none focus:ring-0 focus-visible:outline-none border-none"
+              className="w-full min-h-[120px] bg-[var(--code-bg)] px-4 py-3 text-[13px] font-mono text-[var(--code-fg)] resize-y outline-none leading-[1.6] placeholder-[#656b73] focus:outline-none focus:ring-0 focus-visible:outline-none border-none"
               placeholder="https://testingapis.com"
               spellCheck={false}
             />
@@ -413,7 +413,7 @@ export function QrCodeGenerator() {
                 Download PNG
               </button>
               {dataUrl && (
-                <CopyButton text={dataUrl} label="Data URL" className="text-[10px] text-[#78716c] hover:text-[#e7e5e4]" />
+                <CopyButton text={dataUrl} label="Data URL" className="text-[10px] text-[#8d9299] hover:text-[#e1e3e5]" />
               )}
             </div>
           }

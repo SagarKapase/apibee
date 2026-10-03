@@ -144,7 +144,7 @@ export function CurlParser() {
           placeholder="curl -X GET https://api.example.com/users -H 'Authorization: Bearer ...'"
           rows={4}
           spellCheck={false}
-          className="w-full min-h-[100px] bg-[var(--code-bg)] px-4 py-3 text-[13px] font-mono text-[var(--code-fg)] resize-y outline-none leading-[1.6] placeholder-[#525252] focus:outline-none focus:ring-0 focus-visible:outline-none border-none"
+          className="w-full min-h-[100px] bg-[var(--code-bg)] px-4 py-3 text-[13px] font-mono text-[var(--code-fg)] resize-y outline-none leading-[1.6] placeholder-[#656b73] focus:outline-none focus:ring-0 focus-visible:outline-none border-none"
         />
       </ToolPanel>
 
@@ -167,7 +167,7 @@ export function CurlParser() {
             <ToolPanel
               label="URL"
               dark
-              actions={<CopyButton text={parsed.url} className="text-[#78716c] hover:text-[#e7e5e4] text-xs" />}
+              actions={<CopyButton text={parsed.url} className="text-[#8d9299] hover:text-[#e1e3e5] text-xs" />}
             >
               <div className="px-4 py-3">
                 <code className="text-[13px] font-mono text-[var(--code-fg)] break-all">
@@ -255,7 +255,7 @@ export function CurlParser() {
               actions={
                 <CopyButton
                   text={parsed.body}
-                  className="text-[#78716c] hover:text-[#e7e5e4] text-xs"
+                  className="text-[#8d9299] hover:text-[#e1e3e5] text-xs"
                 />
               }
             >

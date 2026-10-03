@@ -79,7 +79,7 @@ function ClaimRow({
 }) {
   return (
     <div className="flex items-baseline justify-between gap-4 py-1.5 border-b border-white/[0.06] last:border-b-0">
-      <span className="text-[11px] text-[#a8a29e] shrink-0">{label}</span>
+      <span className="text-[11px] text-[#969ba3] shrink-0">{label}</span>
       <span
         className={`text-[12px] font-mono text-right truncate ${accent ? "text-[var(--accent)]" : "text-[var(--code-fg)]"}`}
       >
@@ -113,15 +113,15 @@ export function JwtDecoder() {
     >
       {/* Token input */}
       <div className="rounded-lg border border-[var(--border)] overflow-hidden terminal-glow mb-4">
-        <div className="flex items-center justify-between px-4 py-2.5 bg-[#161616] border-b border-white/[0.06]">
-          <span className="text-xs font-medium text-[#a8a29e]">
+        <div className="flex items-center justify-between px-4 py-2.5 bg-[#0f1112] border-b border-white/[0.06]">
+          <span className="text-xs font-medium text-[#969ba3]">
             Token
           </span>
           <div className="flex items-center gap-2">
             {token && (
               <button
                 onClick={() => setToken("")}
-                className="text-[10px] text-[#78716c] hover:text-[#e7e5e4] transition-colors cursor-pointer"
+                className="text-[10px] text-[#8d9299] hover:text-[#e1e3e5] transition-colors cursor-pointer"
               >
                 Clear
               </button>
@@ -129,7 +129,7 @@ export function JwtDecoder() {
             {token && (
               <CopyButton
                 text={token}
-                className="text-[#78716c] hover:text-[#e7e5e4] text-xs"
+                className="text-[#8d9299] hover:text-[#e1e3e5] text-xs"
               />
             )}
           </div>
@@ -138,7 +138,7 @@ export function JwtDecoder() {
           value={token}
           onChange={(e) => setToken(e.target.value)}
           rows={4}
-          className="w-full bg-[var(--code-bg)] px-4 py-3 text-[13px] font-mono text-[var(--code-fg)] resize-none outline-none leading-[1.6] placeholder-[#525252] focus:outline-none focus:ring-0 focus-visible:outline-none border-none min-h-[120px]"
+          className="w-full bg-[var(--code-bg)] px-4 py-3 text-[13px] font-mono text-[var(--code-fg)] resize-none outline-none leading-[1.6] placeholder-[#656b73] focus:outline-none focus:ring-0 focus-visible:outline-none border-none min-h-[120px]"
           placeholder="Paste your JWT token here... (eyJhbGci...)"
           spellCheck={false}
         />
@@ -188,7 +188,7 @@ export function JwtDecoder() {
             </div>
             <div className="flex gap-2 px-4 py-3 border-t border-white/[0.06]">
               {decoded.header.alg && (
-                <span className="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-white/[0.06] text-[#d6d3d1]">
+                <span className="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-white/[0.06] text-[#d8dade]">
                   {String(decoded.header.alg)}
                 </span>
               )}
@@ -216,7 +216,7 @@ export function JwtDecoder() {
                   </span>
                 )
               ) : (
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#525252]/20 text-[#78716c]">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#656b73]/20 text-[#8d9299]">
                   NO EXPIRY
                 </span>
               )
@@ -234,7 +234,7 @@ export function JwtDecoder() {
             </div>
             {/* Claims breakdown */}
             <div className="px-4 py-3 border-t border-white/[0.06]">
-              <span className="text-xs font-medium text-[#525252] block mb-2">
+              <span className="text-xs font-medium text-[#656b73] block mb-2">
                 Claims
               </span>
               {decoded.payload.sub != null && (
@@ -284,7 +284,7 @@ export function JwtDecoder() {
             actions={
               <CopyButton
                 text={decoded.signature}
-                className="text-[#78716c] hover:text-[#e7e5e4] text-xs"
+                className="text-[#8d9299] hover:text-[#e1e3e5] text-xs"
               />
             }
           >
