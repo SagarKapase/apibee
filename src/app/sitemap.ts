@@ -2,6 +2,9 @@ import type { MetadataRoute } from "next";
 import { endpointHref, endpoints, groups } from "@/lib/api-data";
 import { lessons } from "@/lib/learn";
 
+// Generated once at build time: the site is a static export (next.config.ts output: "export").
+export const dynamic = "force-static";
+
 const BASE = "https://testingapis.com";
 
 const tools = [
