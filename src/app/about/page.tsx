@@ -3,12 +3,14 @@ import Link from "next/link";
 import { BASE_URL } from "@/lib/api-config";
 import { endpointCount, groups } from "@/lib/api-data";
 import { lessons } from "@/lib/learn";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/about",
   title: "About",
   description:
     "What testingapis.com is, who it is for and how the free test API, developer tools and API testing lessons work.",
-};
+});
 
 const parts = [
   {

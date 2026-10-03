@@ -1,11 +1,10 @@
 import type { MetadataRoute } from "next";
 import { endpointHref, endpoints, groups } from "@/lib/api-data";
 import { lessons } from "@/lib/learn";
+import { absoluteUrl } from "@/lib/seo";
 
 // Generated once at build time: the site is a static export (next.config.ts output: "export").
 export const dynamic = "force-static";
-
-const BASE = "https://testingapis.com";
 
 const tools = [
   "json-formatter",
@@ -27,38 +26,32 @@ const tools = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
-
   return [
-    { url: BASE, lastModified: now, changeFrequency: "weekly", priority: 1 },
-    { url: `${BASE}/docs`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    { url: absoluteUrl("/"), changeFrequency: "weekly", priority: 1 },
+    { url: absoluteUrl("/docs"), changeFrequency: "weekly", priority: 0.9 },
     ...["graphql", "models", ...groups.map((g) => g.id)].map((slug) => ({
-      url: `${BASE}/docs/${slug}`,
-      lastModified: now,
+      url: absoluteUrl(`/docs/${slug}`),
       changeFrequency: "weekly" as const,
       priority: 0.8,
     })),
-    { url: `${BASE}/learn`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    { url: absoluteUrl("/learn"), changeFrequency: "weekly", priority: 0.8 },
     ...lessons.map((l) => ({
-      url: `${BASE}/learn/${l.slug}`,
-      lastModified: now,
+      url: absoluteUrl(`/learn/${l.slug}`),
       changeFrequency: "monthly" as const,
       priority: 0.7,
     })),
     ...endpoints.map((e) => ({
-      url: `${BASE}${endpointHref(e.group.id, e.endpoint.slug)}`,
-      lastModified: now,
+      url: absoluteUrl(endpointHref(e.group.id, e.endpoint.slug)),
       changeFrequency: "weekly" as const,
       priority: 0.6,
     })),
-    { url: `${BASE}/tools`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    { url: absoluteUrl("/tools"), changeFrequency: "weekly", priority: 0.8 },
     ...tools.map((slug) => ({
-      url: `${BASE}/tools/${slug}`,
-      lastModified: now,
+      url: absoluteUrl(`/tools/${slug}`),
       changeFrequency: "monthly" as const,
       priority: 0.7,
     })),
-    { url: `${BASE}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
-    { url: `${BASE}/support`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
+    { url: absoluteUrl("/about"), changeFrequency: "monthly", priority: 0.5 },
+    { url: absoluteUrl("/support"), changeFrequency: "monthly", priority: 0.5 },
   ];
 }

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { SITE_NAME, SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -16,6 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  // Resolves relative canonical and Open Graph URLs against the production domain.
+  metadataBase: new URL(SITE_URL),
   icons: {
     icon: "/favicon.svg",
   },
@@ -29,8 +32,8 @@ export const metadata: Metadata = {
     title: "testingapis.com: a fake REST API for prototyping and testing",
     description:
       "A free fake REST API with realistic JSON and XML data. No API key or account required.",
-    url: "https://testingapis.com",
-    siteName: "testingapis.com",
+    url: "/",
+    siteName: SITE_NAME,
     type: "website",
   },
 };

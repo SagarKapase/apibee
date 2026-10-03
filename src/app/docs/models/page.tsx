@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { models } from "@/lib/api-data";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/docs/models",
   title: "Data models",
-  description: "Fields of every request and response model in the testingapis.com API.",
-};
+  description:
+    "Every field of every request and response model in the testingapis.com fake REST API: names, types, which are required and what each one holds.",
+});
 
 export default function ModelsPage() {
   return (

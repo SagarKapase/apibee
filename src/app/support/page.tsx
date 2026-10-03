@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CopyButton } from "@/components/copy-button";
 import { BASE_URL } from "@/lib/api-config";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/support",
   title: "Support",
   description:
     "Get help with testingapis.com: email support, what to include in a bug report and answers to common problems.",
-};
+});
 
 const EMAIL = "support@testingapis.com";
 
