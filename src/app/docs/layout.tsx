@@ -46,7 +46,7 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
         reference={reference}
         search={search}
       />
-      <div className="flex-1 min-w-0 lg:ml-72">
+      <div className="flex-1 min-w-0">
         <div className="max-w-7xl mx-auto px-5 lg:px-8 py-10 sm:py-12">{children}</div>
       </div>
     </div>

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { lessons, levels } from "@/lib/learn";
 import { BASE_URL } from "@/lib/api-config";
+import { Icon } from "@/components/icon";
+import { PageHeader, SectionTitle } from "@/components/page-header";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -14,10 +16,7 @@ export const metadata: Metadata = pageMetadata({
 export default function LearnPage() {
   return (
     <div>
-      <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-[var(--text)]">
-        Learn API testing
-      </h1>
-      <div className="mt-4 space-y-4 text-[15px] leading-7 text-[var(--text-muted)]">
+      <PageHeader eyebrow="Tutorial" title="Learn API testing">
         <p>
           This tutorial starts with what an API is and ends with load tests and
           CI pipelines. You don&apos;t need to know how to program for the first
@@ -32,36 +31,56 @@ export default function LearnPage() {
           to reproduce elsewhere. Most examples have a Send button that runs the
           request from this page.
         </p>
-      </div>
+      </PageHeader>
+
+      <p className="mt-6 flex flex-wrap gap-x-3 gap-y-1 font-mono text-xs text-[var(--text-muted)]">
+        <span>{lessons.length} lessons</span>
+        <span aria-hidden="true">·</span>
+        <span>{levels.length} levels</span>
+        <span aria-hidden="true">·</span>
+        <span>Free, no account</span>
+      </p>
 
       <div className="mt-12 space-y-12">
-        {levels.map(({ level, description }) => (
-          <section key={level}>
-            <h2 className="text-lg font-semibold tracking-tight text-[var(--text)]">{level}</h2>
-            <p className="mt-1 text-sm text-[var(--text-muted)]">{description}</p>
-            <ol className="mt-4 border-t border-[var(--border)]">
-              {lessons.map((l, i) =>
-                l.level !== level ? null : (
-                  <li key={l.slug} className="border-b border-[var(--border)]">
-                    <Link href={`/learn/${l.slug}`} className="group flex gap-4 py-4">
-                      <span className="w-5 shrink-0 text-right text-sm tabular-nums text-[var(--text-muted)]">
-                        {i + 1}
-                      </span>
-                      <span>
-                        <span className="text-sm font-medium text-[var(--text)] group-hover:underline underline-offset-4">
-                          {l.title}
+        {levels.map(({ level, description }) => {
+          const inLevel = lessons.filter((l) => l.level === level);
+          return (
+            <section key={level} aria-labelledby={`level-${level}`}>
+              <SectionTitle
+                id={`level-${level}`}
+                title={level}
+                meta={`${inLevel.length} lessons`}
+                description={description}
+              />
+              <ol className="grid gap-3 sm:grid-cols-2">
+                {inLevel.map((l) => {
+                  const number = lessons.indexOf(l) + 1;
+                  return (
+                    <li key={l.slug}>
+                      <Link
+                        href={`/learn/${l.slug}`}
+                        className="group flex h-full items-start gap-3 rounded-[9px] border border-[var(--border)] bg-[var(--surface)] p-3.5 transition-[border-color,transform] duration-150 hover:-translate-y-px hover:border-[var(--text-muted)]/40"
+                      >
+                        <span className="grid place-items-center size-8 shrink-0 rounded-md border border-[var(--border)] bg-[var(--accent-soft)] font-mono text-xs tabular-nums text-[var(--text)]">
+                          {String(number).padStart(2, "0")}
                         </span>
-                        <span className="block mt-1 text-[13px] leading-snug text-[var(--text-muted)]">
-                          {l.summary}
+                        <span className="min-w-0 flex-1">
+                          <span className="block text-sm font-semibold text-[var(--text)]">{l.title}</span>
+                          <span className="mt-0.5 block text-[13px] leading-snug text-[var(--text-muted)]">{l.summary}</span>
                         </span>
-                      </span>
-                    </Link>
-                  </li>
-                )
-              )}
-            </ol>
-          </section>
-        ))}
+                        <Icon
+                          name="arrowRight"
+                          size={14}
+                          className="mt-1 shrink-0 text-[var(--text-muted)] transition-[color,transform] duration-150 group-hover:translate-x-0.5 group-hover:text-[var(--text)]"
+                        />
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ol>
+            </section>
+          );
+        })}
       </div>
     </div>
   );

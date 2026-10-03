@@ -3,6 +3,7 @@
 
 import Link from "next/link";
 import { CodeBlock } from "./code-block";
+import { Icon } from "./icon";
 import type { Lang } from "@/lib/syntax";
 
 export { RunRequest as Run } from "./run-request";
@@ -76,7 +77,7 @@ export function Ol({ children }: { children: React.ReactNode }) {
 /** A side remark. Use sparingly, for things a reader would otherwise trip on. */
 export function Note({ title, children }: { title?: string; children: React.ReactNode }) {
   return (
-    <aside className="my-6 pl-4 border-l-2 border-[var(--accent)] text-[var(--text-muted)]">
+    <aside className="my-6 rounded-r-md border-l-2 border-[var(--accent)] bg-amber-500/[0.06] py-3 px-4 text-[var(--text-muted)]">
       {title && <p className="mb-1 font-medium text-[var(--text)]">{title}</p>}
       {children}
     </aside>
@@ -135,8 +136,9 @@ export function A({ href, children }: { href: string; children: React.ReactNode 
 /** The closing task of a lesson. Every lesson ends with one. */
 export function Exercise({ children }: { children: React.ReactNode }) {
   return (
-    <section className="mt-12 rounded-lg border border-[var(--border)] bg-[var(--surface)] px-5 py-4">
-      <h2 id="exercise" className="text-base font-semibold text-[var(--text)]">
+    <section className="mt-12 rounded-[10px] border border-[var(--border)] bg-[var(--surface)] px-5 py-4">
+      <h2 id="exercise" className="flex items-center gap-2 text-base font-semibold text-[var(--text)]">
+        <Icon name="circleCheck" size={17} className="text-[var(--accent)]" />
         Exercise
       </h2>
       <div className="[&>*:first-child]:mt-2 [&>*:last-child]:mb-0">{children}</div>
