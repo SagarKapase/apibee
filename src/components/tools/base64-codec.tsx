@@ -118,7 +118,7 @@ export function Base64Codec() {
                 : "Paste Base64 string to decode..."
             }
             spellCheck={false}
-            className="w-full min-h-[300px] bg-[var(--code-bg)] px-4 py-3 text-[13px] font-mono text-[var(--code-fg)] resize-y outline-none leading-[1.6] placeholder-[#525252] focus:outline-none focus:ring-0 focus-visible:outline-none border-none"
+            className="w-full min-h-[300px] bg-[var(--code-bg)] px-4 py-3 text-[13px] font-mono text-[var(--code-fg)] resize-y outline-none leading-[1.6] placeholder-[#656b73] focus:outline-none focus:ring-0 focus-visible:outline-none border-none"
           />
         </ToolPanel>
 
@@ -130,7 +130,7 @@ export function Base64Codec() {
             output ? (
               <CopyButton
                 text={output}
-                className="text-[#78716c] hover:text-[#e7e5e4] text-xs"
+                className="text-[#8d9299] hover:text-[#e1e3e5] text-xs"
               />
             ) : null
           }
@@ -145,7 +145,7 @@ export function Base64Codec() {
                 {output}
               </pre>
             ) : (
-              <p className="text-[13px] text-[#525252] font-mono">
+              <p className="text-[13px] text-[#656b73] font-mono">
                 {mode === "encode"
                   ? "Base64 output will appear here..."
                   : "Decoded text will appear here..."}

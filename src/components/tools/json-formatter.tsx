@@ -124,7 +124,7 @@ export function JsonFormatter() {
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="w-full min-h-[400px] bg-[var(--code-bg)] px-4 py-3 text-[13px] font-mono text-[var(--code-fg)] resize-y outline-none leading-[1.6] placeholder-[#525252] focus:outline-none focus:ring-0 focus-visible:outline-none border-none"
+            className="w-full min-h-[400px] bg-[var(--code-bg)] px-4 py-3 text-[13px] font-mono text-[var(--code-fg)] resize-y outline-none leading-[1.6] placeholder-[#656b73] focus:outline-none focus:ring-0 focus-visible:outline-none border-none"
             placeholder="Paste your JSON here..."
             spellCheck={false}
           />
@@ -143,7 +143,7 @@ export function JsonFormatter() {
                   className={`text-[10px] font-mono font-bold px-1.5 py-0.5 rounded cursor-pointer transition-colors duration-150 ${
                     indent === n
                       ? "bg-[var(--accent)]/20 text-[var(--accent)]"
-                      : "text-[#78716c] hover:text-[#e7e5e4]"
+                      : "text-[#8d9299] hover:text-[#e1e3e5]"
                   }`}
                 >
                   {n}sp
@@ -154,7 +154,7 @@ export function JsonFormatter() {
                 className={`text-[10px] font-mono font-bold px-1.5 py-0.5 rounded cursor-pointer transition-colors duration-150 ${
                   indent === 0
                     ? "bg-[var(--accent)]/20 text-[var(--accent)]"
-                    : "text-[#78716c] hover:text-[#e7e5e4]"
+                    : "text-[#8d9299] hover:text-[#e1e3e5]"
                 }`}
               >
                 Min
@@ -162,7 +162,7 @@ export function JsonFormatter() {
               {output && (
                 <CopyButton
                   text={output}
-                  className="text-[#78716c] hover:text-[#e7e5e4] text-xs"
+                  className="text-[#8d9299] hover:text-[#e1e3e5] text-xs"
                 />
               )}
             </div>
@@ -176,7 +176,7 @@ export function JsonFormatter() {
                 </code>
               </pre>
             ) : !error ? (
-              <p className="text-[13px] text-[#525252] font-mono">
+              <p className="text-[13px] text-[#656b73] font-mono">
                 Formatted output will appear here
               </p>
             ) : null}

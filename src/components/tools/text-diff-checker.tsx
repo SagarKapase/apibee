@@ -85,7 +85,7 @@ function computeDiff(oldLines: string[], newLines: string[]): DiffLine[] {
 }
 
 const TA_CLASS =
-  "w-full min-h-[200px] bg-[var(--code-bg)] px-4 py-3 text-[13px] font-mono text-[var(--code-fg)] resize-y outline-none leading-[1.6] placeholder-[#525252] focus:outline-none focus:ring-0 focus-visible:outline-none border-none";
+  "w-full min-h-[200px] bg-[var(--code-bg)] px-4 py-3 text-[13px] font-mono text-[var(--code-fg)] resize-y outline-none leading-[1.6] placeholder-[#656b73] focus:outline-none focus:ring-0 focus-visible:outline-none border-none";
 
 export function TextDiffChecker() {
   const [original, setOriginal] = useState("");
@@ -182,7 +182,7 @@ export function TextDiffChecker() {
       <ToolPanel label="Diff Output" dark>
         <div className="overflow-x-auto max-h-[500px] overflow-y-auto">
           {diff.length === 0 ? (
-            <div className="px-4 py-8 text-center text-[13px] text-[#525252] font-mono">
+            <div className="px-4 py-8 text-center text-[13px] text-[#656b73] font-mono">
               Paste text in both panels to see the diff
             </div>
           ) : (
@@ -199,7 +199,7 @@ export function TextDiffChecker() {
                     ? "text-emerald-400"
                     : line.type === "removed"
                       ? "text-red-400"
-                      : "text-[#78716c]";
+                      : "text-[#8d9299]";
                 const marker =
                   line.type === "added"
                     ? "+"
@@ -209,10 +209,10 @@ export function TextDiffChecker() {
 
                 return (
                   <div key={i} className={`flex ${bg}`}>
-                    <span className="w-10 text-right pr-2 text-[#525252] select-none shrink-0">
+                    <span className="w-10 text-right pr-2 text-[#656b73] select-none shrink-0">
                       {line.oldNum ?? ""}
                     </span>
-                    <span className="w-10 text-right pr-2 text-[#525252] select-none shrink-0">
+                    <span className="w-10 text-right pr-2 text-[#656b73] select-none shrink-0">
                       {line.newNum ?? ""}
                     </span>
                     <span

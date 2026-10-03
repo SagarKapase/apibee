@@ -34,7 +34,7 @@ function buildCharset(sets: CharsetKey[], custom: string): string {
 }
 
 function strengthInfo(charsetSize: number, length: number) {
-  if (charsetSize === 0 || length === 0) return { bits: 0, pct: 0, label: "None", color: "bg-[#525252]" };
+  if (charsetSize === 0 || length === 0) return { bits: 0, pct: 0, label: "None", color: "bg-[#656b73]" };
   const bits = Math.round(length * Math.log2(charsetSize));
   let pct: number, label: string, color: string;
   if (bits < 28) { pct = Math.min((bits / 28) * 25, 25); label = "Weak"; color = "bg-red-500"; }
@@ -95,7 +95,7 @@ export function PasswordGenerator() {
             >
               Regenerate
             </button>
-            <CopyButton text={value} className="text-[#78716c] hover:text-[#e7e5e4]" />
+            <CopyButton text={value} className="text-[#8d9299] hover:text-[#e1e3e5]" />
           </div>
         }
       >
@@ -104,11 +104,11 @@ export function PasswordGenerator() {
             className="font-mono text-[18px] leading-relaxed text-[var(--code-fg)] break-all select-all"
             style={{ wordBreak: "break-all" }}
           >
-            {value || <span className="text-[#525252]">Select at least one character set</span>}
+            {value || <span className="text-[#656b73]">Select at least one character set</span>}
           </p>
           {/* Strength meter */}
           <div className="mt-4 flex items-center gap-3">
-            <div className="flex-1 h-2 rounded-full bg-[#161616] overflow-hidden">
+            <div className="flex-1 h-2 rounded-full bg-[#0f1112] overflow-hidden">
               <div
                 className={`h-full rounded-full transition-all duration-500 ${strength.color}`}
                 style={{ width: `${strength.pct}%` }}
@@ -169,7 +169,7 @@ export function PasswordGenerator() {
               value={custom}
               onChange={(e) => setCustom(e.target.value)}
               placeholder="Custom characters..."
-              className="mt-2 w-full bg-[var(--code-bg)] border border-[var(--border)] rounded-lg px-3 py-1.5 text-xs font-mono text-[var(--code-fg)] placeholder-[#525252] outline-none focus:outline-none focus:ring-0 focus-visible:outline-none"
+              className="mt-2 w-full bg-[var(--code-bg)] border border-[var(--border)] rounded-lg px-3 py-1.5 text-xs font-mono text-[var(--code-fg)] placeholder-[#656b73] outline-none focus:outline-none focus:ring-0 focus-visible:outline-none"
               spellCheck={false}
             />
           </div>
@@ -231,11 +231,11 @@ export function PasswordGenerator() {
               <div
                 key={`${v}-${i}`}
                 className={`flex items-center justify-between px-4 py-2 text-[12px] font-mono ${
-                  i % 2 === 0 ? "bg-[var(--code-bg)]" : "bg-[#111111]"
+                  i % 2 === 0 ? "bg-[var(--code-bg)]" : "bg-[#0d0f10]"
                 }`}
               >
                 <span className="text-[var(--code-fg)] break-all select-all">{v}</span>
-                <CopyButton text={v} className="text-[#78716c] hover:text-[#e7e5e4] shrink-0 ml-2" />
+                <CopyButton text={v} className="text-[#8d9299] hover:text-[#e1e3e5] shrink-0 ml-2" />
               </div>
             ))}
           </div>

@@ -216,8 +216,8 @@ export function RegexTester() {
 
       {/* Pattern input */}
       <div className="rounded-lg border border-[var(--border)] overflow-hidden terminal-glow mb-4">
-        <div className="flex items-center justify-between px-4 py-2 bg-[#161616] border-b border-white/[0.06]">
-          <span className="text-xs font-medium text-[#a8a29e]">
+        <div className="flex items-center justify-between px-4 py-2 bg-[#0f1112] border-b border-white/[0.06]">
+          <span className="text-xs font-medium text-[#969ba3]">
             Pattern
           </span>
         </div>
@@ -229,7 +229,7 @@ export function RegexTester() {
             type="text"
             value={pattern}
             onChange={(e) => setPattern(e.target.value)}
-            className="flex-1 bg-transparent text-[14px] font-mono text-[var(--code-fg)] outline-none placeholder-[#525252] min-w-0 focus:outline-none focus:ring-0 focus-visible:outline-none border-none"
+            className="flex-1 bg-transparent text-[14px] font-mono text-[var(--code-fg)] outline-none placeholder-[#656b73] min-w-0 focus:outline-none focus:ring-0 focus-visible:outline-none border-none"
             placeholder="enter regex pattern..."
             spellCheck={false}
           />
@@ -245,7 +245,7 @@ export function RegexTester() {
           />
         </div>
         {/* Flag toggles */}
-        <div className="flex items-center gap-1.5 px-4 py-2 bg-[#111111] border-t border-white/[0.06]">
+        <div className="flex items-center gap-1.5 px-4 py-2 bg-[#0d0f10] border-t border-white/[0.06]">
           {FLAG_OPTIONS.map((f) => (
             <button
               key={f.flag}
@@ -253,14 +253,14 @@ export function RegexTester() {
               className={`h-6 px-2 text-[10px] font-mono font-bold rounded transition-all duration-150 cursor-pointer ${
                 flags.includes(f.flag)
                   ? "bg-[var(--btn-bg)] text-[var(--btn-fg)]"
-                  : "border border-white/10 text-[#78716c] hover:text-[#e7e5e4] hover:border-white/20"
+                  : "border border-white/10 text-[#8d9299] hover:text-[#e1e3e5] hover:border-white/20"
               }`}
               title={f.label}
             >
               {f.flag}
             </button>
           ))}
-          <span className="text-[10px] text-[#525252] ml-2 hidden sm:inline">
+          <span className="text-[10px] text-[#656b73] ml-2 hidden sm:inline">
             {FLAG_OPTIONS.filter((f) => flags.includes(f.flag))
               .map((f) => f.label)
               .join(", ") || "no flags"}
@@ -288,7 +288,7 @@ export function RegexTester() {
           <textarea
             value={testText}
             onChange={(e) => setTestText(e.target.value)}
-            className="w-full min-h-[250px] bg-[var(--code-bg)] px-4 py-3 text-[13px] font-mono text-[var(--code-fg)] resize-y outline-none leading-[1.7] placeholder-[#525252] focus:outline-none focus:ring-0 focus-visible:outline-none border-none"
+            className="w-full min-h-[250px] bg-[var(--code-bg)] px-4 py-3 text-[13px] font-mono text-[var(--code-fg)] resize-y outline-none leading-[1.7] placeholder-[#656b73] focus:outline-none focus:ring-0 focus-visible:outline-none border-none"
             placeholder="Paste your test text here..."
             spellCheck={false}
           />
@@ -300,7 +300,7 @@ export function RegexTester() {
           actions={
             <span
               className={`text-[10px] font-mono font-bold ${
-                matches.length > 0 ? "text-emerald-400" : "text-[#525252]"
+                matches.length > 0 ? "text-emerald-400" : "text-[#656b73]"
               }`}
             >
               {matches.length} match{matches.length !== 1 ? "es" : ""}
@@ -313,7 +313,7 @@ export function RegexTester() {
                 {highlighted}
               </pre>
             ) : (
-              <p className="text-[13px] text-[#525252] font-mono">
+              <p className="text-[13px] text-[#656b73] font-mono">
                 Matches will appear here...
               </p>
             )}

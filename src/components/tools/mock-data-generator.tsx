@@ -195,7 +195,7 @@ export function MockDataGenerator() {
               </button>
               <CopyButton
                 text={output}
-                className="text-[#78716c] hover:text-[#e7e5e4] text-xs"
+                className="text-[#8d9299] hover:text-[#e1e3e5] text-xs"
               />
             </div>
           }
@@ -212,7 +212,7 @@ export function MockDataGenerator() {
 
       {!output && (
         <div className="rounded-lg border border-[var(--border)] bg-[var(--code-bg)] px-4 py-12 text-center">
-          <p className="text-sm font-mono text-[#525252]">
+          <p className="text-sm font-mono text-[#656b73]">
             Select fields and hit Generate
           </p>
         </div>

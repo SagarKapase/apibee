@@ -23,28 +23,30 @@
   --text: #1c1917;
   --text-muted: #6b6560;
   --border: #e7e5e4;
-  --code-bg: #0c0c0c;
-  --code-fg: #d6d3d1;
-  --code-accent: #fbbf24;
+  --code-bg: #0b0d0e;
+  --code-fg: #d8dade;
+  --code-accent: #f59e0b;
   --ring: transparent;
 }
 
-/* ─── Dark tokens ─── */
+/* ─── Dark tokens ───
+   Near-black page, slightly lifted panels, cool gray borders and text.
+   Amber stays reserved for selection, emphasis and the main action. */
 .dark {
   --accent: #f59e0b;
   --accent-hover: #fbbf24;
-  --accent-soft: #fafaf90d;
-  --btn-bg: #fafaf9;
-  --btn-fg: #0c0a09;
-  --btn-hover: #e7e5e4;
-  --bg: #0c0a09;
-  --surface: #151311;
-  --text: #fafaf9;
-  --text-muted: #a8a29e;
-  --border: #292524;
-  --code-bg: #0a0a0a;
-  --code-fg: #d6d3d1;
-  --code-accent: #fbbf24;
+  --accent-soft: #f5f5f40d;
+  --btn-bg: #f5f5f4;
+  --btn-fg: #090909;
+  --btn-hover: #e2e3e4;
+  --bg: #090909;
+  --surface: #0c0e0f;
+  --text: #f5f5f4;
+  --text-muted: #969ba3;
+  --border: #25282b;
+  --code-bg: #080a0b;
+  --code-fg: #d8dade;
+  --code-accent: #f59e0b;
   --ring: transparent;
 }
 

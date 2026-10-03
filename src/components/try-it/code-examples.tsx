@@ -12,7 +12,7 @@ export function CodeExamples({ examples }: { examples: Record<ExampleLang, strin
   const code = examples[codeTab];
   return (
     <div className="rounded-lg border border-[var(--border)] overflow-hidden">
-      <div className="flex items-center justify-between bg-[#161616] border-b border-white/[0.06] pl-1 pr-3">
+      <div className="flex items-center justify-between bg-[#0f1112] border-b border-white/[0.06] pl-1 pr-3">
         <div className="flex" role="tablist" aria-label="Language">
           {(["cURL", "fetch", "Python"] as const).map((t) => (
             <button
@@ -22,7 +22,7 @@ export function CodeExamples({ examples }: { examples: Record<ExampleLang, strin
               aria-selected={codeTab === t}
               onClick={() => setCodeTab(t)}
               className={`relative px-3 py-2 text-xs cursor-pointer ${
-                codeTab === t ? "text-[#fafaf9]" : "text-[#78716c] hover:text-[#d6d3d1]"
+                codeTab === t ? "text-[#fafaf9]" : "text-[#8d9299] hover:text-[#d8dade]"
               }`}
             >
               {t}
@@ -30,7 +30,7 @@ export function CodeExamples({ examples }: { examples: Record<ExampleLang, strin
             </button>
           ))}
         </div>
-        <CopyButton text={code} label={`${codeTab} example`} hideLabel className="text-[#78716c] hover:text-[#e7e5e4]" />
+        <CopyButton text={code} label={`${codeTab} example`} hideLabel className="text-[#8d9299] hover:text-[#e1e3e5]" />
       </div>
       <pre className="bg-[var(--code-bg)] px-3 py-3 overflow-auto max-h-64 text-[12px] leading-[1.6]">
         <code className="font-mono">

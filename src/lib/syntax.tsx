@@ -15,11 +15,13 @@ const C = {
   keyword: "#8ab4f8",
   string: "#a5d6a7",
   number: "#f2b872",
-  comment: "#6b6560",
-  punct: "#8a837d",
-  text: "#d6d3d1",
+  comment: "#656b73",
+  punct: "#7d838b",
+  text: "#d8dade",
   fn: "#f2b872",
-  url: "#a8a29e",
+  url: "#969ba3",
+  boolean: "#c391ff",
+  null: "#d99a9a",
 } as const;
 
 function s(text: string, color: string, key: number | string) {
@@ -52,7 +54,7 @@ function highlightJSON(code: string): React.ReactNode[] {
     } else if (m[3]) {
       nodes.push(s(m[3], C.string, i++));
     } else if (m[4]) {
-      nodes.push(s(m[4], C.keyword, i++));
+      nodes.push(s(m[4], m[4] === "null" ? C.null : C.boolean, i++));
     } else if (m[5]) {
       nodes.push(s(m[5], C.number, i++));
     } else if (m[6]) {

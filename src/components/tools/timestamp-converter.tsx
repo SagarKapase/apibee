@@ -117,10 +117,10 @@ export function TimestampConverter() {
   }, [useUtc]);
 
   const numInput =
-    "w-full bg-[var(--code-bg)] px-3 py-2 text-sm font-mono text-[var(--code-fg)] rounded-lg outline-none focus:outline-none focus:ring-0 focus-visible:outline-none border border-[var(--border)] placeholder-[#525252]";
+    "w-full bg-[var(--code-bg)] px-3 py-2 text-sm font-mono text-[var(--code-fg)] rounded-lg outline-none focus:outline-none focus:ring-0 focus-visible:outline-none border border-[var(--border)] placeholder-[#656b73]";
 
   const smallNumInput =
-    "w-full bg-[var(--code-bg)] px-2 py-1.5 text-xs font-mono text-[var(--code-fg)] rounded-md outline-none focus:outline-none focus:ring-0 focus-visible:outline-none border border-[var(--border)] placeholder-[#525252] text-center";
+    "w-full bg-[var(--code-bg)] px-2 py-1.5 text-xs font-mono text-[var(--code-fg)] rounded-md outline-none focus:outline-none focus:ring-0 focus-visible:outline-none border border-[var(--border)] placeholder-[#656b73] text-center";
 
   return (
     <ToolShell
@@ -134,14 +134,14 @@ export function TimestampConverter() {
             <div className="text-2xl font-mono font-bold text-[var(--code-fg)] tabular-nums">
               {now}
             </div>
-            <div className="text-sm text-[#a8a29e] mt-1">
+            <div className="text-sm text-[#969ba3] mt-1">
               {fmtLocal(new Date(now * 1000))}
             </div>
           </div>
           <CopyButton
             text={String(now)}
             label="Copy"
-            className="text-xs text-[#78716c] hover:text-[#e7e5e4] border border-white/10 rounded-md px-3 py-1.5 transition-colors"
+            className="text-xs text-[#8d9299] hover:text-[#e1e3e5] border border-white/10 rounded-md px-3 py-1.5 transition-colors"
           />
         </div>
       </ToolPanel>

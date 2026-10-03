@@ -60,12 +60,12 @@ export function ToolPanel({
     >
       <div
         className={`flex items-center justify-between px-4 py-2.5 border-b border-[var(--border)] ${
-          dark ? "bg-[#161616] border-white/[0.06]" : "bg-[var(--surface)]"
+          dark ? "bg-[#0f1112] border-white/[0.06]" : "bg-[var(--surface)]"
         }`}
       >
         <span
           className={`text-xs font-medium ${
-            dark ? "text-[#a8a29e]" : "text-[var(--text-muted)]"
+            dark ? "text-[#969ba3]" : "text-[var(--text-muted)]"
           }`}
         >
           {label}

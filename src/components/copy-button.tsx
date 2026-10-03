@@ -7,11 +7,14 @@ export function CopyButton({
   className = "",
   label,
   hideLabel = false,
+  display,
 }: {
   text: string;
   className?: string;
   label?: string;
   hideLabel?: boolean;
+  /** Visible text when it should differ from the label read to screen readers. */
+  display?: string;
 }) {
   const [copied, setCopied] = useState(false);
 
@@ -74,9 +77,9 @@ export function CopyButton({
           <path d="M20 6 9 17l-5-5" />
         </svg>
       </span>
-      {label && !hideLabel && (
+      {(display || (label && !hideLabel)) && (
         <span className={`transition-colors duration-200 ${copied ? "text-emerald-500" : ""}`}>
-          {copied ? "Copied" : label}
+          {copied ? "Copied" : (display ?? label)}
         </span>
       )}
     </button>

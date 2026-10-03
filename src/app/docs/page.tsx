@@ -137,7 +137,7 @@ export default function DocsPage() {
               text={BASE_URL}
               label="base URL"
               hideLabel
-              className="text-[#78716c] hover:text-[#e7e5e4]"
+              className="text-[#8d9299] hover:text-[#e1e3e5]"
             />
           </div>
         </div>
@@ -371,7 +371,8 @@ export default function DocsPage() {
       <Section id="endpoints" title="Endpoints">
         <div className="grid sm:grid-cols-2 gap-x-10 gap-y-8">
           {categories.map((c) => (
-            <div key={c.id}>
+            // The homepage links here as /docs#<category id>.
+            <div key={c.id} id={c.id}>
               <h3 className="text-sm font-medium text-[var(--text)] mb-2">
                 {c.title}
               </h3>

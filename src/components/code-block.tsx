@@ -14,8 +14,8 @@ export function CodeBlock({
 }) {
   return (
     <div className="rounded-lg border border-[var(--border)] overflow-hidden">
-      <div className="flex items-center justify-between gap-3 px-3 py-1.5 bg-[#161616] border-b border-white/[0.06]">
-        <span className="flex items-center gap-2 text-xs font-medium text-[#a8a29e]">
+      <div className="flex items-center justify-between gap-3 px-3 py-1.5 bg-[#0f1112] border-b border-white/[0.06]">
+        <span className="flex items-center gap-2 text-xs font-medium text-[#969ba3]">
           {label}
           {meta}
         </span>
@@ -23,7 +23,7 @@ export function CodeBlock({
           text={code}
           label={label.toLowerCase()}
           hideLabel
-          className="text-[#78716c] hover:text-[#e7e5e4]"
+          className="text-[#8d9299] hover:text-[#e1e3e5]"
         />
       </div>
       <pre className="bg-[var(--code-bg)] px-4 py-3 overflow-auto max-h-96 text-[12px] leading-[1.6]">
