@@ -8,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
       },
     ],
-    sitemap: "https://snap-test.in/sitemap.xml",
+    sitemap: "https://testingapis.com/sitemap.xml",
   };
 }

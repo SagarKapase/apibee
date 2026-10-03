@@ -38,7 +38,7 @@ export default function WhatIsAnApi() {
       <P>
         Paste this address into your browser&apos;s address bar and press Enter:
       </P>
-      <Code code="https://api.snap-test.in/api/Products/1" lang="text" label="URL" />
+      <Code code="https://api.testingapis.com/api/Products/1" lang="text" label="URL" />
       <P>You get back something like this:</P>
       <Code code={product} lang="json" />
       <P>
@@ -74,7 +74,7 @@ export default function WhatIsAnApi() {
 
       <H2 id="endpoints">Endpoints</H2>
       <P>
-        The address you opened has two parts. <C>https://api.snap-test.in</C>{" "}
+        The address you opened has two parts. <C>https://api.testingapis.com</C>{" "}
         is the base URL: it says which server to talk to. <C>/api/Products/1</C>{" "}
         is the path: it says what you want from that server. Each path the
         server understands is called an endpoint. This API has a few hundred.
@@ -151,7 +151,7 @@ export default function WhatIsAnApi() {
 
       <Note title="About the API used in this tutorial">
         <P>
-          Every example uses <C>https://api.snap-test.in</C>, a public API
+          Every example uses <C>https://api.testingapis.com</C>, a public API
           built for practice. You don&apos;t need an account. You can create,
           change and delete records, and everything resets to the original
           data when the server restarts. Other people use it too, so

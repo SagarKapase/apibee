@@ -5,7 +5,7 @@ export function Footer() {
     <footer className="border-t border-[var(--border)] mt-auto">
       <div className="max-w-5xl mx-auto px-5 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[var(--text-muted)]">
         <p>
-          &copy; {new Date().getFullYear()} snap-test.in
+          &copy; {new Date().getFullYear()} testingapis.com
         </p>
         <div className="flex items-center gap-4">
           <Link
@@ -27,7 +27,7 @@ export function Footer() {
             Learn
           </Link>
           <a
-            href="mailto:contact@snap-test.in"
+            href="mailto:contact@testingapis.com"
             className="hover:text-[var(--text)] transition-colors"
           >
             Support

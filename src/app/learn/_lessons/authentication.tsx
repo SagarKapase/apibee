@@ -1,6 +1,6 @@
 import { A, C, Code, Exercise, H2, H3, Note, Ol, P, Run, Table, Ul } from "@/components/lesson";
 
-const basicMissing = `$ curl -i https://api.snap-test.in/api/auth/basic
+const basicMissing = `$ curl -i https://api.testingapis.com/api/auth/basic
 
 HTTP/1.1 401 Unauthorized
 Content-Type: application/json; charset=utf-8
@@ -8,10 +8,10 @@ www-authenticate: Basic realm="apibee", charset="UTF-8"
 
 {"status":401,"error":"Unauthorized","message":"Missing or malformed Basic Authorization header."}`;
 
-const basicOk = `$ curl -v -u apibee:password123 https://api.snap-test.in/api/auth/basic
+const basicOk = `$ curl -v -u apibee:password123 https://api.testingapis.com/api/auth/basic
 
 > GET /api/auth/basic HTTP/1.1
-> Host: api.snap-test.in
+> Host: api.testingapis.com
 > Authorization: Basic YXBpYmVlOnBhc3N3b3JkMTIz
 ...
 {"authenticated":true,"scheme":"basic","user":"apibee"}`;
@@ -19,16 +19,16 @@ const basicOk = `$ curl -v -u apibee:password123 https://api.snap-test.in/api/au
 const base64Decode = `$ echo YXBpYmVlOnBhc3N3b3JkMTIz | base64 -d
 apibee:password123`;
 
-const apiKeys = `$ curl -H "X-API-Key: apibee-key-123" https://api.snap-test.in/api/auth/api-key/header
+const apiKeys = `$ curl -H "X-API-Key: apibee-key-123" https://api.testingapis.com/api/auth/api-key/header
 {"authenticated":true,"scheme":"api-key","location":"X-API-Key header"}
 
-$ curl "https://api.snap-test.in/api/auth/api-key/query?api_key=apibee-key-123"
+$ curl "https://api.testingapis.com/api/auth/api-key/query?api_key=apibee-key-123"
 {"authenticated":true,"scheme":"api-key","location":"api_key query parameter"}
 
-$ curl -b api_key=apibee-key-123 https://api.snap-test.in/api/auth/api-key/cookie
+$ curl -b api_key=apibee-key-123 https://api.testingapis.com/api/auth/api-key/cookie
 {"authenticated":true,"scheme":"api-key","location":"api_key cookie"}`;
 
-const wrongKey = `$ curl -i -H "X-API-Key: wrong" https://api.snap-test.in/api/auth/api-key/header
+const wrongKey = `$ curl -i -H "X-API-Key: wrong" https://api.testingapis.com/api/auth/api-key/header
 
 HTTP/1.1 403 Forbidden
 Content-Type: application/json; charset=utf-8
@@ -43,7 +43,7 @@ const rolesForbidden = `{
   "scopes": ["read", "write"]
 }`;
 
-const jwtLogin = `$ curl -X POST https://api.snap-test.in/api/auth/jwt/login \\
+const jwtLogin = `$ curl -X POST https://api.testingapis.com/api/auth/jwt/login \\
     -H "Content-Type: application/json" \\
     -d '{"username":"user","password":"user123"}'
 
@@ -66,16 +66,16 @@ const jwtPayload = `{
   "aud": "http://localhost:5251"
 }`;
 
-const jwtMe = `$ curl -H "Authorization: Bearer $TOKEN" https://api.snap-test.in/api/auth/jwt/me
+const jwtMe = `$ curl -H "Authorization: Bearer $TOKEN" https://api.testingapis.com/api/auth/jwt/me
 
 {"username":"user","role":"user","name":"Uma User","email":"user@apibee.dev","claims":[...]}
 
-$ curl -i -H "Authorization: Bearer $TOKEN" https://api.snap-test.in/api/auth/jwt/admin
+$ curl -i -H "Authorization: Bearer $TOKEN" https://api.testingapis.com/api/auth/jwt/admin
 
 HTTP/1.1 403 Forbidden
 Content-Length: 0`;
 
-const expired = `$ curl -i -H "Authorization: Bearer $EXPIRED" https://api.snap-test.in/api/auth/jwt/me
+const expired = `$ curl -i -H "Authorization: Bearer $EXPIRED" https://api.testingapis.com/api/auth/jwt/me
 
 HTTP/1.1 401 Unauthorized
 Content-Length: 0
@@ -89,19 +89,19 @@ const forged = Buffer.from(JSON.stringify(claims)).toString("base64url");
 console.log([header, forged, signature].join("."));`;
 
 const tamperResult = `$ FORGED=$(node tamper.mjs "$TOKEN")
-$ curl -i -H "Authorization: Bearer $FORGED" https://api.snap-test.in/api/auth/jwt/admin
+$ curl -i -H "Authorization: Bearer $FORGED" https://api.testingapis.com/api/auth/jwt/admin
 
 HTTP/1.1 401 Unauthorized
 Content-Length: 0
 www-authenticate: Bearer error="invalid_token", error_description="The signature key was not found"`;
 
-const refresh = `$ curl -X POST https://api.snap-test.in/api/auth/jwt/refresh \\
+const refresh = `$ curl -X POST https://api.testingapis.com/api/auth/jwt/refresh \\
     -H "Content-Type: application/json" \\
     -d '{"refreshToken":"jrt_c9239f1c1befa5d736fd92a5d34b2df094b7015e"}'
 
 {"accessToken":"eyJhbGciOi...","tokenType":"Bearer","expiresIn":900,"refreshToken":"jrt_80fe85394e53de2230543855284f9664ede00450",...}
 
-$ curl -X POST https://api.snap-test.in/api/auth/jwt/refresh \\
+$ curl -X POST https://api.testingapis.com/api/auth/jwt/refresh \\
     -H "Content-Type: application/json" \\
     -d '{"refreshToken":"jrt_c9239f1c1befa5d736fd92a5d34b2df094b7015e"}'
 

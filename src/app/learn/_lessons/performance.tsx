@@ -1,7 +1,7 @@
 import { A, C, Code, Exercise, H2, H3, Note, P, Table, Ul } from "@/components/lesson";
 
 const latencyScript = `
-const URL = "https://api.snap-test.in/api/chaos/random-latency";
+const URL = "https://api.testingapis.com/api/chaos/random-latency";
 const N = 30;
 
 const timings = [];
@@ -35,7 +35,7 @@ max:  536 ms
 `;
 
 const curlTiming = `
-curl -s -o /dev/null -w "dns:     %{time_namelookup}\\nconnect: %{time_connect}\\ntls:     %{time_appconnect}\\nttfb:    %{time_starttransfer}\\ntotal:   %{time_total}\\n" https://api.snap-test.in/api/health
+curl -s -o /dev/null -w "dns:     %{time_namelookup}\\nconnect: %{time_connect}\\ntls:     %{time_appconnect}\\nttfb:    %{time_starttransfer}\\ntotal:   %{time_total}\\n" https://api.testingapis.com/api/health
 `;
 
 const curlTimingOutput = `
@@ -73,7 +73,7 @@ export const options = {
 };
 
 export default function () {
-  const res = http.get("https://api.snap-test.in/api/Products?limit=10");
+  const res = http.get("https://api.testingapis.com/api/Products?limit=10");
   check(res, { "status is 200": (r) => r.status === 200 });
   sleep(1);
 }
@@ -357,7 +357,7 @@ export default function Performance() {
         </P>
         <P>
           Then change the URL to{" "}
-          <C>https://api.snap-test.in/api/Products/1?delay=1</C>, which makes
+          <C>https://api.testingapis.com/api/Products/1?delay=1</C>, which makes
           the server wait one second before answering, and lower <C>N</C> to
           10. Before you run it, predict the p50. Afterwards, use the curl
           timing command on the same URL and find which step the extra second

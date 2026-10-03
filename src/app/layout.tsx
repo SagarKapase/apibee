@@ -20,17 +20,17 @@ export const metadata: Metadata = {
     icon: "/favicon.svg",
   },
   title: {
-    default: "snap-test.in: a fake REST API for prototyping and testing",
-    template: "%s | snap-test.in",
+    default: "testingapis.com: a fake REST API for prototyping and testing",
+    template: "%s | testingapis.com",
   },
   description:
     "A free fake REST API with realistic JSON and XML data. No API key or account required.",
   openGraph: {
-    title: "snap-test.in: a fake REST API for prototyping and testing",
+    title: "testingapis.com: a fake REST API for prototyping and testing",
     description:
       "A free fake REST API with realistic JSON and XML data. No API key or account required.",
-    url: "https://snap-test.in",
-    siteName: "snap-test.in",
+    url: "https://testingapis.com",
+    siteName: "testingapis.com",
     type: "website",
   },
 };

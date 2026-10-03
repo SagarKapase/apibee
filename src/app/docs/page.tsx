@@ -8,7 +8,7 @@ import { categories, endpointCount, groups } from "@/lib/api-data";
 export const metadata: Metadata = {
   title: "API reference",
   description:
-    "Reference for every snap-test.in endpoint: parameters, authentication, request bodies and example responses.",
+    "Reference for every testingapis.com endpoint: parameters, authentication, request bodies and example responses.",
 };
 
 const quickStart = `fetch('${BASE_URL}/api/Products?limit=3')
@@ -114,7 +114,7 @@ export default function DocsPage() {
         API reference
       </h1>
       <p className="mt-3 max-w-2xl text-[var(--text-muted)] leading-relaxed">
-        snap-test.in is a free API for testing HTTP clients. It has{" "}
+        testingapis.com is a free API for testing HTTP clients. It has{" "}
         {endpointCount} endpoints in {groups.length} groups: realistic resources
         such as products, books and countries, plus endpoints for status codes,
         redirects, cookies, caching, authentication schemes, file formats,

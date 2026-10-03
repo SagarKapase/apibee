@@ -1,6 +1,6 @@
 import { A, C, Code, Exercise, H2, H3, Note, P, Table, Ul } from "@/components/lesson";
 
-const curlI = `curl -i https://api.snap-test.in/api/health`;
+const curlI = `curl -i https://api.testingapis.com/api/health`;
 
 const curlIOut = `HTTP/1.1 200 OK
 Date: Wed, 30 Sep 2026 18:31:06 GMT
@@ -16,14 +16,14 @@ x-ratelimit-reset: 1721300000
 
 {"status":"healthy","uptimeSeconds":3716,"timestamp":"2026-09-30T18:31:06Z"}`;
 
-const curlV = `curl -v https://api.snap-test.in/api/health`;
+const curlV = `curl -v https://api.testingapis.com/api/health`;
 
-const curlVOut = `* Host api.snap-test.in:443 was resolved.
-* IPv4: 216.24.57.18, 216.24.57.16
-* Established connection to api.snap-test.in (216.24.57.18 port 443)
+const curlVOut = `* Host api.testingapis.com:443 was resolved.
+* IPv4: 135.13.233.203
+* Established connection to api.testingapis.com (135.13.233.203 port 443)
 * using HTTP/1.x
 > GET /api/health HTTP/1.1
-> Host: api.snap-test.in
+> Host: api.testingapis.com
 > User-Agent: curl/8.18.0
 > Accept: */*
 >
@@ -34,30 +34,30 @@ const curlVOut = `* Host api.snap-test.in:443 was resolved.
 < Transfer-Encoding: chunked
 ...`;
 
-const curlPost = `curl -X POST https://api.snap-test.in/api/methods/post \\
+const curlPost = `curl -X POST https://api.testingapis.com/api/methods/post \\
   -H "Content-Type: application/json" \\
   -d '{"name":"Asha","role":"tester"}'`;
 
 const curlPostOut = `{"method":"POST","message":"POST request received","path":"/api/methods/post","query":{},"contentType":"application/json","bodyLength":31,"bodyTruncated":false,"body":"{\\"name\\":\\"Asha\\",\\"role\\":\\"tester\\"}","timestamp":"2026-09-30T18:31:16Z"}`;
 
 const curlJson = `curl --json '{"title":"Learn curl","completed":false,"userId":1}' \\
-  https://api.snap-test.in/api/Todos`;
+  https://api.testingapis.com/api/Todos`;
 
 const curlJsonOut = `{"message":"Todo created successfully","data":{"id":31,"userId":1,"title":"Learn curl","completed":false,"priority":"medium","dueDate":""}}`;
 
 const curlTiming = `curl -s -o /dev/null \\
   -w "status %{http_code}  total %{time_total}s  size %{size_download} bytes\\n" \\
-  https://api.snap-test.in/api/Products`;
+  https://api.testingapis.com/api/Products`;
 
 const curlTimingOut = `status 200  total 0.382512s  size 5846 bytes`;
 
-const psBroken = `PS> curl.exe -s -X POST https://api.snap-test.in/api/methods/post -H "Content-Type: application/json" -d '{"name":"Asha"}'
+const psBroken = `PS> curl.exe -s -X POST https://api.testingapis.com/api/methods/post -H "Content-Type: application/json" -d '{"name":"Asha"}'
 {"method":"POST", ... "bodyLength":11, ... "body":"{name:Asha}", ...}`;
 
 const psFile = `# body.json contains {"name":"Asha","role":"tester"}
-curl.exe -s --json "@body.json" https://api.snap-test.in/api/methods/post`;
+curl.exe -s --json "@body.json" https://api.testingapis.com/api/methods/post`;
 
-const cmdQuoting = `curl -X POST https://api.snap-test.in/api/methods/post ^
+const cmdQuoting = `curl -X POST https://api.testingapis.com/api/methods/post ^
   -H "Content-Type: application/json" ^
   -d "{\\"name\\":\\"Asha\\",\\"role\\":\\"tester\\"}"`;
 
@@ -231,7 +231,7 @@ export default function FirstRequests() {
       <P>
         You don&apos;t have to build it by hand. This API publishes an OpenAPI
         document, a machine-readable description of every endpoint, at{" "}
-        <C>https://api.snap-test.in/openapi/v1.json</C>. In Postman, choose
+        <C>https://api.testingapis.com/openapi/v1.json</C>. In Postman, choose
         Import, paste that URL, and it creates a collection with a request for
         each endpoint. Most APIs you test at work will have a similar file,
         and it is the fastest way to get started on an unfamiliar one.
@@ -242,8 +242,8 @@ export default function FirstRequests() {
         Real projects run the same API in several places: a developer&apos;s
         laptop, a test server, staging, production. The requests are the same
         apart from the base URL and the credentials. Postman handles this
-        with environments. Create one called &quot;snap-test&quot; with a
-        variable <C>baseUrl</C> set to <C>https://api.snap-test.in</C>, then
+        with environments. Create one called &quot;testingapis&quot; with a
+        variable <C>baseUrl</C> set to <C>https://api.testingapis.com</C>, then
         write your request URLs as <C>{"{{baseUrl}}/api/Products/1"}</C>.
         Switching environment switches every request at once. Put tokens in
         variables too, so they aren&apos;t copied into dozens of requests.

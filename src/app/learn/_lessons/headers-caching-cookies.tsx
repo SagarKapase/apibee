@@ -1,6 +1,6 @@
 import { A, C, Code, Exercise, H2, H3, Note, P, Run, Table, Ul } from "@/components/lesson";
 
-const negotiateXml = `$ curl -i -H "Accept: application/xml" https://api.snap-test.in/api/formats/negotiate
+const negotiateXml = `$ curl -i -H "Accept: application/xml" https://api.testingapis.com/api/formats/negotiate
 
 HTTP/1.1 200 OK
 Content-Type: application/xml; charset=utf-8
@@ -10,7 +10,7 @@ vary: Accept
 
 const negotiateJson = `{"id":1,"name":"Alice Johnson","email":"alice@apibee.dev","roles":["admin","editor"],"active":true,"score":98.5,"manager":null}`;
 
-const notAcceptable = `$ curl -i -H "Accept: image/png" https://api.snap-test.in/api/formats/negotiate
+const notAcceptable = `$ curl -i -H "Accept: image/png" https://api.testingapis.com/api/formats/negotiate
 
 HTTP/1.1 406 Not Acceptable
 Content-Type: application/json; charset=utf-8
@@ -18,7 +18,7 @@ vary: Accept
 
 {"status":406,"error":"Not Acceptable","message":"None of the requested media types are supported: 'image/png'.","supported":["application/json","application/xml","text/xml","text/html","text/plain","text/csv"]}`;
 
-const vary = `$ curl -i -H "Accept-Language: de-DE,de;q=0.9,en;q=0.5" https://api.snap-test.in/api/cache/vary
+const vary = `$ curl -i -H "Accept-Language: de-DE,de;q=0.9,en;q=0.5" https://api.testingapis.com/api/cache/vary
 
 HTTP/1.1 200 OK
 Content-Type: application/json; charset=utf-8
@@ -28,7 +28,7 @@ vary: Accept-Language
 
 {"language":"de","greeting":"Hallo, willkommen bei APIBee!","supported":["en","es","fr","de","hi"]}`;
 
-const noStore = `$ curl -i https://api.snap-test.in/api/cache/no-store
+const noStore = `$ curl -i https://api.testingapis.com/api/cache/no-store
 
 HTTP/1.1 200 OK
 Content-Type: application/json; charset=utf-8
@@ -38,10 +38,10 @@ pragma: no-cache
 
 {"requestId":"efc17de6-279c-4b43-9bd6-cca7f7eee569","generatedAt":"2026-09-30T18:31:59.755Z","hint":"Never cached: every request returns a new requestId."}`;
 
-const etagGet = `$ curl -X POST https://api.snap-test.in/api/cache/etag/reset
+const etagGet = `$ curl -X POST https://api.testingapis.com/api/cache/etag/reset
 {"message":"Document reset to version 1"}
 
-$ curl -i https://api.snap-test.in/api/cache/etag
+$ curl -i https://api.testingapis.com/api/cache/etag
 
 HTTP/1.1 200 OK
 Content-Type: application/json; charset=utf-8
@@ -50,20 +50,20 @@ etag: W/"doc-v1"
 
 {"id":1,"version":1,"title":"APIBee cached document","content":"Send If-None-Match to get a 304, and If-Match on PUT to make a conditional update.","updatedAt":"2025-01-01T00:00:00Z","etag":"\\"doc-v1\\""}`;
 
-const etag304 = `$ curl -i -H 'If-None-Match: "doc-v1"' https://api.snap-test.in/api/cache/etag
+const etag304 = `$ curl -i -H 'If-None-Match: "doc-v1"' https://api.testingapis.com/api/cache/etag
 
 HTTP/1.1 304 Not Modified
 Cache-Control: no-cache
 etag: "doc-v1"`;
 
-const ifMatch = `$ curl -i -X PUT https://api.snap-test.in/api/cache/etag \\
+const ifMatch = `$ curl -i -X PUT https://api.testingapis.com/api/cache/etag \\
     -H "Content-Type: application/json" \\
     -d '{"title":"Edited","content":"Changed by a test"}'
 
 HTTP/1.1 428 Precondition Required
 {"status":428,"error":"Precondition Required","message":"If-Match header is required. GET /api/cache/etag and send its ETag (currently \\"doc-v1\\")."}
 
-$ curl -i -X PUT https://api.snap-test.in/api/cache/etag \\
+$ curl -i -X PUT https://api.testingapis.com/api/cache/etag \\
     -H 'If-Match: "doc-v1"' \\
     -H "Content-Type: application/json" \\
     -d '{"title":"Edited","content":"Changed by a test"}'
@@ -72,7 +72,7 @@ HTTP/1.1 200 OK
 etag: W/"doc-v2"
 {"message":"Document updated","data":{"id":1,"version":2,"title":"Edited","content":"Changed by a test","updatedAt":"2026-09-30T18:32:10Z","etag":"\\"doc-v2\\""}}
 
-$ curl -i -X PUT https://api.snap-test.in/api/cache/etag \\
+$ curl -i -X PUT https://api.testingapis.com/api/cache/etag \\
     -H 'If-Match: "doc-v1"' \\
     -H "Content-Type: application/json" \\
     -d '{"title":"Edited again","content":"x"}'
@@ -80,31 +80,31 @@ $ curl -i -X PUT https://api.snap-test.in/api/cache/etag \\
 HTTP/1.1 412 Precondition Failed
 {"status":412,"error":"Precondition Failed","message":"ETag mismatch: document has changed. Current ETag is \\"doc-v2\\"."}`;
 
-const lastModified = `$ curl -i https://api.snap-test.in/api/cache/last-modified
+const lastModified = `$ curl -i https://api.testingapis.com/api/cache/last-modified
 
 HTTP/1.1 200 OK
 Cache-Control: no-cache
 last-modified: Wed, 01 Jan 2025 00:00:00 GMT
 
-$ curl -o /dev/null -w "%{http_code}\\n" -H "If-Modified-Since: Wed, 01 Jan 2025 00:00:00 GMT" https://api.snap-test.in/api/cache/last-modified
+$ curl -o /dev/null -w "%{http_code}\\n" -H "If-Modified-Since: Wed, 01 Jan 2025 00:00:00 GMT" https://api.testingapis.com/api/cache/last-modified
 304
 
-$ curl -o /dev/null -w "%{http_code}\\n" -H "If-Modified-Since: Tue, 31 Dec 2024 00:00:00 GMT" https://api.snap-test.in/api/cache/last-modified
+$ curl -o /dev/null -w "%{http_code}\\n" -H "If-Modified-Since: Tue, 31 Dec 2024 00:00:00 GMT" https://api.testingapis.com/api/cache/last-modified
 200
 
-$ curl -o /dev/null -w "%{http_code}\\n" -H "If-Modified-Since: not a date" https://api.snap-test.in/api/cache/last-modified
+$ curl -o /dev/null -w "%{http_code}\\n" -H "If-Modified-Since: not a date" https://api.testingapis.com/api/cache/last-modified
 200`;
 
-const setCookie = `$ curl -i "https://api.snap-test.in/api/cookies/set/pref/compact?sameSite=strict&secure=true&httpOnly=true&maxAge=600"
+const setCookie = `$ curl -i "https://api.testingapis.com/api/cookies/set/pref/compact?sameSite=strict&secure=true&httpOnly=true&maxAge=600"
 
 HTTP/1.1 200 OK
 Set-Cookie: pref=compact; max-age=600; path=/; secure; samesite=strict; httponly`;
 
-const sameSiteNone = `$ curl -s "https://api.snap-test.in/api/cookies/set/pref/compact?sameSite=none&maxAge=600"
+const sameSiteNone = `$ curl -s "https://api.testingapis.com/api/cookies/set/pref/compact?sameSite=none&maxAge=600"
 
 {"message":"Cookie 'pref' set", ... ,"setCookieHeader":"pref=compact; max-age=600; path=/; samesite=none","warning":"Browsers reject SameSite=None cookies without Secure."}`;
 
-const login = `$ curl -i -c jar.txt -X POST https://api.snap-test.in/api/cookies/login \\
+const login = `$ curl -i -c jar.txt -X POST https://api.testingapis.com/api/cookies/login \\
     -H "Content-Type: application/json" \\
     -d '{"username":"test","password":"test123"}'
 
@@ -113,23 +113,23 @@ Set-Cookie: apibee_session=283afe92b86a96f3f5648a62add23aa2; max-age=3600; path=
 
 {"message":"Logged in. The session cookie is sent automatically on later requests.","username":"test","cookie":"apibee_session","expiresAt":"2026-09-30T19:32:41Z"}`;
 
-const me = `$ curl -b jar.txt https://api.snap-test.in/api/cookies/me
+const me = `$ curl -b jar.txt https://api.testingapis.com/api/cookies/me
 
 {"user":{"id":1,"username":"test","name":"Test User","email":"test@apibee.dev","role":"user"},"session":{"expiresAt":"2026-09-30T19:32:41Z"}}`;
 
-const logout = `$ curl -i -b jar.txt -c jar.txt -X POST https://api.snap-test.in/api/cookies/logout
+const logout = `$ curl -i -b jar.txt -c jar.txt -X POST https://api.testingapis.com/api/cookies/logout
 
 HTTP/1.1 200 OK
 Set-Cookie: apibee_session=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/
 
 {"message":"Logged out"}`;
 
-const reuse = `$ curl -i -b "apibee_session=5bc348fd740edcc67d70a851005e7547" https://api.snap-test.in/api/cookies/me
+const reuse = `$ curl -i -b "apibee_session=5bc348fd740edcc67d70a851005e7547" https://api.testingapis.com/api/cookies/me
 
 HTTP/1.1 401 Unauthorized
 {"status":401,"error":"Unauthorized","message":"Not logged in. POST /api/cookies/login first to get the 'apibee_session' cookie."}`;
 
-const preflight = `$ curl -i -X OPTIONS https://api.snap-test.in/api/cache/etag \\
+const preflight = `$ curl -i -X OPTIONS https://api.testingapis.com/api/cache/etag \\
     -H "Origin: https://example.com" \\
     -H "Access-Control-Request-Method: PUT" \\
     -H "Access-Control-Request-Headers: If-Match, Content-Type"

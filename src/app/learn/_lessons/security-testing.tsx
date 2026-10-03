@@ -10,15 +10,15 @@ const forbidden = `HTTP/1.1 403 Forbidden
   "scopes": ["read", "write"]
 }`;
 
-const noToken = `$ curl -i https://api.snap-test.in/api/auth/jwt/me
+const noToken = `$ curl -i https://api.testingapis.com/api/auth/jwt/me
 HTTP/1.1 401 Unauthorized
 www-authenticate: Bearer
 
-$ curl -i https://api.snap-test.in/api/auth/jwt/me -H "Authorization: Bearer abc.def.ghi"
+$ curl -i https://api.testingapis.com/api/auth/jwt/me -H "Authorization: Bearer abc.def.ghi"
 HTTP/1.1 401 Unauthorized
 www-authenticate: Bearer error="invalid_token"`;
 
-const massAssignment = `curl -X POST https://api.snap-test.in/api/Employees \\
+const massAssignment = `curl -X POST https://api.testingapis.com/api/Employees \\
   -H "Content-Type: application/json" \\
   -d '{"id": 1, "firstName": "Test", "lastName": "Mass",
        "email": "mass@example.com", "department": "Engineering",
@@ -273,7 +273,7 @@ export default function SecurityTesting() {
         Try the SQL-looking search on this API with curl:
       </P>
       <Code
-        code={`curl -i -G https://api.snap-test.in/api/Products --data-urlencode "q=' OR 1=1 --"`}
+        code={`curl -i -G https://api.testingapis.com/api/Products --data-urlencode "q=' OR 1=1 --"`}
         lang="curl"
       />
       <P>
@@ -300,7 +300,7 @@ export default function SecurityTesting() {
         Send a product with a string where a number belongs:
       </P>
       <Code
-        code={`curl -X POST https://api.snap-test.in/api/Products -H "Content-Type: application/json" -d '{"title":"x","price":"abc"}'`}
+        code={`curl -X POST https://api.testingapis.com/api/Products -H "Content-Type: application/json" -d '{"title":"x","price":"abc"}'`}
         lang="curl"
       />
       <Code code={leak} lang="json" label="Response" />

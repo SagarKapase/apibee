@@ -1,6 +1,6 @@
 import { A, C, Code, Exercise, H2, H3, Note, Ol, P, Run, Table, Ul } from "@/components/lesson";
 
-const pageHeaders = `$ curl -i "https://api.snap-test.in/api/Products?limit=3&page=7"
+const pageHeaders = `$ curl -i "https://api.testingapis.com/api/Products?limit=3&page=7"
 HTTP/1.1 200 OK
 Content-Type: application/json; charset=utf-8
 x-page: 7
@@ -50,12 +50,12 @@ const cursorPage = `{
   "next_cursor": "eyJsYXN0SWQiOjN9"
 }`;
 
-const linkHeader = `$ curl -i "https://api.snap-test.in/api/pagination/link?page=2&per_page=3"
+const linkHeader = `$ curl -i "https://api.testingapis.com/api/pagination/link?page=2&per_page=3"
 HTTP/1.1 200 OK
-link: <http://api.snap-test.in/api/pagination/link?page=3&per_page=3>; rel="next",
-      <http://api.snap-test.in/api/pagination/link?page=34&per_page=3>; rel="last",
-      <http://api.snap-test.in/api/pagination/link?page=1&per_page=3>; rel="first",
-      <http://api.snap-test.in/api/pagination/link?page=1&per_page=3>; rel="prev"
+link: <http://api.testingapis.com/api/pagination/link?page=3&per_page=3>; rel="next",
+      <http://api.testingapis.com/api/pagination/link?page=34&per_page=3>; rel="last",
+      <http://api.testingapis.com/api/pagination/link?page=1&per_page=3>; rel="first",
+      <http://api.testingapis.com/api/pagination/link?page=1&per_page=3>; rel="prev"
 x-total-count: 100`;
 
 const keysetPage = `{
@@ -71,7 +71,7 @@ const keysetPage = `{
 const walkPages = `async function allPages(path, limit) {
   const seen = [];
   for (let page = 1; ; page++) {
-    const res = await fetch(\`https://api.snap-test.in\${path}?limit=\${limit}&page=\${page}\`);
+    const res = await fetch(\`https://api.testingapis.com\${path}?limit=\${limit}&page=\${page}\`);
     const items = await res.json();
     if (items.length === 0) break;
     seen.push(...items.map((item) => item.id));

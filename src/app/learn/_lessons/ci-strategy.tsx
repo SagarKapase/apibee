@@ -4,7 +4,7 @@ const dataTest = `
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
-const BASE_URL = process.env.BASE_URL ?? "https://api.snap-test.in";
+const BASE_URL = process.env.BASE_URL ?? "https://api.testingapis.com";
 
 test("a created book can be read back", async (t) => {
   const title = \`CI test book \${crypto.randomUUID()}\`;
@@ -60,7 +60,7 @@ jobs:
 
       - name: Run API tests
         env:
-          BASE_URL: https://api.snap-test.in
+          BASE_URL: https://api.testingapis.com
           API_TOKEN: \${{ secrets.API_TOKEN }}
         run: >
           node --test
@@ -102,7 +102,7 @@ const smokeTest = `
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
-const BASE_URL = process.env.BASE_URL ?? "https://api.snap-test.in";
+const BASE_URL = process.env.BASE_URL ?? "https://api.testingapis.com";
 
 test("health check reports healthy", async () => {
   const res = await fetch(\`\${BASE_URL}/api/health\`);
